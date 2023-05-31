@@ -1,0 +1,53 @@
+.game {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeOut 3s, fadeIn 2s;
+}
+
+.game.fade {
+  animation: fade 3s;
+}
+
+.meio {
+  padding: 10px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+.microfone {
+  height: 100px;
+  margin: -5px;
+}
+.button {
+  display: none;
+}
+.button-visible {
+  display: block;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+}
+
+.image-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.microfone {
+  cursor: pointer;
+}
+.images {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 600px;
+  border: 1px solid black;
+}
