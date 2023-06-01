@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Tab, Tabs, Box } from "@mui/material";
 import { getDocsByUserId } from "./firebase";
-yeetus
 import { db } from "./firebase"; // Assuming your Firestore db instance is exported from 'firebase.tsx'
 import "../css/resultados.css";
 import CheckIcon from "@mui/icons-material/Check";
