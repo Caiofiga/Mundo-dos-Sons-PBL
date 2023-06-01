@@ -62,15 +62,15 @@ const SignUp: React.FC = () => {
     try {
       const nameHash = Md5.hashStr(nome + sobrenome + idade);
       const hashnum = nameHash.replace(/\D/g, "");
-      const id = hashnum.slice(0, 8);
+      const userId = hashnum.slice(0, 8);
       await addDoc(collection(db, "users"), {
         ...checkboxState,
-        id,
+        userId,
         nome,
         sobrenome,
         idade,
       });
-      setUserId(id); // Set the userId in the context
+      setUserId(userId); // Set the userId in the context
       navigate("/Drag"); // Redirect to /other
 
       alert("Data has been submitted");

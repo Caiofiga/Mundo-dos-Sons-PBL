@@ -1,42 +1,51 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Tab, Tabs, Box } from "@mui/material";
 import { getDocsByUserId } from "./firebase";
 import { db } from "./firebase"; // Assuming your Firestore db instance is exported from 'firebase.tsx'
 import "../css/resultados.css";
 
-interface UserData {
-  nome: string;
-  sobrenome: string;
-  resposta1?: string;
-  resposta2?: string;
-  resposta3?: string;
-  resposta4?: string;
-  resposta5?: string;
-  resposta6?: string;
-  resposta7?: string;
-  resposta8?: string;
-  resposta9?: string;
-  // Add more fields as necessary
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: any;
+  value: any;
 }
 
-function UserResults({ userId }) {
-  const [userDataCollection1, setUserDataCollection1] = useState<UserData[]>(
-    []
+function TabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && <Box p={3}>{children}</Box>}
+    </div>
   );
-  const [userDataCollection2, setUserDataCollection2] = useState<UserData[]>(
-    []
-  );
-  const [userDataCollection3, setUserDataCollection3] = useState<UserData[]>(
-    []
-  );
-  const [userDataCollection4, setUserDataCollection4] = useState<UserData[]>(
-    []
-  );
-  const [userDataCollection5, setUserDataCollection5] = useState<UserData[]>(
-    []
-  );
-  const [userDataCollection6, setUserDataCollection6] = useState<UserData[]>(
-    []
-  );
+}
+
+interface User {
+  resposta1: string;
+  resposta2: string;
+  resposta3: string;
+  resposta4: string;
+  resposta5: string;
+  resposta6: string;
+  resposta7: string;
+  resposta8: string;
+  resposta9: string;
+  resposta10: string;
+}
+
+export default function SimpleTabs({ userId }) {
+  const [userDataCollection1, setUserDataCollection1] = useState<User[]>([]);
+  const [userDataCollection2, setUserDataCollection2] = useState<User[]>([]);
+  const [userDataCollection3, setUserDataCollection3] = useState<User[]>([]);
+  const [userDataCollection4, setUserDataCollection4] = useState<User[]>([]);
+  const [userDataCollection5, setUserDataCollection5] = useState<User[]>([]);
+  const [userDataCollection6, setUserDataCollection6] = useState<User[]>([]);
   // add more state variables if you need to fetch from more collections
 
   useEffect(() => {
@@ -113,6 +122,12 @@ function UserResults({ userId }) {
     }
   }
 
+  const [value, setValue] = React.useState(0);
+
+  const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+    setValue(newValue);
+  };
+
   return (
     <div>
       <h1> Dados do usuario: </h1>
@@ -122,155 +137,167 @@ function UserResults({ userId }) {
           <p>Sobrenome: {user.sobrenome} </p>
         </div>
       ))}
-
-      <h2>Pergunta 1</h2>
-      {userDataCollection1.map((user, index) => (
-        <div key={index}>
-          <p>
-            Resposta 1: {user.resposta1}{" "}
-            {checkAnswer(user.resposta1, CorrectAnswers1[0])}
-          </p>
-          <p>
-            Resposta 2: {user.resposta2}{" "}
-            {checkAnswer(user.resposta2, CorrectAnswers1[1])}
-          </p>
-          <p>
-            Resposta 3: {user.resposta3}{" "}
-            {checkAnswer(user.resposta3, CorrectAnswers1[2])}
-          </p>
-          <p>
-            Resposta 4: {user.resposta4}{" "}
-            {checkAnswer(user.resposta4, CorrectAnswers1[3])}
-          </p>
-          <p>
-            Resposta 5: {user.resposta5}{" "}
-            {checkAnswer(user.resposta5, CorrectAnswers1[4])}
-          </p>
-        </div>
-      ))}
-
-      <h2>Data from Collection 2</h2>
-      {userDataCollection2.map((user, index) => (
-        <div key={index}>
-          <p>
-            Resposta 1: {user.resposta1}{" "}
-            {checkAnswer(user.resposta1, CorrectAnswers2[0])}
-            {CorrectAnswers2[0]}
-          </p>
-          <p>
-            Resposta 2: {user.resposta2}{" "}
-            {checkAnswer(user.resposta2, CorrectAnswers2[1])}
-          </p>
-          <p>
-            Resposta 3: {user.resposta3}{" "}
-            {checkAnswer(user.resposta3, CorrectAnswers2[2])}
-          </p>
-          <p>
-            Resposta 4: {user.resposta4}{" "}
-            {checkAnswer(user.resposta4, CorrectAnswers2[3])}
-          </p>
-          <p>
-            Resposta 5: {user.resposta5}{" "}
-            {checkAnswer(user.resposta5, CorrectAnswers2[4])}
-          </p>
-          <p>
-            Resposta 6: {user.resposta6}{" "}
-            {checkAnswer(user.resposta6, CorrectAnswers2[5])}
-          </p>
-          <p>
-            Resposta 7: {user.resposta7}{" "}
-            {checkAnswer(user.resposta7, CorrectAnswers2[6])}
-          </p>
-          <p>
-            Resposta 8: {user.resposta8}{" "}
-            {checkAnswer(user.resposta8, CorrectAnswers2[7])}
-          </p>
-          <p>
-            Resposta 9: {user.resposta9}{" "}
-            {checkAnswer(user.resposta9, CorrectAnswers2[8])}
-          </p>
-          {/* Add more fields as necessary */}
-        </div>
-      ))}
-      <h2>Data from Collection 3</h2>
-      {userDataCollection3.map((user, index) => (
-        <div key={index}>
-          <p>
-            Resposta 1: {user.resposta1}{" "}
-            {checkAnswer(user.resposta1, CorrectAnswers3[0])}
-            {CorrectAnswers3[0]}
-          </p>
-          <p>
-            Resposta 2: {user.resposta2}{" "}
-            {checkAnswer(user.resposta2, CorrectAnswers3[1])}
-          </p>
-          <p>
-            Resposta 3: {user.resposta3}{" "}
-            {checkAnswer(user.resposta3, CorrectAnswers3[2])}
-          </p>
-          <p>
-            Resposta 4: {user.resposta4}{" "}
-            {checkAnswer(user.resposta4, CorrectAnswers3[3])}
-          </p>
-          <p>
-            Resposta 5: {user.resposta5}{" "}
-            {checkAnswer(user.resposta5, CorrectAnswers3[4])}
-          </p>
-        </div>
-      ))}
-      <h2>Data from Collection 4</h2>
-      {userDataCollection4.map((user, index) => (
-        <div key={index}>
-          <p>
-            Resposta 1: {user.resposta1}{" "}
-            {checkAnswer(user.resposta1, CorrectAnswers4[0])}
-          </p>
-          <p>
-            Resposta 2: {user.resposta2}{" "}
-            {checkAnswer(user.resposta2, CorrectAnswers4[1])}
-          </p>
-          <p>
-            Resposta 3: {user.resposta3}{" "}
-            {checkAnswer(user.resposta3, CorrectAnswers4[2])}
-          </p>
-          <p>
-            Resposta 4: {user.resposta4}{" "}
-            {checkAnswer(user.resposta4, CorrectAnswers4[3])}
-          </p>
-          <p>
-            Resposta 5: {user.resposta5}{" "}
-            {checkAnswer(user.resposta5, CorrectAnswers4[4])}
-          </p>
-        </div>
-      ))}
-      <h2>Data from Collection 5</h2>
-      {userDataCollection5.map((user, index) => (
-        <div key={index}>
-          <p>
-            Resposta 1: {user.resposta1}{" "}
-            {checkAnswer(user.resposta1, CorrectAnswers5[0])}
-          </p>
-          <p>
-            Resposta 2: {user.resposta2}{" "}
-            {checkAnswer(user.resposta2, CorrectAnswers5[1])}
-          </p>
-          <p>
-            Resposta 3: {user.resposta3}{" "}
-            {checkAnswer(user.resposta3, CorrectAnswers5[2])}
-          </p>
-          <p>
-            Resposta 4: {user.resposta4}{" "}
-            {checkAnswer(user.resposta4, CorrectAnswers5[3])}
-          </p>
-          <p>
-            Resposta 5: {user.resposta5}{" "}
-            {checkAnswer(user.resposta5, CorrectAnswers5[4])}
-          </p>
-        </div>
-      ))}
-      {/* Render more collections if you have fetched more data */}
+      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+        <Tabs value={value} onChange={handleChange}>
+          <Tab label="Pergunta 1" />
+          <Tab label="Pergunta 2" />
+          <Tab label="Pergunta 3" />
+          <Tab label="Pergunta 4" />
+          <Tab label="Pergunta 5" />
+          {/* More Tabs if needed */}
+        </Tabs>
+      </Box>
+      <TabPanel value={value} index={0}>
+        <h2>Pergunta 1</h2>
+        {userDataCollection1.map((user: User, index: number) => (
+          <div key={index}>
+            <p>
+              Resposta 1: {user.resposta1}{" "}
+              {checkAnswer(user.resposta1, CorrectAnswers1[0])}
+            </p>
+            <p>
+              Resposta 2: {user.resposta2}{" "}
+              {checkAnswer(user.resposta2, CorrectAnswers1[1])}
+            </p>
+            <p>
+              Resposta 3: {user.resposta3}{" "}
+              {checkAnswer(user.resposta3, CorrectAnswers1[2])}
+            </p>
+            <p>
+              Resposta 4: {user.resposta4}{" "}
+              {checkAnswer(user.resposta4, CorrectAnswers1[3])}
+            </p>
+            <p>
+              Resposta 5: {user.resposta5}{" "}
+              {checkAnswer(user.resposta5, CorrectAnswers1[4])}
+            </p>
+          </div>
+        ))}
+      </TabPanel>
+      <TabPanel value={value} index={1}>
+        <h2>Pergunta 2</h2>
+        {userDataCollection2.map((user: User, index: number) => (
+          <div key={index}>
+            <p>
+              Resposta 1: {user.resposta1}{" "}
+              {checkAnswer(user.resposta1, CorrectAnswers2[0])}
+            </p>
+            <p>
+              Resposta 2: {user.resposta2}{" "}
+              {checkAnswer(user.resposta2, CorrectAnswers2[1])}
+            </p>
+            <p>
+              Resposta 3: {user.resposta3}{" "}
+              {checkAnswer(user.resposta3, CorrectAnswers2[2])}
+            </p>
+            <p>
+              Resposta 4: {user.resposta4}{" "}
+              {checkAnswer(user.resposta4, CorrectAnswers2[3])}
+            </p>
+            <p>
+              Resposta 5: {user.resposta5}{" "}
+              {checkAnswer(user.resposta5, CorrectAnswers2[4])}
+            </p>
+            <p>
+              Resposta 6: {user.resposta6}{" "}
+              {checkAnswer(user.resposta6, CorrectAnswers2[5])}
+            </p>
+            <p>
+              Resposta 7: {user.resposta7}{" "}
+              {checkAnswer(user.resposta7, CorrectAnswers2[6])}
+            </p>
+            <p>
+              Resposta 8: {user.resposta8}{" "}
+              {checkAnswer(user.resposta8, CorrectAnswers2[7])}
+            </p>
+            <p>
+              Resposta 9: {user.resposta9}{" "}
+              {checkAnswer(user.resposta9, CorrectAnswers2[8])}
+            </p>
+          </div>
+        ))}
+      </TabPanel>
+      <TabPanel value={value} index={2}>
+        <h2>Pergunta 3</h2>
+        {userDataCollection3.map((user: User, index: number) => (
+          <div key={index}>
+            <p>
+              Resposta 1: {user.resposta1}{" "}
+              {checkAnswer(user.resposta1, CorrectAnswers3[0])}
+            </p>
+            <p>
+              Resposta 2: {user.resposta2}{" "}
+              {checkAnswer(user.resposta2, CorrectAnswers3[1])}
+            </p>
+            <p>
+              Resposta 3: {user.resposta3}{" "}
+              {checkAnswer(user.resposta3, CorrectAnswers3[2])}
+            </p>
+            <p>
+              Resposta 4: {user.resposta4}{" "}
+              {checkAnswer(user.resposta4, CorrectAnswers3[3])}
+            </p>
+            <p>
+              Resposta 5: {user.resposta5}{" "}
+              {checkAnswer(user.resposta5, CorrectAnswers3[4])}
+            </p>
+          </div>
+        ))}
+      </TabPanel>
+      <TabPanel value={value} index={3}>
+        <h2>Pergunta 4</h2>
+        {userDataCollection4.map((user: User, index: number) => (
+          <div key={index}>
+            <p>
+              Resposta 1: {user.resposta1}{" "}
+              {checkAnswer(user.resposta1, CorrectAnswers4[0])}
+            </p>
+            <p>
+              Resposta 2: {user.resposta2}{" "}
+              {checkAnswer(user.resposta2, CorrectAnswers4[1])}
+            </p>
+            <p>
+              Resposta 3: {user.resposta3}{" "}
+              {checkAnswer(user.resposta3, CorrectAnswers4[2])}
+            </p>
+            <p>
+              Resposta 4: {user.resposta4}{" "}
+              {checkAnswer(user.resposta4, CorrectAnswers4[3])}
+            </p>
+            <p>
+              Resposta 5: {user.resposta5}{" "}
+              {checkAnswer(user.resposta5, CorrectAnswers4[4])}
+            </p>
+          </div>
+        ))}
+      </TabPanel>
+      <TabPanel value={value} index={4}>
+        <h2>Pergunta 5</h2>
+        {userDataCollection5.map((user: User, index: number) => (
+          <div key={index}>
+            <p>
+              Resposta 1: {user.resposta1}{" "}
+              {checkAnswer(user.resposta1, CorrectAnswers5[0])}
+            </p>
+            <p>
+              Resposta 2: {user.resposta2}{" "}
+              {checkAnswer(user.resposta2, CorrectAnswers5[1])}
+            </p>
+            <p>
+              Resposta 3: {user.resposta3}{" "}
+              {checkAnswer(user.resposta3, CorrectAnswers5[2])}
+            </p>
+            <p>
+              Resposta 4: {user.resposta4}{" "}
+              {checkAnswer(user.resposta4, CorrectAnswers5[3])}
+            </p>
+            <p>
+              Resposta 5: {user.resposta5}{" "}
+              {checkAnswer(user.resposta5, CorrectAnswers5[4])}
+            </p>
+          </div>
+        ))}
+      </TabPanel>
     </div>
   );
 }
-
-export default UserResults;

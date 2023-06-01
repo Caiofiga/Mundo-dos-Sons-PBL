@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Tab, Tabs, Box } from "@material-ui/core";
+import { Tab, Tabs, Box } from "@mui/material";
 import { getDocsByUserId } from "./firebase";
 import { db } from "./firebase"; // Assuming your Firestore db instance is exported from 'firebase.tsx'
 import "../css/resultados.css";
+import CheckIcon from "@mui/icons-material/Check";
+import ClearIcon from "@mui/icons-material/Clear";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -116,9 +118,19 @@ export default function SimpleTabs({ userId }) {
       String(userAnswer).toLowerCase() ===
       correctAnswer.toString().toLowerCase()
     ) {
-      return <span className="correct"> Correct </span>;
+      return (
+        <span className="correct">
+          {" "}
+          <CheckIcon />{" "}
+        </span>
+      );
     } else {
-      return <span className="incorrect"> Incorrect </span>;
+      return (
+        <span className="incorrect">
+          {" "}
+          <ClearIcon />{" "}
+        </span>
+      );
     }
   }
 
@@ -130,14 +142,27 @@ export default function SimpleTabs({ userId }) {
 
   return (
     <div>
-      <Tabs value={value} onChange={handleChange}>
-        <Tab label="Pergunta 1" />
-        <Tab label="Pergunta 2" />
-        <Tab label="Pergunta 3" />
-        <Tab label="Pergunta 4" />
-        <Tab label="Pergunta 5" />
-        {/* More Tabs if needed */}
-      </Tabs>
+      <Box
+        sx={{ border: 1, borderRadius: 20, borderColor: "white", padding: 2 }}
+      >
+        <h2> Dados do usuario: </h2>
+        {userDataCollection6.map((user, index) => (
+          <div key={index}>
+            <p>Nome: {user.nome} </p>
+            <p>Sobrenome: {user.sobrenome} </p>
+          </div>
+        ))}
+      </Box>
+      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+        <Tabs value={value} onChange={handleChange}>
+          <Tab label="Pergunta 1" />
+          <Tab label="Pergunta 2" />
+          <Tab label="Pergunta 3" />
+          <Tab label="Pergunta 4" />
+          <Tab label="Pergunta 5" />
+          {/* More Tabs if needed */}
+        </Tabs>
+      </Box>
       <TabPanel value={value} index={0}>
         <h2>Pergunta 1</h2>
         {userDataCollection1.map((user: User, index: number) => (
@@ -165,7 +190,7 @@ export default function SimpleTabs({ userId }) {
           </div>
         ))}
       </TabPanel>
-      <TabPanel value={value} index={0}>
+      <TabPanel value={value} index={1}>
         <h2>Pergunta 2</h2>
         {userDataCollection2.map((user: User, index: number) => (
           <div key={index}>
@@ -208,7 +233,7 @@ export default function SimpleTabs({ userId }) {
           </div>
         ))}
       </TabPanel>
-      <TabPanel value={value} index={0}>
+      <TabPanel value={value} index={2}>
         <h2>Pergunta 3</h2>
         {userDataCollection3.map((user: User, index: number) => (
           <div key={index}>
@@ -235,7 +260,7 @@ export default function SimpleTabs({ userId }) {
           </div>
         ))}
       </TabPanel>
-      <TabPanel value={value} index={0}>
+      <TabPanel value={value} index={3}>
         <h2>Pergunta 4</h2>
         {userDataCollection4.map((user: User, index: number) => (
           <div key={index}>
@@ -262,7 +287,7 @@ export default function SimpleTabs({ userId }) {
           </div>
         ))}
       </TabPanel>
-      <TabPanel value={value} index={0}>
+      <TabPanel value={value} index={4}>
         <h2>Pergunta 5</h2>
         {userDataCollection5.map((user: User, index: number) => (
           <div key={index}>
