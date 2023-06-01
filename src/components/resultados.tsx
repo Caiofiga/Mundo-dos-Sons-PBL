@@ -221,38 +221,65 @@ export default function SimpleTabs({ userId }) {
             <p>
               Resposta 1: {user.resposta1}{" "}
               {checkAnswer(user.resposta1, CorrectAnswers2[0])}
+              {!isAnswerCorrect(user.resposta5, CorrectAnswers1[0]) 
+                        ? ` Resposta correta: ${CorrectAnswers1[4]}`
+                        : '\u00A0' }
             </p>
             <p>
               Resposta 2: {user.resposta2}{" "}
               {checkAnswer(user.resposta2, CorrectAnswers2[1])}
+              {!isAnswerCorrect(user.resposta5, CorrectAnswers1[0]) 
+                        ? ` Resposta correta: ${CorrectAnswers1[4]}`
+                        : '\u00A0' }
             </p>
             <p>
               Resposta 3: {user.resposta3}{" "}
               {checkAnswer(user.resposta3, CorrectAnswers2[2])}
+              {!isAnswerCorrect(user.resposta5, CorrectAnswers1[0]) 
+                        ? ` Resposta correta: ${CorrectAnswers1[4]}`
+                        : '\u00A0' }
             </p>
             <p>
               Resposta 4: {user.resposta4}{" "}
               {checkAnswer(user.resposta4, CorrectAnswers2[3])}
+              {!isAnswerCorrect(user.resposta5, CorrectAnswers1[0]) 
+                        ? ` Resposta correta: ${CorrectAnswers1[4]}`
+                        : '\u00A0' }
             </p>
             <p>
               Resposta 5: {user.resposta5}{" "}
               {checkAnswer(user.resposta5, CorrectAnswers2[4])}
+              {!isAnswerCorrect(user.resposta5, CorrectAnswers1[0]) 
+                        ? ` Resposta correta: ${CorrectAnswers1[4]}`
+                        : '\u00A0' }
             </p>
             <p>
               Resposta 6: {user.resposta6}{" "}
               {checkAnswer(user.resposta6, CorrectAnswers2[5])}
+              {!isAnswerCorrect(user.resposta5, CorrectAnswers1[0]) 
+                        ? ` Resposta correta: ${CorrectAnswers1[4]}`
+                        : '\u00A0' }
             </p>
             <p>
               Resposta 7: {user.resposta7}{" "}
               {checkAnswer(user.resposta7, CorrectAnswers2[6])}
+              {!isAnswerCorrect(user.resposta5, CorrectAnswers1[0]) 
+                        ? ` Resposta correta: ${CorrectAnswers1[4]}`
+                        : '\u00A0' }
             </p>
             <p>
               Resposta 8: {user.resposta8}{" "}
               {checkAnswer(user.resposta8, CorrectAnswers2[7])}
+              {!isAnswerCorrect(user.resposta5, CorrectAnswers1[0]) 
+                        ? ` Resposta correta: ${CorrectAnswers1[4]}`
+                        : '\u00A0' }
             </p>
             <p>
               Resposta 9: {user.resposta9}{" "}
               {checkAnswer(user.resposta9, CorrectAnswers2[8])}
+              {!isAnswerCorrect(user.resposta5, CorrectAnswers1[0]) 
+                        ? ` Resposta correta: ${CorrectAnswers1[4]}`
+                        : '\u00A0' }
             </p>
           </div>
         ))}
