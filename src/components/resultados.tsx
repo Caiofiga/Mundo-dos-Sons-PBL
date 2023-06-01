@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Tab, Tabs, Box } from "@mui/material";
+import { Tab, Tabs, Box, Grid } from "@mui/material";
 import { getDocsByUserId } from "./firebase";
 import { db } from "./firebase"; // Assuming your Firestore db instance is exported from 'firebase.tsx'
 import "../css/resultados.css";
@@ -133,6 +133,9 @@ export default function SimpleTabs({ userId }) {
       );
     }
   }
+  function isAnswerCorrect(userAnswer: string | number, correctAnswer: string | number) {
+    return String(userAnswer).toLowerCase() === correctAnswer.toString().toLowerCase();
+  }
 
   const [value, setValue] = React.useState(0);
 
@@ -164,32 +167,65 @@ export default function SimpleTabs({ userId }) {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <h2>Pergunta 1</h2>
-        {userDataCollection1.map((user: User, index: number) => (
-          <div key={index}>
-            <p>
-              Resposta 1: {user.resposta1}{" "}
-              {checkAnswer(user.resposta1, CorrectAnswers1[0])}
-            </p>
-            <p>
-              Resposta 2: {user.resposta2}{" "}
-              {checkAnswer(user.resposta2, CorrectAnswers1[1])}
-            </p>
-            <p>
-              Resposta 3: {user.resposta3}{" "}
-              {checkAnswer(user.resposta3, CorrectAnswers1[2])}
-            </p>
-            <p>
-              Resposta 4: {user.resposta4}{" "}
-              {checkAnswer(user.resposta4, CorrectAnswers1[3])}
-            </p>
-            <p>
-              Resposta 5: {user.resposta5}{" "}
-              {checkAnswer(user.resposta5, CorrectAnswers1[4])}
-            </p>
-          </div>
-        ))}
-      </TabPanel>
+    <h2>Pergunta 1</h2>
+    {userDataCollection1.map((user: User, index: number) => (
+        <Grid container key={index} spacing={0}>
+            <Grid item xs={4}>
+                <p>
+                    Resposta 1: {user.resposta1}{" "}
+                    {checkAnswer(user.resposta1, CorrectAnswers1[0])}
+                </p>
+           
+                <p>
+                    Resposta 2: {user.resposta2}{" "}
+                    {checkAnswer(user.resposta2, CorrectAnswers1[1])}
+                </p>
+            
+                <p>
+                    Resposta 3: {user.resposta3}{" "}
+                    {checkAnswer(user.resposta3, CorrectAnswers1[2])}
+                </p>
+            
+                <p>
+                    Resposta 4: {user.resposta4}{" "}
+                    {checkAnswer(user.resposta4, CorrectAnswers1[3])}
+                </p>
+          
+                <p>
+                    Resposta 5: {user.resposta5}{" "}
+                    {checkAnswer(user.resposta5, CorrectAnswers1[4])}
+                </p>
+            </Grid>
+            <Grid item xs={4}>
+                <p>
+                    {!isAnswerCorrect(user.resposta1, CorrectAnswers1[0]) 
+                        ? `Resposta correta: ${CorrectAnswers1[0]}`
+                        : '\u00A0' }
+                </p>
+                <p>
+                    {!isAnswerCorrect(user.resposta2, CorrectAnswers1[1]) 
+                        ? `Resposta correta: ${CorrectAnswers1[1]}`
+                        : '\u00A0' }
+                </p>
+                <p>
+                    {!isAnswerCorrect(user.resposta3, CorrectAnswers1[2]) 
+                        ? `Resposta correta: ${CorrectAnswers1[2]}`
+                        : '\u00A0' }
+                </p>
+                <p>
+                    {!isAnswerCorrect(user.resposta4, CorrectAnswers1[3]) 
+                        ? `Resposta correta: ${CorrectAnswers1[3]}`
+                        : '\u00A0' }
+                </p>
+                <p>
+                    {!isAnswerCorrect(user.resposta5, CorrectAnswers1[4]) 
+                        ? `Resposta correta: ${CorrectAnswers1[4]}`
+                        : '\u00A0' }
+                </p>
+            </Grid>
+        </Grid>
+    ))}
+</TabPanel>
       <TabPanel value={value} index={1}>
         <h2>Pergunta 2</h2>
         {userDataCollection2.map((user: User, index: number) => (
