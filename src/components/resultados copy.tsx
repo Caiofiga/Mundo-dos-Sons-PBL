@@ -3,6 +3,8 @@ import { Tab, Tabs, Box } from "@mui/material";
 import { getDocsByUserId } from "./firebase";
 import { db } from "./firebase"; // Assuming your Firestore db instance is exported from 'firebase.tsx'
 import "../css/resultados.css";
+import CheckIcon from "@mui/icons-material/Check";
+import ClearIcon from "@mui/icons-material/Clear";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -116,9 +118,19 @@ export default function SimpleTabs({ userId }) {
       String(userAnswer).toLowerCase() ===
       correctAnswer.toString().toLowerCase()
     ) {
-      return <span className="correct"> Correct </span>;
+      return (
+        <span className="correct">
+          {" "}
+          <CheckIcon />{" "}
+        </span>
+      );
     } else {
-      return <span className="incorrect"> Incorrect </span>;
+      return (
+        <span className="incorrect">
+          {" "}
+          <ClearIcon />{" "}
+        </span>
+      );
     }
   }
 
@@ -130,13 +142,17 @@ export default function SimpleTabs({ userId }) {
 
   return (
     <div>
-      <h1> Dados do usuario: </h1>
-      {userDataCollection6.map((user, index) => (
-        <div key={index}>
-          <p>Nome: {user.nome} </p>
-          <p>Sobrenome: {user.sobrenome} </p>
-        </div>
-      ))}
+      <Box
+        sx={{ border: 1, borderRadius: 20, borderColor: "white", padding: 2 }}
+      >
+        <h2> Dados do usuario: </h2>
+        {userDataCollection6.map((user, index) => (
+          <div key={index}>
+            <p>Nome: {user.nome} </p>
+            <p>Sobrenome: {user.sobrenome} </p>
+          </div>
+        ))}
+      </Box>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs value={value} onChange={handleChange}>
           <Tab label="Pergunta 1" />
