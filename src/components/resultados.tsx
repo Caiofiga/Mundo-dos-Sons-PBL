@@ -173,53 +173,41 @@ export default function SimpleTabs({ userId }) {
             <Grid item xs={4}>
                 <p>
                     Resposta 1: {user.resposta1}{" "}
-                    {checkAnswer(user.resposta1, CorrectAnswers1[0])}
+                    {checkAnswer(user.resposta1, CorrectAnswers1[0])} - 
+                    {!isAnswerCorrect(user.resposta1, CorrectAnswers1[0]) 
+                        ? ` Resposta correta: ${CorrectAnswers1[0]}`
+                        : '\u00A0' }
                 </p>
            
                 <p>
                     Resposta 2: {user.resposta2}{" "}
-                    {checkAnswer(user.resposta2, CorrectAnswers1[1])}
+                    {checkAnswer(user.resposta2, CorrectAnswers1[1])} -
+                     {!isAnswerCorrect(user.resposta2, CorrectAnswers1[0]) 
+                        ? ` Resposta correta: ${CorrectAnswers1[1]}`
+                        : '\u00A0' }
                 </p>
             
                 <p>
                     Resposta 3: {user.resposta3}{" "}
-                    {checkAnswer(user.resposta3, CorrectAnswers1[2])}
+                    {checkAnswer(user.resposta3, CorrectAnswers1[2])} -
+                     {!isAnswerCorrect(user.resposta3, CorrectAnswers1[0]) 
+                        ? ` Resposta correta: ${CorrectAnswers1[2]}`
+                        : '\u00A0' }
                 </p>
             
                 <p>
                     Resposta 4: {user.resposta4}{" "}
-                    {checkAnswer(user.resposta4, CorrectAnswers1[3])}
+                    {checkAnswer(user.resposta4, CorrectAnswers1[3])} -
+                     {!isAnswerCorrect(user.resposta4, CorrectAnswers1[0]) 
+                        ? ` Resposta correta: ${CorrectAnswers1[3]}`
+                        : '\u00A0' }
                 </p>
           
                 <p>
                     Resposta 5: {user.resposta5}{" "}
-                    {checkAnswer(user.resposta5, CorrectAnswers1[4])}
-                </p>
-            </Grid>
-            <Grid item xs={4}>
-                <p>
-                    {!isAnswerCorrect(user.resposta1, CorrectAnswers1[0]) 
-                        ? `Resposta correta: ${CorrectAnswers1[0]}`
-                        : '\u00A0' }
-                </p>
-                <p>
-                    {!isAnswerCorrect(user.resposta2, CorrectAnswers1[1]) 
-                        ? `Resposta correta: ${CorrectAnswers1[1]}`
-                        : '\u00A0' }
-                </p>
-                <p>
-                    {!isAnswerCorrect(user.resposta3, CorrectAnswers1[2]) 
-                        ? `Resposta correta: ${CorrectAnswers1[2]}`
-                        : '\u00A0' }
-                </p>
-                <p>
-                    {!isAnswerCorrect(user.resposta4, CorrectAnswers1[3]) 
-                        ? `Resposta correta: ${CorrectAnswers1[3]}`
-                        : '\u00A0' }
-                </p>
-                <p>
-                    {!isAnswerCorrect(user.resposta5, CorrectAnswers1[4]) 
-                        ? `Resposta correta: ${CorrectAnswers1[4]}`
+                    {checkAnswer(user.resposta5, CorrectAnswers1[4])} -
+                     {!isAnswerCorrect(user.resposta5, CorrectAnswers1[0]) 
+                        ? ` Resposta correta: ${CorrectAnswers1[4]}`
                         : '\u00A0' }
                 </p>
             </Grid>
