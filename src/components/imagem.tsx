@@ -176,7 +176,7 @@ const Imagem = () => {
       {gameState === GameState.COMPLETED && (
         <div>
           <span>Parabéns! Você completou o jogo!</span>
-          <button onClick={() => navigate("/Imagem")}>Go to Image</button>
+          <button onClick={() => navigate("/Rimas")}>Go to Image</button>
         </div>
       )}
     </AnimatedPages>

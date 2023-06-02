@@ -4,7 +4,41 @@ import AnimatedPages from "./animated";
 import { useNavigate } from "react-router";
 import { UserContext } from "./UserContext";
 import { addAnswersToDB } from "./firebase";
+import { Stopwatch } from "ts-stopwatch";
 const resposta4: string[] = [];
+const Tempos: number[] = [];
+let stopwatch = new Stopwatch();
+
+enum GameState {
+  STARTING,
+  RUNNING,
+  BETWEEN_LEVELS,
+  COMPLETED,
+}
+
+interface StartScreenProps {
+  onStart: () => void;
+}
+
+interface BetweenLevelsScreenProps {
+  onNextLevel: () => void;
+}
+
+const BetweenLevelsScreen: React.FC<BetweenLevelsScreenProps> = ({
+  onNextLevel,
+}) => (
+  <div>
+    <h1>Level completed!</h1>
+    <button onClick={onNextLevel}>Next Level</button>
+  </div>
+);
+
+const StartScreen: React.FC<StartScreenProps> = ({ onStart }) => (
+  <div>
+    <h1>Welcome to the Game!</h1>
+    <button onClick={onStart}>Play</button>
+  </div>
+);
 
 const Rimas = () => {
   const [currentSyllableIndex, setCurrentSyllableIndex] = useState(0);
@@ -12,6 +46,9 @@ const Rimas = () => {
   const [runAnimation, setRunAnimation] = useState(false);
   const [button, setbutton] = useState("button");
   const { userId } = React.useContext(UserContext);
+  const [gameState, setGameState] = useState<GameState>(GameState.STARTING);
+
+  console.log(gameState);
 
   const imagesMain = ["areia", "golfinho", "farol", "tubarao", "praia"];
   const imageMainSrc = "src/img/" + imagesMain[currentSyllableIndex] + ".png";
@@ -87,15 +124,23 @@ const Rimas = () => {
   };
 
   const handleNextPhase = () => {
+    stopwatch.stop();
+    Tempos.push(stopwatch.getTime());
+    stopwatch.reset();
+    console.log(Tempos);
     if (currentSyllableIndex < imagesMain.length - 1) {
-      setCurrentSyllableIndex(currentSyllableIndex + 1);
-      console.log("currentSyllableIndex: " + currentSyllableIndex);
+      setGameState(GameState.BETWEEN_LEVELS);
     } else {
+      setGameState(GameState.COMPLETED);
       let answerObj = { userId: userId };
       resposta4.slice(0).forEach((answer, index) => {
         answerObj[`resposta${index + 1}`] = answer;
       });
-      addAnswersToDB("perguntas4", answerObj);
+      let tempoObj = { userId: userId };
+      Tempos.slice(0).forEach((answer, index) => {
+        tempoObj[`tempo${index + 1}`] = answer;
+      });
+      addAnswersToDB("perguntas4", { answerObj, tempoObj });
       alert("Parabéns! Você completou o jogo!");
       navigate("/Sons");
       setCurrentSyllableIndex(0);
@@ -109,26 +154,47 @@ const Rimas = () => {
   }
 
   return (
-    <AnimatedPages>
+    <AnimatedPages key={gameState}>
+      {gameState === GameState.STARTING && (
+        <StartScreen
+          onStart={() => {
+            setGameState(GameState.RUNNING);
+            stopwatch.start();
+          }}
+        />
+      )}
+      {gameState === GameState.RUNNING && !parabens && (
+        <div className="container">
+          <div>
+            <Syllable image={imageMainSrc} />
+            <div className="meio"></div>
+            <Images
+              images={imagesSec[currentSyllableIndex]}
+              onImageClick={handleImageClick}
+            />
+          </div>
+        </div>
+      )}
       {parabens && (
         <div>
           <span>Parabens!</span>
           <button onClick={handleNextPhase}>Next Syllable</button>
         </div>
       )}
-      {!parabens && (
-        <>
-          <div className="container">
-            <div>
-              <Syllable image={imageMainSrc} />
-              <div className="meio"></div>
-              <Images
-                images={imagesSec[currentSyllableIndex]}
-                onImageClick={handleImageClick}
-              />
-            </div>
-          </div>
-        </>
+      {gameState === GameState.BETWEEN_LEVELS && (
+        <BetweenLevelsScreen
+          onNextLevel={() => {
+            setGameState(GameState.RUNNING);
+            setCurrentSyllableIndex(currentSyllableIndex + 1);
+            stopwatch.start();
+          }}
+        />
+      )}
+      {gameState === GameState.COMPLETED && (
+        <div>
+          <span>Parabéns! Você completou o jogo!</span>
+          <button onClick={() => navigate("/Sons")}>Go to Image</button>
+        </div>
       )}
     </AnimatedPages>
   );
