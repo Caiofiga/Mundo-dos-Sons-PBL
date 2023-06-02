@@ -6,46 +6,12 @@ import { UserContext } from "./UserContext";
 import { addAnswersToDB } from "./firebase";
 const resposta2: string[] = [];
 
-enum GameState {
-  STARTING,
-  RUNNING,
-  BETWEEN_LEVELS,
-  COMPLETED,
-}
-console.log(GameState);
-
-interface StartScreenProps {
-  onStart: () => void;
-}
-
-interface BetweenLevelsScreenProps {
-  onNextLevel: () => void;
-}
-
-const BetweenLevelsScreen: React.FC<BetweenLevelsScreenProps> = ({
-  onNextLevel,
-}) => (
-  <div>
-    <h1>Level completed!</h1>
-    <button onClick={onNextLevel}>Next Level</button>
-  </div>
-);
-
-const StartScreen: React.FC<StartScreenProps> = ({ onStart }) => (
-  <div>
-    <h1>Welcome to the Game!</h1>
-    <button onClick={onStart}>Play</button>
-  </div>
-);
-
 const Silaba = () => {
   const [currentSyllableIndex, setCurrentSyllableIndex] = useState(0);
   const [parabens, setParabens] = useState(false);
   const [runAnimation, setRunAnimation] = useState(false);
   const [button, setbutton] = useState("button");
   const { userId } = React.useContext(UserContext);
-
-  const [gameState, setGameState] = useState<GameState>(GameState.STARTING);
 
   const syllables = ["Ma", "Bu", "La", "Ca", "Lho", "Te", "Vo", "Ca", "Ra"];
 
@@ -80,9 +46,9 @@ const Silaba = () => {
 
   const handleNextPhase = () => {
     if (currentSyllableIndex < palavras.length - 1) {
-      setGameState(GameState.BETWEEN_LEVELS);
+      setCurrentSyllableIndex(currentSyllableIndex + 1);
+      console.log("currentSyllableIndex: " + currentSyllableIndex);
     } else {
-      setGameState(GameState.COMPLETED);
       // Generate answerObj here after all answers have been added to resposta1
       let answerObj = { userId: userId };
       resposta2.slice(0).forEach((answer, index) => {
@@ -90,6 +56,7 @@ const Silaba = () => {
       });
       addAnswersToDB("perguntas2", answerObj);
       alert("Parabéns! Você completou o jogo!");
+      navigate("/Imagem");
     }
   };
 
@@ -155,29 +122,20 @@ const Silaba = () => {
 
   return (
     <AnimatedPages>
-      {gameState === GameState.STARTING && (
-        <StartScreen onStart={() => setGameState(GameState.RUNNING)} />
-      )}
-      {gameState === GameState.RUNNING && (
-        <>
-          <Syllable syllable={syllables[currentSyllableIndex]} />
-          <div className="meio"></div>
-          <Pictures pictures={pictures} onPictureClick={handlePictureClick} />
-        </>
-      )}
-      {gameState === GameState.BETWEEN_LEVELS && (
-        <BetweenLevelsScreen
-          onNextLevel={() => {
-            setGameState(GameState.RUNNING);
-            setCurrentSyllableIndex(currentSyllableIndex + 1);
-          }}
-        />
-      )}
-      {gameState === GameState.COMPLETED && (
+      {parabens && (
         <div>
-          <span>Parabéns! Você completou o jogo!</span>
-          <button onClick={() => navigate("/Imagem")}>Go to Image</button>
+          <span>Parabens!</span>
+          <button onClick={handleNextPhase}>Next Syllable</button>
         </div>
+      )}
+      {!parabens && (
+        <>
+          <div>
+            <Syllable syllable={syllables[currentSyllableIndex]} />
+            <div className="meio"></div>
+            <Pictures pictures={pictures} onPictureClick={handlePictureClick} />
+          </div>
+        </>
       )}
     </AnimatedPages>
   );

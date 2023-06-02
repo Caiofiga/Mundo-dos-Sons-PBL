@@ -5,6 +5,7 @@ import { UserContext } from "./UserContext";
 import { get } from "http";
 import { addAnswersToDB } from "./firebase";
 import { Stopwatch } from "ts-stopwatch";
+import { Any } from "react-spring";
 
 const microfone = "/src/img/microfone.png";
 const palavras = ["jabuticaba", "tartaruga", "baleia", "barco", "pirata"];
@@ -111,8 +112,13 @@ function Drag() {
         answerObj[`resposta${index + 1}`] = answer;
         console.log(answerObj);
       });
+      let tempoOBJ = { userId: userId };
+      Tempos.slice(0).forEach((tempo, index) => {
+        tempoOBJ[`tempo${index + 1}`] = tempo;
+        console.log(tempoOBJ);
+      });
 
-      addAnswersToDB("perguntas1", { answerObj, Tempos });
+      addAnswersToDB("perguntas1", { answerObj, tempoOBJ });
       navigate("/Silaba");
     }
   };
