@@ -42,15 +42,6 @@ interface User {
   resposta9: string;
 }
 
-function isAnswerCorrect(
-  userAnswer: string | number,
-  correctAnswer: string | number
-) {
-  return (
-    String(userAnswer).toLowerCase() === correctAnswer.toString().toLowerCase()
-  );
-}
-
 export default function SimpleTabs({ userId }) {
   const [userDataCollection1, setUserDataCollection1] = useState<User[]>([]);
   const [userDataCollection2, setUserDataCollection2] = useState<User[]>([]);
@@ -65,20 +56,14 @@ export default function SimpleTabs({ userId }) {
   const [acertos4, setAcertos4] = useState(0);
   const [acertos5, setAcertos5] = useState(0);
 
-  function increaseAcertos1() {
-    setAcertos1(acertos1 + 1);
-  }
-  function increaseAcertos2() {
-    setAcertos2(acertos2 + 1);
-  }
-  function increaseAcertos3() {
-    setAcertos3(acertos3 + 1);
-  }
-  function increaseAcertos4() {
-    setAcertos4(acertos4 + 1);
-  }
-  function increaseAcertos5() {
-    setAcertos5(acertos5 + 1);
+  function isAnswerCorrect(
+    userAnswer: string | number,
+    correctAnswer: string | number
+  ) {
+    return (
+      String(userAnswer).toLowerCase() ===
+      correctAnswer.toString().toLowerCase()
+    );
   }
   // add more state variables if you need to fetch from more collections
 
@@ -90,7 +75,57 @@ export default function SimpleTabs({ userId }) {
       const data4 = await getDocsByUserId("perguntas4", userId);
       const data5 = await getDocsByUserId("perguntas5", userId);
       const data6 = await getDocsByUserId("users", userId);
-      // add more fetch calls if you have more collections
+
+      let newAcertos1 = 0;
+      let newAcertos2 = 0;
+      let newAcertos3 = 0;
+      let newAcertos4 = 0;
+      let newAcertos5 = 0;
+
+      data1.forEach((user) => {
+        if (isAnswerCorrect(user.resposta1, CorrectAnswers1[0])) newAcertos1++;
+        if (isAnswerCorrect(user.resposta2, CorrectAnswers1[1])) newAcertos1++;
+        if (isAnswerCorrect(user.resposta3, CorrectAnswers1[2])) newAcertos1++;
+        if (isAnswerCorrect(user.resposta4, CorrectAnswers1[3])) newAcertos1++;
+        if (isAnswerCorrect(user.resposta5, CorrectAnswers1[4])) newAcertos1++;
+        // similarly for the rest of the answers...
+      });
+
+      data2.forEach((user) => {
+        if (isAnswerCorrect(user.resposta1, CorrectAnswers2[0])) newAcertos2++;
+        if (isAnswerCorrect(user.resposta2, CorrectAnswers2[1])) newAcertos2++;
+        if (isAnswerCorrect(user.resposta3, CorrectAnswers2[2])) newAcertos2++;
+        if (isAnswerCorrect(user.resposta4, CorrectAnswers2[3])) newAcertos2++;
+        if (isAnswerCorrect(user.resposta5, CorrectAnswers2[4])) newAcertos2++;
+        if (isAnswerCorrect(user.resposta6, CorrectAnswers2[5])) newAcertos2++;
+        if (isAnswerCorrect(user.resposta7, CorrectAnswers2[6])) newAcertos2++;
+        if (isAnswerCorrect(user.resposta8, CorrectAnswers2[7])) newAcertos2++;
+        if (isAnswerCorrect(user.resposta9, CorrectAnswers2[8])) newAcertos2++;
+        // similarly for the rest of the answers...
+      });
+      data3.forEach((user) => {
+        if (isAnswerCorrect(user.resposta1, CorrectAnswers3[0])) newAcertos3++;
+        if (isAnswerCorrect(user.resposta2, CorrectAnswers3[1])) newAcertos3++;
+        if (isAnswerCorrect(user.resposta3, CorrectAnswers3[2])) newAcertos3++;
+        if (isAnswerCorrect(user.resposta4, CorrectAnswers3[3])) newAcertos3++;
+        if (isAnswerCorrect(user.resposta5, CorrectAnswers3[4])) newAcertos3++;
+      });
+      data4.forEach((user) => {
+        if (isAnswerCorrect(user.resposta1, CorrectAnswers4[0])) newAcertos4++;
+        if (isAnswerCorrect(user.resposta2, CorrectAnswers4[1])) newAcertos4++;
+        if (isAnswerCorrect(user.resposta3, CorrectAnswers4[2])) newAcertos4++;
+        if (isAnswerCorrect(user.resposta4, CorrectAnswers4[3])) newAcertos4++;
+        if (isAnswerCorrect(user.resposta5, CorrectAnswers4[4])) newAcertos4++;
+      });
+      data5.forEach((user) => {
+        if (isAnswerCorrect(user.resposta1, CorrectAnswers5[0])) newAcertos5++;
+        if (isAnswerCorrect(user.resposta2, CorrectAnswers5[1])) newAcertos5++;
+        if (isAnswerCorrect(user.resposta3, CorrectAnswers5[2])) newAcertos5++;
+        if (isAnswerCorrect(user.resposta4, CorrectAnswers5[3])) newAcertos5++;
+        if (isAnswerCorrect(user.resposta5, CorrectAnswers5[4])) newAcertos5++;
+      });
+
+      // Do the same for data3, data4, data5...
 
       setUserDataCollection1(data1);
       setUserDataCollection2(data2);
@@ -98,112 +133,13 @@ export default function SimpleTabs({ userId }) {
       setUserDataCollection4(data4);
       setUserDataCollection5(data5);
       setUserDataCollection6(data6);
-      console.log(data6);
 
-      data1.forEach((doc) => {
-        if (isAnswerCorrect(doc.resposta1, CorrectAnswers1[0])) {
-          setAcertos1(acertos1 + 1);
-        }
-        if (isAnswerCorrect(doc.resposta2, CorrectAnswers1[1])) {
-          setAcertos1(acertos1 + 1);
-        }
-        if (isAnswerCorrect(doc.resposta3, CorrectAnswers1[2])) {
-          setAcertos1(acertos1 + 1);
-        }
-        if (isAnswerCorrect(doc.resposta4, CorrectAnswers1[3])) {
-          setAcertos1(acertos1 + 1);
-        }
-        if (isAnswerCorrect(doc.resposta5, CorrectAnswers1[4])) {
-          setAcertos1(acertos1 + 1);
-        }
-      });
-      data2.forEach((doc) => {
-        if (isAnswerCorrect(doc.resposta1, CorrectAnswers2[0])) {
-          setAcertos2(acertos2 + 1);
-        }
-        if (isAnswerCorrect(doc.resposta2, CorrectAnswers2[1])) {
-          setAcertos2(acertos2 + 1);
-        }
-        if (isAnswerCorrect(doc.resposta3, CorrectAnswers2[2])) {
-          setAcertos2(acertos2 + 1);
-        }
-        if (isAnswerCorrect(doc.resposta4, CorrectAnswers2[3])) {
-          setAcertos2(acertos2 + 1);
-        }
-        if (isAnswerCorrect(doc.resposta5, CorrectAnswers2[4])) {
-          setAcertos2(acertos2 + 1);
-        }
-        if (isAnswerCorrect(doc.resposta6, CorrectAnswers2[5])) {
-          setAcertos2(acertos2 + 1);
-        }
-        if (isAnswerCorrect(doc.resposta7, CorrectAnswers2[6])) {
-          setAcertos2(acertos2 + 1);
-        }
-        if (isAnswerCorrect(doc.resposta8, CorrectAnswers2[7])) {
-          setAcertos2(acertos2 + 1);
-        }
-        if (isAnswerCorrect(doc.resposta9, CorrectAnswers2[8])) {
-          setAcertos2(acertos2 + 1);
-        }
-      });
-      data3.forEach((doc) => {
-        if (isAnswerCorrect(doc.resposta1, CorrectAnswers3[0])) {
-          setAcertos3(acertos3 + 1);
-        }
-        if (isAnswerCorrect(doc.resposta2, CorrectAnswers3[1])) {
-          setAcertos3(acertos3 + 1);
-        }
-        if (isAnswerCorrect(doc.resposta3, CorrectAnswers3[2])) {
-          setAcertos3(acertos3 + 1);
-        }
-        if (isAnswerCorrect(doc.resposta4, CorrectAnswers3[3])) {
-          setAcertos3(acertos3 + 1);
-        }
-        if (isAnswerCorrect(doc.resposta5, CorrectAnswers3[4])) {
-          setAcertos3(acertos3 + 1);
-        }
-      });
-      data4.forEach((doc) => {
-        if (isAnswerCorrect(doc.resposta1, CorrectAnswers4[0])) {
-          setAcertos4(acertos4 + 1);
-        }
-        if (isAnswerCorrect(doc.resposta2, CorrectAnswers4[1])) {
-          setAcertos4(acertos4 + 1);
-        }
-        if (isAnswerCorrect(doc.resposta3, CorrectAnswers4[2])) {
-          setAcertos4(acertos4 + 1);
-        }
-        if (isAnswerCorrect(doc.resposta4, CorrectAnswers4[3])) {
-          setAcertos4(acertos4 + 1);
-        }
-        if (isAnswerCorrect(doc.resposta5, CorrectAnswers4[4])) {
-          setAcertos4(acertos4 + 1);
-        }
-      });
-      data5.forEach((doc) => {
-        if (isAnswerCorrect(doc.resposta1, CorrectAnswers5[0])) {
-          setAcertos5(acertos5 + 1);
-        }
-        if (isAnswerCorrect(doc.resposta2, CorrectAnswers5[1])) {
-          setAcertos5(acertos5 + 1);
-        }
-        if (isAnswerCorrect(doc.resposta3, CorrectAnswers5[2])) {
-          setAcertos5(acertos5 + 1);
-        }
-        if (isAnswerCorrect(doc.resposta4, CorrectAnswers5[3])) {
-          setAcertos5(acertos5 + 1);
-        }
-        if (isAnswerCorrect(doc.resposta5, CorrectAnswers5[4])) {
-          setAcertos5(acertos5 + 1);
-        }
-      });
+      setAcertos1(newAcertos1);
+      setAcertos2(newAcertos2);
+      setAcertos3(newAcertos3);
+      setAcertos4(newAcertos4);
+      setAcertos5(newAcertos5);
     }
-    console.log("Acertos1: " + acertos1);
-    console.log("Acertos2: " + acertos2);
-    console.log("Acertos3: " + acertos3);
-    console.log("Acertos4: " + acertos4);
-    console.log("Acertos5: " + acertos5);
-
     fetchData();
   }, [userId]);
 
