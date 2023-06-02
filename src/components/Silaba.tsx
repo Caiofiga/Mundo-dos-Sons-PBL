@@ -4,7 +4,11 @@ import AnimatedPages from "./animated";
 import { Navigate, useNavigate } from "react-router";
 import { UserContext } from "./UserContext";
 import { addAnswersToDB } from "./firebase";
+import { Stopwatch } from "ts-stopwatch";
+
 const resposta2: string[] = [];
+const Tempos: number[] = [];
+let stopwatch = new Stopwatch();
 
 enum GameState {
   STARTING,
@@ -12,7 +16,6 @@ enum GameState {
   BETWEEN_LEVELS,
   COMPLETED,
 }
-console.log(GameState);
 
 interface StartScreenProps {
   onStart: () => void;
@@ -44,8 +47,9 @@ const Silaba = () => {
   const [runAnimation, setRunAnimation] = useState(false);
   const [button, setbutton] = useState("button");
   const { userId } = React.useContext(UserContext);
-
   const [gameState, setGameState] = useState<GameState>(GameState.STARTING);
+
+  console.log(gameState);
 
   const syllables = ["Ma", "Bu", "La", "Ca", "Lho", "Te", "Vo", "Ca", "Ra"];
 
@@ -79,6 +83,10 @@ const Silaba = () => {
   const navigate = useNavigate();
 
   const handleNextPhase = () => {
+    stopwatch.stop();
+    Tempos.push(stopwatch.getTime());
+    stopwatch.reset();
+    console.log(Tempos);
     if (currentSyllableIndex < palavras.length - 1) {
       setGameState(GameState.BETWEEN_LEVELS);
     } else {
@@ -88,7 +96,11 @@ const Silaba = () => {
       resposta2.slice(0).forEach((answer, index) => {
         answerObj[`resposta${index + 1}`] = answer;
       });
-      addAnswersToDB("perguntas2", answerObj);
+      let tempoObj = { userId: userId };
+      Tempos.slice(0).forEach((tempo, index) => {
+        tempoObj[`tempo${index + 1}`] = tempo;
+      });
+      addAnswersToDB("perguntas2", { answerObj, tempoObj });
       alert("Parabéns! Você completou o jogo!");
     }
   };
@@ -154,9 +166,14 @@ const Silaba = () => {
   }
 
   return (
-    <AnimatedPages>
+    <AnimatedPages key={gameState}>
       {gameState === GameState.STARTING && (
-        <StartScreen onStart={() => setGameState(GameState.RUNNING)} />
+        <StartScreen
+          onStart={() => {
+            setGameState(GameState.RUNNING);
+            stopwatch.start();
+          }}
+        />
       )}
       {gameState === GameState.RUNNING && (
         <>
@@ -170,6 +187,7 @@ const Silaba = () => {
           onNextLevel={() => {
             setGameState(GameState.RUNNING);
             setCurrentSyllableIndex(currentSyllableIndex + 1);
+            stopwatch.start();
           }}
         />
       )}

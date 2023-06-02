@@ -4,43 +4,8 @@ import AnimatedPages from "./animated";
 import { useNavigate } from "react-router";
 import { UserContext } from "./UserContext";
 import { addAnswersToDB } from "./firebase";
-import { Stopwatch } from "ts-stopwatch";
 
 const resposta3: string[] = [];
-
-const Tempos: number[] = [];
-let stopwatch = new Stopwatch();
-
-enum GameState {
-  STARTING,
-  RUNNING,
-  BETWEEN_LEVELS,
-  COMPLETED,
-}
-
-interface StartScreenProps {
-  onStart: () => void;
-}
-
-interface BetweenLevelsScreenProps {
-  onNextLevel: () => void;
-}
-
-const BetweenLevelsScreen: React.FC<BetweenLevelsScreenProps> = ({
-  onNextLevel,
-}) => (
-  <div>
-    <h1>Level completed!</h1>
-    <button onClick={onNextLevel}>Next Level</button>
-  </div>
-);
-
-const StartScreen: React.FC<StartScreenProps> = ({ onStart }) => (
-  <div>
-    <h1>Welcome to the Game!</h1>
-    <button onClick={onStart}>Play</button>
-  </div>
-);
 
 const Imagem = () => {
   const [currentSyllableIndex, setCurrentSyllableIndex] = useState(0);
@@ -48,9 +13,6 @@ const Imagem = () => {
   const [runAnimation, setRunAnimation] = useState(false);
   const [button, setbutton] = useState("button");
   const { userId } = React.useContext(UserContext);
-  const [gameState, setGameState] = useState<GameState>(GameState.STARTING);
-
-  console.log(gameState);
 
   // Now you can use userId in this component
 
@@ -115,24 +77,15 @@ const Imagem = () => {
   };
 
   const handleNextPhase = () => {
-    stopwatch.stop();
-    Tempos.push(stopwatch.getTime());
-    stopwatch.reset();
-    console.log(Tempos);
     if (currentSyllableIndex < words.length - 1) {
-      setGameState(GameState.BETWEEN_LEVELS);
+      setCurrentSyllableIndex(currentSyllableIndex + 1);
+      console.log("currentSyllableIndex: " + currentSyllableIndex);
     } else {
-      setGameState(GameState.COMPLETED);
       let answerObj = { userId: userId };
       resposta3.slice(0).forEach((answer, index) => {
         answerObj[`resposta${index + 1}`] = answer;
       });
-      let tempoObj = { userId: userId };
-      Tempos.slice(0).forEach((answer, index) => {
-        tempoObj[`tempo${index + 1}`] = answer;
-      });
-
-      addAnswersToDB("perguntas3", { answerObj, tempoObj });
+      addAnswersToDB("perguntas3", answerObj);
       alert("Parabéns! Você completou o jogo!");
       navigate("/Rimas");
     }
@@ -145,39 +98,24 @@ const Imagem = () => {
   }
 
   return (
-    <AnimatedPages key={gameState}>
-      {gameState === GameState.STARTING && (
-        <StartScreen
-          onStart={() => {
-            setGameState(GameState.RUNNING);
-            stopwatch.start();
-          }}
-        />
-      )}
-      {gameState === GameState.RUNNING && !parabens && (
+    <AnimatedPages>
+      {parabens && (
         <div>
-          <Syllable image={image} />
-          <div className="meio"></div>
-          <Words
-            words={num_corretos[currentSyllableIndex]}
-            onWordClick={handleWordClick}
-          />
+          <span>Parabens!</span>
+          <button onClick={handleNextPhase}>Next Syllable</button>
         </div>
       )}
-      {gameState === GameState.BETWEEN_LEVELS && (
-        <BetweenLevelsScreen
-          onNextLevel={() => {
-            setGameState(GameState.RUNNING);
-            setCurrentSyllableIndex(currentSyllableIndex + 1);
-            stopwatch.start();
-          }}
-        />
-      )}
-      {gameState === GameState.COMPLETED && (
-        <div>
-          <span>Parabéns! Você completou o jogo!</span>
-          <button onClick={() => navigate("/Imagem")}>Go to Image</button>
-        </div>
+      {!parabens && (
+        <>
+          <div>
+            <Syllable image={image} />
+            <div className="meio"></div>
+            <Words
+              words={num_corretos[currentSyllableIndex]}
+              onWordClick={handleWordClick}
+            />
+          </div>
+        </>
       )}
     </AnimatedPages>
   );
