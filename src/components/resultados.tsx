@@ -95,6 +95,34 @@ export default function SimpleTabs({ userId }) {
         });
         console.log(Times1);
       });
+      data2.forEach((doc) => {
+        doc.tempoObj.forEach((tempo) => {
+          let tempos = tempo / 1000;
+          Times2.push(tempos);
+        });
+        console.log(Times2);
+      });
+      data3.forEach((doc) => {
+        doc.tempoObj.forEach((tempo) => {
+          let tempos = tempo / 1000;
+          Times3.push(tempos);
+        });
+        console.log(Times3);
+      });
+      data4.forEach((doc) => {
+        doc.tempoObj.forEach((tempo) => {
+          let tempos = tempo / 1000;
+          Times4.push(tempos);
+        });
+        console.log(Times4);
+      });
+      data5.forEach((doc) => {
+        doc.tempoObj.forEach((tempo) => {
+          let tempos = tempo / 1000;
+          Times5.push(tempos);
+        });
+        console.log(Times5);
+      });
 
       data1.forEach((doc) => {
         doc.answerObj.forEach((resposta, index) => {
@@ -297,7 +325,9 @@ export default function SimpleTabs({ userId }) {
                 <div style={{ width: 200, height: 200 }}>
                   <CircularProgressbar
                     value={calculatePercentage(acertos1, CorrectAnswers1)}
-                    text={`${calculatePercentage(acertos1, CorrectAnswers1)}%`}
+                    text={`${Math.round(
+                      calculatePercentage(acertos1, CorrectAnswers1)
+                    ).toFixed(2)}%`}
                   />
                 </div>
               </p>
@@ -393,10 +423,24 @@ export default function SimpleTabs({ userId }) {
                 <div style={{ width: 200, height: 200 }}>
                   <CircularProgressbar
                     value={calculatePercentage(acertos2, CorrectAnswers2)}
-                    text={`${calculatePercentage(acertos2, CorrectAnswers2)}%`}
+                    text={`${Math.round(
+                      calculatePercentage(acertos2, CorrectAnswers2)
+                    ).toFixed(2)}%`}
                   />
                 </div>
               </p>
+            </Grid>
+            <Grid item xs={4}>
+              <h3> Tempo por Questao: </h3>
+              <p>Resposta 1: {Times2[0]} segundos</p>
+              <br></br>
+              <p>Resposta 2: {Times2[1]} segundos</p>
+              <br></br>
+              <p>Resposta 3: {Times2[2]} segundos</p>
+              <br></br>
+              <p>Resposta 4: {Times2[3]} segundos</p>
+              <br></br>
+              <p>Resposta 5: {Times2[4]} segundos</p>
             </Grid>
           </Grid>
         ))}
@@ -450,10 +494,32 @@ export default function SimpleTabs({ userId }) {
                 <div style={{ width: 200, height: 200 }}>
                   <CircularProgressbar
                     value={calculatePercentage(acertos3, CorrectAnswers3)}
-                    text={`${calculatePercentage(acertos3, CorrectAnswers3)}%`}
+                    text={`${Math.round(
+                      calculatePercentage(acertos3, CorrectAnswers3)
+                    ).toFixed(2)}%`}
                   />
                 </div>
               </p>
+            </Grid>
+            <Grid item xs={4}>
+              <h3> Tempo por Questao: </h3>
+              <p>Resposta 1: {Times3[0]} segundos</p>
+              <br></br>
+              <p>Resposta 2: {Times3[1]} segundos</p>
+              <br></br>
+              <p>Resposta 3: {Times3[2]} segundos</p>
+              <br></br>
+              <p>Resposta 4: {Times3[3]} segundos</p>
+              <br></br>
+              <p>Resposta 5: {Times3[4]} segundos</p>
+              <br></br>
+              <p>Resposta 6: {Times3[0]} segundos</p>
+              <br></br>
+              <p>Resposta 7: {Times3[1]} segundos</p>
+              <br></br>
+              <p>Resposta 8: {Times3[2]} segundos</p>
+              <br></br>
+              <p>Resposta 9: {Times3[3]} segundos</p>
             </Grid>
           </Grid>
         ))}
@@ -507,10 +573,24 @@ export default function SimpleTabs({ userId }) {
                 <div style={{ width: 200, height: 200 }}>
                   <CircularProgressbar
                     value={calculatePercentage(acertos4, CorrectAnswers4)}
-                    text={`${calculatePercentage(acertos4, CorrectAnswers4)}%`}
+                    text={`${Math.round(
+                      calculatePercentage(acertos4, CorrectAnswers4)
+                    ).toFixed(2)}%`}
                   />
                 </div>
               </p>
+            </Grid>
+            <Grid item xs={4}>
+              <h3> Tempo por Questao: </h3>
+              <p>Resposta 1: {Times4[0]} segundos</p>
+              <br></br>
+              <p>Resposta 2: {Times4[1]} segundos</p>
+              <br></br>
+              <p>Resposta 3: {Times4[2]} segundos</p>
+              <br></br>
+              <p>Resposta 4: {Times4[3]} segundos</p>
+              <br></br>
+              <p>Resposta 5: {Times4[4]} segundos</p>
             </Grid>
           </Grid>
         ))}
@@ -564,10 +644,24 @@ export default function SimpleTabs({ userId }) {
                 <div style={{ width: 200, height: 200 }}>
                   <CircularProgressbar
                     value={calculatePercentage(acertos5, CorrectAnswers5)}
-                    text={`${calculatePercentage(acertos5, CorrectAnswers5)}%`}
+                    text={`${Math.round(
+                      calculatePercentage(acertos5, CorrectAnswers5)
+                    ).toFixed(2)}%`}
                   />
                 </div>
               </p>
+            </Grid>
+            <Grid item xs={4}>
+              <h3> Tempo por Questao: </h3>
+              <p>Resposta 1: {Times5[0]} segundos</p>
+              <br></br>
+              <p>Resposta 2: {Times5[1]} segundos</p>
+              <br></br>
+              <p>Resposta 3: {Times5[2]} segundos</p>
+              <br></br>
+              <p>Resposta 4: {Times5[3]} segundos</p>
+              <br></br>
+              <p>Resposta 5: {Times5[4]} segundos</p>
             </Grid>
           </Grid>
         ))}
