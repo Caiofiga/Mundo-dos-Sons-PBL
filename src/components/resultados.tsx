@@ -40,7 +40,13 @@ interface User {
   resposta7: string;
   resposta8: string;
   resposta9: string;
+  answerObj: string[];
 }
+const Times1: number[] = [];
+const Times2: number[] = [];
+const Times3: number[] = [];
+const Times4: number[] = [];
+const Times5: number[] = [];
 
 export default function SimpleTabs({ userId }) {
   const [userDataCollection1, setUserDataCollection1] = useState<User[]>([]);
@@ -82,50 +88,53 @@ export default function SimpleTabs({ userId }) {
       let newAcertos4 = 0;
       let newAcertos5 = 0;
 
-      data1.forEach((user) => {
-        if (isAnswerCorrect(user.resposta1, CorrectAnswers1[0])) newAcertos1++;
-        if (isAnswerCorrect(user.resposta2, CorrectAnswers1[1])) newAcertos1++;
-        if (isAnswerCorrect(user.resposta3, CorrectAnswers1[2])) newAcertos1++;
-        if (isAnswerCorrect(user.resposta4, CorrectAnswers1[3])) newAcertos1++;
-        if (isAnswerCorrect(user.resposta5, CorrectAnswers1[4])) newAcertos1++;
-        // similarly for the rest of the answers...
+      data1.forEach((doc) => {
+        doc.tempoObj.forEach((tempo) => {
+          let tempos = tempo / 1000;
+          Times1.push(tempos);
+        });
+        console.log(Times1);
       });
 
-      data2.forEach((user) => {
-        if (isAnswerCorrect(user.resposta1, CorrectAnswers2[0])) newAcertos2++;
-        if (isAnswerCorrect(user.resposta2, CorrectAnswers2[1])) newAcertos2++;
-        if (isAnswerCorrect(user.resposta3, CorrectAnswers2[2])) newAcertos2++;
-        if (isAnswerCorrect(user.resposta4, CorrectAnswers2[3])) newAcertos2++;
-        if (isAnswerCorrect(user.resposta5, CorrectAnswers2[4])) newAcertos2++;
-        if (isAnswerCorrect(user.resposta6, CorrectAnswers2[5])) newAcertos2++;
-        if (isAnswerCorrect(user.resposta7, CorrectAnswers2[6])) newAcertos2++;
-        if (isAnswerCorrect(user.resposta8, CorrectAnswers2[7])) newAcertos2++;
-        if (isAnswerCorrect(user.resposta9, CorrectAnswers2[8])) newAcertos2++;
-        // similarly for the rest of the answers...
-      });
-      data3.forEach((user) => {
-        if (isAnswerCorrect(user.resposta1, CorrectAnswers3[0])) newAcertos3++;
-        if (isAnswerCorrect(user.resposta2, CorrectAnswers3[1])) newAcertos3++;
-        if (isAnswerCorrect(user.resposta3, CorrectAnswers3[2])) newAcertos3++;
-        if (isAnswerCorrect(user.resposta4, CorrectAnswers3[3])) newAcertos3++;
-        if (isAnswerCorrect(user.resposta5, CorrectAnswers3[4])) newAcertos3++;
-      });
-      data4.forEach((user) => {
-        if (isAnswerCorrect(user.resposta1, CorrectAnswers4[0])) newAcertos4++;
-        if (isAnswerCorrect(user.resposta2, CorrectAnswers4[1])) newAcertos4++;
-        if (isAnswerCorrect(user.resposta3, CorrectAnswers4[2])) newAcertos4++;
-        if (isAnswerCorrect(user.resposta4, CorrectAnswers4[3])) newAcertos4++;
-        if (isAnswerCorrect(user.resposta5, CorrectAnswers4[4])) newAcertos4++;
-      });
-      data5.forEach((user) => {
-        if (isAnswerCorrect(user.resposta1, CorrectAnswers5[0])) newAcertos5++;
-        if (isAnswerCorrect(user.resposta2, CorrectAnswers5[1])) newAcertos5++;
-        if (isAnswerCorrect(user.resposta3, CorrectAnswers5[2])) newAcertos5++;
-        if (isAnswerCorrect(user.resposta4, CorrectAnswers5[3])) newAcertos5++;
-        if (isAnswerCorrect(user.resposta5, CorrectAnswers5[4])) newAcertos5++;
+      data1.forEach((doc) => {
+        doc.answerObj.forEach((resposta, index) => {
+          if (isAnswerCorrect(resposta, CorrectAnswers1[index])) {
+            newAcertos1++;
+          }
+        });
       });
 
-      // Do the same for data3, data4, data5...
+      data2.forEach((doc) => {
+        doc.answerObj.forEach((resposta, index) => {
+          if (isAnswerCorrect(resposta, CorrectAnswers2[index])) {
+            newAcertos2++;
+          }
+        });
+      });
+
+      data3.forEach((doc) => {
+        doc.answerObj.forEach((resposta, index) => {
+          if (isAnswerCorrect(resposta, CorrectAnswers3[index])) {
+            newAcertos3++;
+          }
+        });
+      });
+
+      data4.forEach((doc) => {
+        doc.answerObj.forEach((resposta, index) => {
+          if (isAnswerCorrect(resposta, CorrectAnswers4[index])) {
+            newAcertos4++;
+          }
+        });
+      });
+
+      data5.forEach((doc) => {
+        doc.answerObj.forEach((resposta, index) => {
+          if (isAnswerCorrect(resposta, CorrectAnswers5[index])) {
+            newAcertos5++;
+          }
+        });
+      });
 
       setUserDataCollection1(data1);
       setUserDataCollection2(data2);
@@ -208,16 +217,12 @@ export default function SimpleTabs({ userId }) {
     const percentage = (acertos / totals) * 100;
     return percentage;
   }
-  console.log("Acertos1: " + acertos1);
-  console.log("Acertos2: " + acertos2);
-  console.log("Acertos3: " + acertos3);
-  console.log("Acertos4: " + acertos4);
-  console.log("Acertos5: " + acertos5);
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
   };
+  console.log(Times1[0]);
 
   return (
     <div>
@@ -247,41 +252,41 @@ export default function SimpleTabs({ userId }) {
           <Grid container key={index} spacing={0}>
             <Grid item xs={4}>
               <p>
-                Resposta 1: {user.resposta1}{" "}
-                {checkAnswer(user.resposta1, CorrectAnswers1[0])}
-                {!isAnswerCorrect(user.resposta1, CorrectAnswers1[0])
+                Resposta 1: {user.answerObj[0]}{" "}
+                {checkAnswer(user.answerObj[0], CorrectAnswers1[0])}
+                {!isAnswerCorrect(user.answerObj[0], CorrectAnswers1[0])
                   ? ` Resposta correta: ${CorrectAnswers1[0]}`
                   : "\u00A0"}
               </p>
 
               <p>
-                Resposta 2: {user.resposta2}{" "}
-                {checkAnswer(user.resposta2, CorrectAnswers1[1])}
-                {!isAnswerCorrect(user.resposta2, CorrectAnswers1[1])
+                Resposta 2: {user.answerObj[1]}{" "}
+                {checkAnswer(user.answerObj[1], CorrectAnswers1[1])}
+                {!isAnswerCorrect(user.answerObj[1], CorrectAnswers1[1])
                   ? ` Resposta correta: ${CorrectAnswers1[1]}`
                   : "\u00A0"}
               </p>
 
               <p>
-                Resposta 3: {user.resposta3}{" "}
-                {checkAnswer(user.resposta3, CorrectAnswers1[2])}
-                {!isAnswerCorrect(user.resposta3, CorrectAnswers1[2])
+                Resposta 3: {user.answerObj[2]}{" "}
+                {checkAnswer(user.answerObj[2], CorrectAnswers1[2])}
+                {!isAnswerCorrect(user.answerObj[2], CorrectAnswers1[2])
                   ? ` Resposta correta: ${CorrectAnswers1[2]}`
                   : "\u00A0"}
               </p>
 
               <p>
-                Resposta 4: {user.resposta4}{" "}
-                {checkAnswer(user.resposta4, CorrectAnswers1[3])}
-                {!isAnswerCorrect(user.resposta4, CorrectAnswers1[3])
+                Resposta 4: {user.answerObj[3]}{" "}
+                {checkAnswer(user.answerObj[3], CorrectAnswers1[3])}
+                {!isAnswerCorrect(user.answerObj[3], CorrectAnswers1[3])
                   ? ` Resposta correta: ${CorrectAnswers1[3]}`
                   : "\u00A0"}
               </p>
 
               <p>
-                Resposta 5: {user.resposta5}{" "}
-                {checkAnswer(user.resposta5, CorrectAnswers1[4])}
-                {!isAnswerCorrect(user.resposta5, CorrectAnswers1[4])
+                Resposta 5: {user.answerObj[4]}{" "}
+                {checkAnswer(user.answerObj[4], CorrectAnswers1[4])}
+                {!isAnswerCorrect(user.answerObj[4], CorrectAnswers1[4])
                   ? ` Resposta correta: ${CorrectAnswers1[4]}`
                   : "\u00A0"}
               </p>
@@ -297,6 +302,18 @@ export default function SimpleTabs({ userId }) {
                 </div>
               </p>
             </Grid>
+            <Grid item xs={4}>
+              <h3> Tempo por Questao: </h3>
+              <p>Resposta 1: {Times1[0]} segundos</p>
+              <br></br>
+              <p>Resposta 2: {Times1[1]} segundos</p>
+              <br></br>
+              <p>Resposta 3: {Times1[2]} segundos</p>
+              <br></br>
+              <p>Resposta 4: {Times1[3]} segundos</p>
+              <br></br>
+              <p>Resposta 5: {Times1[4]} segundos</p>
+            </Grid>
           </Grid>
         ))}
       </TabPanel>
@@ -306,65 +323,65 @@ export default function SimpleTabs({ userId }) {
             <Grid item xs={4}>
               <div key={index}>
                 <p>
-                  Resposta 1: {user.resposta1}{" "}
-                  {checkAnswer(user.resposta1, CorrectAnswers2[0])}
-                  {!isAnswerCorrect(user.resposta1, CorrectAnswers2[0])
+                  Resposta 1: {user.answerObj[0]}{" "}
+                  {checkAnswer(user.answerObj[0], CorrectAnswers2[0])}
+                  {!isAnswerCorrect(user.answerObj[0], CorrectAnswers2[0])
                     ? ` Resposta correta: ${CorrectAnswers2[0]}`
                     : "\u00A0"}
                 </p>
                 <p>
-                  Resposta 2: {user.resposta2}{" "}
-                  {checkAnswer(user.resposta2, CorrectAnswers2[1])}
-                  {!isAnswerCorrect(user.resposta2, CorrectAnswers2[1])
+                  Resposta 2: {user.answerObj[1]}{" "}
+                  {checkAnswer(user.answerObj[1], CorrectAnswers2[1])}
+                  {!isAnswerCorrect(user.answerObj[1], CorrectAnswers2[1])
                     ? ` Resposta correta: ${CorrectAnswers2[1]}`
                     : "\u00A0"}
                 </p>
                 <p>
-                  Resposta 3: {user.resposta3}{" "}
-                  {checkAnswer(user.resposta3, CorrectAnswers2[2])}
-                  {!isAnswerCorrect(user.resposta3, CorrectAnswers2[2])
+                  Resposta 3: {user.answerObj[2]}{" "}
+                  {checkAnswer(user.answerObj[2], CorrectAnswers2[2])}
+                  {!isAnswerCorrect(user.answerObj[2], CorrectAnswers2[2])
                     ? ` Resposta correta: ${CorrectAnswers2[2]}`
                     : "\u00A0"}
                 </p>
                 <p>
-                  Resposta 4: {user.resposta4}{" "}
-                  {checkAnswer(user.resposta4, CorrectAnswers2[3])}
-                  {!isAnswerCorrect(user.resposta4, CorrectAnswers2[3])
+                  Resposta 4: {user.answerObj[3]}{" "}
+                  {checkAnswer(user.answerObj[3], CorrectAnswers2[3])}
+                  {!isAnswerCorrect(user.answerObj[3], CorrectAnswers2[3])
                     ? ` Resposta correta: ${CorrectAnswers2[3]}`
                     : "\u00A0"}
                 </p>
                 <p>
-                  Resposta 5: {user.resposta5}{" "}
-                  {checkAnswer(user.resposta5, CorrectAnswers2[4])}
-                  {!isAnswerCorrect(user.resposta5, CorrectAnswers2[4])
+                  Resposta 5: {user.answerObj[4]}{" "}
+                  {checkAnswer(user.answerObj[4], CorrectAnswers2[4])}
+                  {!isAnswerCorrect(user.answerObj[4], CorrectAnswers2[4])
                     ? ` Resposta correta: ${CorrectAnswers2[4]}`
                     : "\u00A0"}
                 </p>
                 <p>
-                  Resposta 6: {user.resposta6}{" "}
-                  {checkAnswer(user.resposta6, CorrectAnswers2[5])}
-                  {!isAnswerCorrect(user.resposta6, CorrectAnswers2[5])
+                  Resposta 6: {user.answerObj[5]}{" "}
+                  {checkAnswer(user.answerObj[5], CorrectAnswers2[5])}
+                  {!isAnswerCorrect(user.answerObj[5], CorrectAnswers2[5])
                     ? ` Resposta correta: ${CorrectAnswers2[5]}`
                     : "\u00A0"}
                 </p>
                 <p>
-                  Resposta 7: {user.resposta7}{" "}
-                  {checkAnswer(user.resposta7, CorrectAnswers2[6])}
-                  {!isAnswerCorrect(user.resposta7, CorrectAnswers2[6])
+                  Resposta 7: {user.answerObj[6]}{" "}
+                  {checkAnswer(user.answerObj[6], CorrectAnswers2[6])}
+                  {!isAnswerCorrect(user.answerObj[6], CorrectAnswers2[6])
                     ? ` Resposta correta: ${CorrectAnswers2[6]}`
                     : "\u00A0"}
                 </p>
                 <p>
-                  Resposta 8: {user.resposta8}{" "}
-                  {checkAnswer(user.resposta8, CorrectAnswers2[7])}
-                  {!isAnswerCorrect(user.resposta8, CorrectAnswers2[7])
+                  Resposta 8: {user.answerObj[7]}{" "}
+                  {checkAnswer(user.answerObj[7], CorrectAnswers2[7])}
+                  {!isAnswerCorrect(user.answerObj[7], CorrectAnswers2[7])
                     ? ` Resposta correta: ${CorrectAnswers2[7]}`
                     : "\u00A0"}
                 </p>
                 <p>
-                  Resposta 9: {user.resposta9}{" "}
-                  {checkAnswer(user.resposta9, CorrectAnswers2[8])}
-                  {!isAnswerCorrect(user.resposta9, CorrectAnswers2[8])
+                  Resposta 9: {user.answerObj[8]}{" "}
+                  {checkAnswer(user.answerObj[8], CorrectAnswers2[8])}
+                  {!isAnswerCorrect(user.answerObj[8], CorrectAnswers2[8])
                     ? ` Resposta correta: ${CorrectAnswers2[8]}`
                     : "\u00A0"}
                 </p>
@@ -391,37 +408,37 @@ export default function SimpleTabs({ userId }) {
             <Grid item xs={4}>
               <div key={index}>
                 <p>
-                  Resposta 1: {user.resposta1}{" "}
-                  {checkAnswer(user.resposta1, CorrectAnswers3[0])}
-                  {!isAnswerCorrect(user.resposta1, CorrectAnswers3[0])
+                  Resposta 1: {user.answerObj[0]}{" "}
+                  {checkAnswer(user.answerObj[0], CorrectAnswers3[0])}
+                  {!isAnswerCorrect(user.answerObj[0], CorrectAnswers3[0])
                     ? ` Resposta correta: ${CorrectAnswers3[0]}`
                     : "\u00A0"}
                 </p>
                 <p>
-                  Resposta 2: {user.resposta2}{" "}
-                  {checkAnswer(user.resposta2, CorrectAnswers3[1])}
-                  {!isAnswerCorrect(user.resposta2, CorrectAnswers3[1])
+                  Resposta 2: {user.answerObj[1]}{" "}
+                  {checkAnswer(user.answerObj[1], CorrectAnswers3[1])}
+                  {!isAnswerCorrect(user.answerObj[1], CorrectAnswers3[1])
                     ? ` Resposta correta: ${CorrectAnswers3[1]}`
                     : "\u00A0"}
                 </p>
                 <p>
-                  Resposta 3: {user.resposta3}{" "}
-                  {checkAnswer(user.resposta3, CorrectAnswers3[2])}
-                  {!isAnswerCorrect(user.resposta3, CorrectAnswers3[2])
+                  Resposta 3: {user.answerObj[2]}{" "}
+                  {checkAnswer(user.answerObj[2], CorrectAnswers3[2])}
+                  {!isAnswerCorrect(user.answerObj[2], CorrectAnswers3[2])
                     ? ` Resposta correta: ${CorrectAnswers3[2]}`
                     : "\u00A0"}
                 </p>
                 <p>
-                  Resposta 4: {user.resposta4}{" "}
-                  {checkAnswer(user.resposta4, CorrectAnswers3[3])}
-                  {!isAnswerCorrect(user.resposta4, CorrectAnswers3[3])
+                  Resposta 4: {user.answerObj[3]}{" "}
+                  {checkAnswer(user.answerObj[3], CorrectAnswers3[3])}
+                  {!isAnswerCorrect(user.answerObj[3], CorrectAnswers3[3])
                     ? ` Resposta correta: ${CorrectAnswers3[3]}`
                     : "\u00A0"}
                 </p>
                 <p>
-                  Resposta 5: {user.resposta5}{" "}
-                  {checkAnswer(user.resposta5, CorrectAnswers3[4])}
-                  {!isAnswerCorrect(user.resposta5, CorrectAnswers3[4])
+                  Resposta 5: {user.answerObj[4]}{" "}
+                  {checkAnswer(user.answerObj[4], CorrectAnswers3[4])}
+                  {!isAnswerCorrect(user.answerObj[4], CorrectAnswers3[4])
                     ? ` Resposta correta: ${CorrectAnswers3[4]}`
                     : "\u00A0"}
                 </p>
@@ -448,37 +465,37 @@ export default function SimpleTabs({ userId }) {
             <Grid item xs={4}>
               <div key={index}>
                 <p>
-                  Resposta 1: {user.resposta1}{" "}
-                  {checkAnswer(user.resposta1, CorrectAnswers4[0])}
-                  {!isAnswerCorrect(user.resposta1, CorrectAnswers4[0])
+                  Resposta 1: {user.answerObj[0]}{" "}
+                  {checkAnswer(user.answerObj[0], CorrectAnswers4[0])}
+                  {!isAnswerCorrect(user.answerObj[0], CorrectAnswers4[0])
                     ? ` Resposta correta: ${CorrectAnswers4[0]}`
                     : "\u00A0"}
                 </p>
                 <p>
-                  Resposta 2: {user.resposta2}{" "}
-                  {checkAnswer(user.resposta2, CorrectAnswers4[1])}
-                  {!isAnswerCorrect(user.resposta2, CorrectAnswers4[1])
+                  Resposta 2: {user.answerObj[1]}{" "}
+                  {checkAnswer(user.answerObj[1], CorrectAnswers4[1])}
+                  {!isAnswerCorrect(user.answerObj[1], CorrectAnswers4[1])
                     ? ` Resposta correta: ${CorrectAnswers4[1]}`
                     : "\u00A0"}
                 </p>
                 <p>
-                  Resposta 3: {user.resposta3}{" "}
-                  {checkAnswer(user.resposta3, CorrectAnswers4[2])}
-                  {!isAnswerCorrect(user.resposta3, CorrectAnswers4[2])
+                  Resposta 3: {user.answerObj[2]}{" "}
+                  {checkAnswer(user.answerObj[2], CorrectAnswers4[2])}
+                  {!isAnswerCorrect(user.answerObj[2], CorrectAnswers4[2])
                     ? ` Resposta correta: ${CorrectAnswers4[2]}`
                     : "\u00A0"}
                 </p>
                 <p>
-                  Resposta 4: {user.resposta4}{" "}
-                  {checkAnswer(user.resposta4, CorrectAnswers4[3])}
-                  {!isAnswerCorrect(user.resposta4, CorrectAnswers4[3])
+                  Resposta 4: {user.answerObj[3]}{" "}
+                  {checkAnswer(user.answerObj[3], CorrectAnswers4[3])}
+                  {!isAnswerCorrect(user.answerObj[3], CorrectAnswers4[3])
                     ? ` Resposta correta: ${CorrectAnswers4[3]}`
                     : "\u00A0"}
                 </p>
                 <p>
-                  Resposta 5: {user.resposta5}{" "}
-                  {checkAnswer(user.resposta5, CorrectAnswers4[4])}
-                  {!isAnswerCorrect(user.resposta5, CorrectAnswers4[4])
+                  Resposta 5: {user.answerObj[4]}{" "}
+                  {checkAnswer(user.answerObj[4], CorrectAnswers4[4])}
+                  {!isAnswerCorrect(user.answerObj[4], CorrectAnswers4[4])
                     ? ` Resposta correta: ${CorrectAnswers4[4]}`
                     : "\u00A0"}
                 </p>
@@ -505,37 +522,37 @@ export default function SimpleTabs({ userId }) {
             <Grid item xs={4}>
               <div key={index}>
                 <p>
-                  Resposta 1: {user.resposta1}{" "}
-                  {checkAnswer(user.resposta1, CorrectAnswers5[0])}
-                  {!isAnswerCorrect(user.resposta1, CorrectAnswers5[0])
+                  Resposta 1: {user.answerObj[0]}{" "}
+                  {checkAnswer(user.answerObj[0], CorrectAnswers5[0])}
+                  {!isAnswerCorrect(user.answerObj[0], CorrectAnswers5[0])
                     ? ` Resposta correta: ${CorrectAnswers5[0]}`
                     : "\u00A0"}
                 </p>
                 <p>
-                  Resposta 2: {user.resposta2}{" "}
-                  {checkAnswer(user.resposta2, CorrectAnswers5[1])}
-                  {!isAnswerCorrect(user.resposta2, CorrectAnswers5[1])
+                  Resposta 2: {user.answerObj[1]}{" "}
+                  {checkAnswer(user.answerObj[1], CorrectAnswers5[1])}
+                  {!isAnswerCorrect(user.answerObj[1], CorrectAnswers5[1])
                     ? ` Resposta correta: ${CorrectAnswers5[1]}`
                     : "\u00A0"}
                 </p>
                 <p>
-                  Resposta 3: {user.resposta3}{" "}
-                  {checkAnswer(user.resposta3, CorrectAnswers5[2])}
-                  {!isAnswerCorrect(user.resposta3, CorrectAnswers5[2])
+                  Resposta 3: {user.answerObj[2]}{" "}
+                  {checkAnswer(user.answerObj[2], CorrectAnswers5[2])}
+                  {!isAnswerCorrect(user.answerObj[2], CorrectAnswers5[2])
                     ? ` Resposta correta: ${CorrectAnswers5[2]}`
                     : "\u00A0"}
                 </p>
                 <p>
-                  Resposta 4: {user.resposta4}{" "}
-                  {checkAnswer(user.resposta4, CorrectAnswers5[3])}
-                  {!isAnswerCorrect(user.resposta4, CorrectAnswers5[3])
+                  Resposta 4: {user.answerObj[3]}{" "}
+                  {checkAnswer(user.answerObj[3], CorrectAnswers5[3])}
+                  {!isAnswerCorrect(user.answerObj[3], CorrectAnswers5[3])
                     ? ` Resposta correta: ${CorrectAnswers5[3]}`
                     : "\u00A0"}
                 </p>
                 <p>
-                  Resposta 5: {user.resposta5}{" "}
-                  {checkAnswer(user.resposta5, CorrectAnswers5[4])}
-                  {!isAnswerCorrect(user.resposta5, CorrectAnswers5[4])
+                  Resposta 5: {user.answerObj[4]}{" "}
+                  {checkAnswer(user.answerObj[4], CorrectAnswers5[4])}
+                  {!isAnswerCorrect(user.answerObj[4], CorrectAnswers5[4])
                     ? ` Resposta correta: ${CorrectAnswers5[4]}`
                     : "\u00A0"}
                 </p>

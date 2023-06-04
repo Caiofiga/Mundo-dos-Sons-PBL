@@ -91,16 +91,15 @@ const Silaba = () => {
       setGameState(GameState.BETWEEN_LEVELS);
     } else {
       setGameState(GameState.COMPLETED);
-      // Generate answerObj here after all answers have been added to resposta1
-      let answerObj = { userId: userId };
-      resposta2.slice(0).forEach((answer, index) => {
-        answerObj[`resposta${index + 1}`] = answer;
+      let answerObj = resposta2.slice(0);
+      let tempoObj = Tempos.slice(0);
+
+      addAnswersToDB("perguntas2", {
+        userId: userId,
+        answerObj: answerObj,
+        tempoObj: tempoObj,
       });
-      let tempoObj = { userId: userId };
-      Tempos.slice(0).forEach((tempo, index) => {
-        tempoObj[`tempo${index + 1}`] = tempo;
-      });
-      addAnswersToDB("perguntas2", { answerObj, tempoObj });
+
       alert("Parabéns! Você completou o jogo!");
     }
   };

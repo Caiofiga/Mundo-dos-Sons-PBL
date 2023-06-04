@@ -123,16 +123,15 @@ const Imagem = () => {
       setGameState(GameState.BETWEEN_LEVELS);
     } else {
       setGameState(GameState.COMPLETED);
-      let answerObj = { userId: userId };
-      resposta3.slice(0).forEach((answer, index) => {
-        answerObj[`resposta${index + 1}`] = answer;
-      });
-      let tempoObj = { userId: userId };
-      Tempos.slice(0).forEach((answer, index) => {
-        tempoObj[`tempo${index + 1}`] = answer;
+      let answerObj = resposta3.slice(0);
+      let tempoObj = Tempos.slice(0);
+
+      addAnswersToDB("perguntas3", {
+        userId: userId,
+        answerObj: answerObj,
+        tempoObj: tempoObj,
       });
 
-      addAnswersToDB("perguntas3", { answerObj, tempoObj });
       alert("Parabéns! Você completou o jogo!");
       navigate("/Rimas");
     }

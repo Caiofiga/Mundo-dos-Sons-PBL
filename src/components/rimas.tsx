@@ -132,15 +132,15 @@ const Rimas = () => {
       setGameState(GameState.BETWEEN_LEVELS);
     } else {
       setGameState(GameState.COMPLETED);
-      let answerObj = { userId: userId };
-      resposta4.slice(0).forEach((answer, index) => {
-        answerObj[`resposta${index + 1}`] = answer;
+      let answerObj = resposta4.slice(0);
+      let tempoObj = Tempos.slice(0);
+
+      addAnswersToDB("perguntas4", {
+        userId: userId,
+        answerObj: answerObj,
+        tempoObj: tempoObj,
       });
-      let tempoObj = { userId: userId };
-      Tempos.slice(0).forEach((answer, index) => {
-        tempoObj[`tempo${index + 1}`] = answer;
-      });
-      addAnswersToDB("perguntas4", { answerObj, tempoObj });
+
       alert("Parabéns! Você completou o jogo!");
       navigate("/Sons");
       setCurrentSyllableIndex(0);

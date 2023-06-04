@@ -107,22 +107,19 @@ function Drag() {
       resposta1.push(getWordFromList());
     } else {
       resposta1.push(getWordFromList());
-      let answerObj = { userId: userId };
-      resposta1.slice(0).forEach((answer, index) => {
-        answerObj[`resposta${index + 1}`] = answer;
-        console.log(answerObj);
-      });
-      let tempoOBJ = { userId: userId };
-      Tempos.slice(0).forEach((tempo, index) => {
-        tempoOBJ[`tempo${index + 1}`] = tempo;
-        console.log(tempoOBJ);
-      });
 
-      addAnswersToDB("perguntas1", { answerObj, tempoOBJ });
+      // Store resposta and tempo as arrays
+      let answerObj = resposta1.slice(0);
+      let tempoObj = Tempos.slice(0);
+
+      addAnswersToDB("perguntas1", {
+        userId: userId,
+        answerObj: answerObj,
+        tempoObj: tempoObj,
+      });
       navigate("/Silaba");
     }
   };
-
   useEffect(() => {
     setData(generateInitialData(currentLine));
   }, [currentLine]);

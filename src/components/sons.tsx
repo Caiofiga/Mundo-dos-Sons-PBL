@@ -134,15 +134,15 @@ const Sons = () => {
       setGameState(GameState.BETWEEN_LEVELS);
     } else {
       setGameState(GameState.COMPLETED);
-      let answerObj = { userId: userId };
-      respostas5.slice(0).forEach((answer, index) => {
-        answerObj[`resposta${index + 1}`] = answer;
+      let answerObj = respostas5.slice(0);
+      let tempoObj = Tempos.slice(0);
+
+      addAnswersToDB("perguntas5", {
+        userId: userId,
+        answerObj: answerObj,
+        tempoObj: tempoObj,
       });
-      let tempoObj = { userId: userId };
-      Tempos.slice(0).forEach((tempo, index) => {
-        tempoObj[`tempo${index + 1}`] = tempo;
-      });
-      addAnswersToDB("perguntas5", { answerObj, tempoObj });
+
       alert("Parabéns! Você completou o jogo!");
       navigate("/Resultados");
       setCurrentSyllableIndex(0);
