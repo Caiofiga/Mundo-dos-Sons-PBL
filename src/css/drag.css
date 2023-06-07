@@ -28,3 +28,10 @@
   background-color: transparent;
   width: 100px;
 }
+
+.Congrats {
+  position : absolute;
+  background-color: transparent;
+  z-index: 3;
+  left: 42.5%;
+}

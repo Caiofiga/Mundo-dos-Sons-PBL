@@ -4,34 +4,34 @@
   position: absolute;
   display: inline-flex;
   font-size: 15vh;
-  top:25vh;
-  left: 105vh;
+  top:25%;
+  left: 35%;
 }
 .stars + .stars {
-  margin-left: 25vh;
-  top: 10vh;
+  margin-left: 12%;
+  top: 10%;
 }
 .stars + .stars + .stars {
-  margin-left: 50vh;
-  top: 25vh;
+  margin-left: 23.5%;
+  top: 25%;
 }
 
 .star1 {
   animation: fadeIn1 5s ease-in-out forwards,
-             shake 0.5s ease-in-out 5s forwards,
-             heartbeat 1.5s ease-in-out 5.5s infinite;
+              
+             heartbeat 1.5s ease-in-out 5s infinite;
 }
 
 .star2 {
   animation: fadeIn2 5s ease-in-out forwards,
-             shake 0.5s ease-in-out 5s forwards,
-              heartbeat 1.5s ease-in-out 5.5s infinite;
+              
+             heartbeat 1.5s ease-in-out 5s infinite;
 }
 
 .star3 {
   animation: fadeIn3 5s ease-in-out forwards,
-             shake 0.5s ease-in-out 5s forwards,
-              heartbeat 1.5s ease-in-out 5.5s infinite;
+              
+             heartbeat 1.5s ease-in-out 5s infinite;
 }
 @keyframes heartbeat {
   0% {
@@ -145,3 +145,4 @@
     opacity: 0;
   }
 }
+

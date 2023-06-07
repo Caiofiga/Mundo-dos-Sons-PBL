@@ -3,6 +3,7 @@ import Confetti from "react-confetti";
 import useWindowSize from "react-use/lib/useWindowSize";
 import  { Fireworks } from '@fireworks-js/react'
 import "../css/congrats.css"
+import zIndex from "@mui/material/styles/zIndex";
 
 export function getConfetti() {
     const { width, height } = useWindowSize();
@@ -41,7 +42,8 @@ export function getConfetti() {
             width: '100%',
             height: '100%',
             position: 'fixed',
-            background: 'transparent'
+            background: 'transparent',
+            zIndex: 0
           }}
         />
       )
@@ -62,4 +64,6 @@ export function getConfetti() {
           </>
         )
     }
+
+    
 

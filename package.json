@@ -19,6 +19,7 @@
     "bootstrap": "^5.2.3",
     "chart.js": "^4.3.0",
     "firebase": "^9.22.1",
+    "framer-motion": "^10.12.16",
     "react": "^18.2.0",
     "react-animations": "^1.0.0",
     "react-beautiful-dnd": "^13.1.1",

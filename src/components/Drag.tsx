@@ -8,6 +8,7 @@ import "../css/drag.css";
 import { getConfetti } from "./congrats";
 import { getFireworks } from "./congrats";
 import { getStars } from "./congrats";
+
 enum GameState {
   STARTING,
   RUNNING,
@@ -26,19 +27,21 @@ interface BetweenLevelsScreenProps {
 const BetweenLevelsScreen: React.FC<BetweenLevelsScreenProps> = ({
   onNextLevel,
 }) => (
-  <div>
+  <div >
   {getConfetti()}
   {getFireworks()}
   {getStars()}
+  <div className="Congrats">
     <h1>Level completed!</h1>
-    <button onClick={onNextLevel}>Next Level</button>
+    <button className="Button" onClick={onNextLevel}>Next Level</button>
+  </div>
   </div>
 );
 
 const StartScreen: React.FC<StartScreenProps> = ({ onStart }) => (
   <div>
     <h1>Welcome to the Game!</h1>
-    <button onClick={onStart}>Play</button>
+    <button className="Button" onClick={onStart}>Play</button>
   </div>
 );
 
@@ -118,8 +121,9 @@ const Drag = () => {
     stopwatch.stop();
     Tempos.push(stopwatch.getTime());
     stopwatch.reset();
-    console.log(Tempos)
-    loadNextLine();
+    console.log(Tempos);
+    resposta1.push(getWordFromList());
+    setGameState(GameState.BETWEEN_LEVELS); // Go to BETWEEN_LEVELS state when a level ends
   };
 
   useEffect(() => {
@@ -128,15 +132,13 @@ const Drag = () => {
 
   const loadNextLine = () => {
     if (currentLine < silabas.length - 1) {
-      setGameState(GameState.BETWEEN_LEVELS);
       setCurrentLine((line) => line + 1);
-      resposta1.push(getWordFromList());
+      setData(generateInitialData(currentLine + 1)); 
+      setGameState(GameState.RUNNING); // Go to RUNNING state when Next Level is clicked
       console.log(resposta1);
     } else {
       setGameState(GameState.COMPLETED);
-      resposta1.push(getWordFromList());
       console.log(resposta1);
-
       // Store resposta and tempo as arrays
       let answerObj = resposta1.slice(0);
       let tempoObj = Tempos.slice(0);
@@ -188,7 +190,7 @@ const Drag = () => {
         );
       case GameState.RUNNING:
         return (
-          <>
+          <div>
             <img src={imagem} alt={palavra} style={{ width: "200px" }} />
             <DragDropContext onDragEnd={handleDragEnd}>
               {Object.keys(data).map((list) => (
@@ -217,7 +219,7 @@ const Drag = () => {
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
                             >
-                              <button onClick={() => item.audioRef.current.play()}>
+                              <button className="Button" onClick={() => item.audioRef.current.play()}>
                                 <img src={item.imgUrl} alt={item.content} className="Mic"/>
                               </button>
                               <p>{item.content}</p>
@@ -234,7 +236,7 @@ const Drag = () => {
             <button onClick={endLevel}>
               {currentLine < silabas.length - 1 ? "Next Line" : "End Game"}
             </button>
-          </>
+          </div>
         );
       case GameState.BETWEEN_LEVELS:
         return (
@@ -255,7 +257,7 @@ const Drag = () => {
   };
 
   return (
-    <div className="app-container">
+    <div className="app-container" key={gameState}>
       {renderGameState()}
     </div>
   );
