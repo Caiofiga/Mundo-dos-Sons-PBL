@@ -24,3 +24,7 @@
   flex-direction: column;
   align-items: center;
 }
+.Mic {
+  background-color: transparent;
+  width: 100px;
+}

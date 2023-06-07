@@ -441,6 +441,14 @@ export default function SimpleTabs({ userId }) {
               <p>Resposta 4: {Times2[3]} segundos</p>
               <br></br>
               <p>Resposta 5: {Times2[4]} segundos</p>
+              <br></br>
+              <p>Resposta 6: {Times2[5]} segundos</p>
+              <br></br>
+              <p>Resposta 7: {Times2[6]} segundos</p>
+              <br></br>
+              <p>Resposta 8: {Times2[7]} segundos</p>
+              <br></br>
+              <p>Resposta 9: {Times2[8]} segundos</p>
             </Grid>
           </Grid>
         ))}
@@ -513,13 +521,6 @@ export default function SimpleTabs({ userId }) {
               <br></br>
               <p>Resposta 5: {Times3[4]} segundos</p>
               <br></br>
-              <p>Resposta 6: {Times3[0]} segundos</p>
-              <br></br>
-              <p>Resposta 7: {Times3[1]} segundos</p>
-              <br></br>
-              <p>Resposta 8: {Times3[2]} segundos</p>
-              <br></br>
-              <p>Resposta 9: {Times3[3]} segundos</p>
             </Grid>
           </Grid>
         ))}
