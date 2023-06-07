@@ -57,7 +57,7 @@ const Rimas = () => {
     ["sereia", "tartaruga", "barco", "pirata"],
     ["cavalo-marinho", "polvo", "concha", "estrela-do-mar"],
     ["baleia", "sol", "concha", "boia"],
-    ["coral", "carangueijo", "camarao", "gaivota"],
+    ["coral", "caranguejo", "camarao", "gaivota"],
     ["cavalo-marinho", "concha", "toalha", "raia"],
   ];
   const imageSecSrc = "src/img/" + imagesSec[currentSyllableIndex][0] + ".png";
@@ -79,7 +79,7 @@ const Rimas = () => {
           <img
             className="microfone"
             src="src/img/microfone.png"
-            onClick={playSound}
+            onClick={() => playSound(image)}
           ></img>
           <img className="syllableImage" src={image} alt={image}></img>
         </span>
@@ -104,7 +104,7 @@ const Rimas = () => {
           <img
             className="microfone"
             src="src/img/microfone.png"
-            onClick={playSound}
+            onClick={() => playSound(image)}
           ></img>
         </div>
       ))}
@@ -143,10 +143,10 @@ const Rimas = () => {
     }
   };
 
-  function playSound() {
-    const audio = new Audio(soundMain[currentSyllableIndex]);
+  function playSound(image: string) {
+    const audio = new Audio(`src/snd/${image}.mp3`);
     audio.play();
-    console.log("playing sound:" + soundMain[currentSyllableIndex]);
+    console.log("playing sound:" + `src/snd/${image}.mp3`);
   }
 
   return (
@@ -162,7 +162,7 @@ const Rimas = () => {
       {gameState === GameState.RUNNING && !parabens && (
         <div className="container">
           <div>
-            <Syllable image={imageMainSrc} />
+            <Syllable image={imageMain} />
             <div className="meio"></div>
             <Images
               images={imagesSec[currentSyllableIndex]}

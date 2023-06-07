@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import 'bootstrap/dist/css/bootstrap.css';
 import { initializeApp } from "firebase/app";
 import { getFirestore, addDoc, collection } from "firebase/firestore";
 import CheckboxOption from "./CheckboxOption";
@@ -6,16 +7,11 @@ import "../css/login.css";
 import { Md5 } from "ts-md5";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "./UserContext";
+import firebaseConfig from "./firebaseconfig";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBxmVORAk4TDkQ02b33UL4h2ilsbyYcEw4",
-  authDomain: "pbl-app-b3962.firebaseapp.com",
-  projectId: "pbl-app-b3962",
-  storageBucket: "pbl-app-b3962.appspot.com",
-  messagingSenderId: "1070603645378",
-  appId: "1:1070603645378:web:24a7cdc14cf31036f7265b",
-  measurementId: "G-0CBT4CJ3DR",
-};
+const titulo = "./src/img/titulo.png";
+
+
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
@@ -75,7 +71,7 @@ const SignUp: React.FC = () => {
         idade,
       });
       setUserId(userId); // Set the userId in the context
-      navigate("/Drag"); // Redirect to /other
+      navigate("/Home"); // Redirect to /other
 
       alert("Data has been submitted");
     } catch (e) {
@@ -86,29 +82,40 @@ const SignUp: React.FC = () => {
   };
 
   return (
+    <div className="container">
+      <img src={titulo} alt="logo" />
+      <div className="row justify-content-center">
+        <div className="col-md-12">
     <form onSubmit={handleSubmit}>
+      <div className="form-group">
       <input
         type="text"
         name="nome"
-        placeholder="coloque o nome"
+        placeholder="Coloque o nome"
         value={nome}
         onChange={(event) => setNome(event.target.value)}
+        className="form-control"
+        required
       />
       <br />
       <input
         type="text"
         name="sobrenome"
-        placeholder="coloque o sobrenome"
+        placeholder="Coloque o sobrenome"
         value={sobrenome}
         onChange={(event) => setSobrenome(event.target.value)}
+        className="form-control"
+        required
       />
       <br />
       <input
-        type="number"
+        type="number" min={0}
         name="idade"
-        placeholder="coloque a idade"
+        placeholder="Coloque a idade"
         value={idade}
         onChange={(event) => setIdade(event.target.value)}
+        className="form-control"
+        required
       />
       <br />
       <input
@@ -117,9 +124,14 @@ const SignUp: React.FC = () => {
         placeholder="Coloque as atividades"
         value={atividades.join(", ")}
         onChange={(event) => setAtividades(event.target.value.split(", "))}
+        className="form-control"
       />
-      <button type="submit" disabled={isSubmitting}>Submit</button> {/* Disable button if submitting */}
+      </div>
+      <button className="btn btn-outline-primary" type="submit" disabled={isSubmitting}>Cadastrar</button> {/* Disable button if submitting */}
     </form>
+    </div>
+    </div>
+    </div>
   );
 };
 export default SignUp;

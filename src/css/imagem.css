@@ -9,7 +9,7 @@
   justify-content: center;
   font-size: 30px;
   font-weight: bold;
-  color: white;
+  color: black;
 }
 .game {
   display: flex;
@@ -43,6 +43,7 @@
   margin: auto;
   justify-content: center;
   gap: 50px;
+  color:black;
 }
 
 .container {

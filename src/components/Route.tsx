@@ -19,6 +19,7 @@ import { link } from "fs";
 import { UserContext } from "./UserContext";
 import { useState } from "react";
 import UserResults from "./resultados";
+import { Home } from "./startScreen";
 
 export default function Routers() {
   const [userId, setUserId] = useState("");
@@ -37,6 +38,7 @@ export default function Routers() {
               <Route path="Imagem" element={<Imagem />} />
               <Route path="Rimas" element={<Rimas />} />
               <Route path="Sons" element={<Sons />} />
+              <Route path="Home" element={<Home />} />
               <Route
                 path="Resultados"
                 element={<UserResults userId={userId} />}
@@ -78,22 +80,6 @@ function Fim() {
         className="img"
         src="https://media.tenor.com/r6SUKW5Lf9wAAAAC/cat-cat-fall.gif"
       ></img>
-    </div>
-  );
-}
-function Home() {
-  const Navigate = useNavigate();
-  const handleButtonClick = () => {
-    Navigate("/Drag");
-  };
-  return (
-    <div>
-      <h2>Welcome to the game!</h2>
-      <img
-        className="img"
-        src="https://i.pinimg.com/originals/a4/c6/9d/a4c69dc71a052ead4c42897c011e1039.jpg"
-      ></img>
-      <button onClick={handleButtonClick}>Start Game</button>
     </div>
   );
 }

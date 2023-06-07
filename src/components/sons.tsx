@@ -80,7 +80,7 @@ const Sons = () => {
           <img
             className="microfone"
             src="src/img/microfone.png"
-            onClick={playSound}
+            onClick={() => playSound(image)}
           ></img>
           <img className="syllableImage" src={image} alt={image}></img>
         </span>
@@ -108,7 +108,7 @@ const Sons = () => {
             <img
               className="microfone"
               src="src/img/microfone.png"
-              onClick={playSound}
+              onClick={() => playSound(image)}
             ></img>
           </div>
         </div>
@@ -145,11 +145,12 @@ const Sons = () => {
     }
   };
 
-  function playSound() {
-    const audio = new Audio(soundMain[currentSyllableIndex]);
+  function playSound(image: string) {
+    const audio = new Audio(`src/snd/${image}.mp3`);
     audio.play();
-    console.log("playing sound:" + soundMain[currentSyllableIndex]);
+    console.log("playing sound:" + `src/snd/${image}.mp3`);
   }
+
 
   return (
     <AnimatedPages key={gameState}>
@@ -164,7 +165,7 @@ const Sons = () => {
       {gameState === GameState.RUNNING && !parabens && (
         <div className="container">
           <div>
-            <Syllable image={imageMainSrc} />
+            <Syllable image={imageMain} />
             <div className="meio"></div>
             <Images
               images={imagesSec[currentSyllableIndex]}
@@ -185,7 +186,7 @@ const Sons = () => {
       {gameState === GameState.COMPLETED && (
         <div>
           <span>Parabéns! Você completou o jogo!</span>
-          <button onClick={() => navigate("/Rimas")}>Go to Image</button>
+          <button onClick={() => navigate("/Resultados")}>Go to Image</button>
         </div>
       )}
     </AnimatedPages>

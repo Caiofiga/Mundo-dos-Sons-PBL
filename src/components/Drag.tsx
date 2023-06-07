@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import 'bootstrap/dist/css/bootstrap.css';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "./UserContext";
@@ -8,12 +9,46 @@ import "../css/drag.css";
 import { getConfetti } from "./congrats";
 import { getFireworks } from "./congrats";
 import { getStars } from "./congrats";
+import AnimatedPages from "./animated";
+
+const audioMap = {
+  "tu": "/src/snd/tu.mp3",
+  "ba": "/src/snd/ba.mp3",
+  "rão": "/src/snd/rao.mp3",
+  "lão": "/src/snd/lao.mp3",
+  "pa": "/src/snd/pa.mp3",
+  "tar": "/src/snd/tar.mp3",
+  "lu": "/src/snd/lu.mp3",
+  "ga": "/src/snd/ga.mp3",
+  "ru": "/src/snd/ru.mp3",
+  "tal": "/src/snd/tal.mp3",
+  "lei": "/src/snd/lei.mp3",
+  "a": "/src/snd/a.mp3",
+  "rei": "/src/snd/rei.mp3",
+  "par": "/src/snd/par.mp3",
+  "bar": "/src/snd/bar.mp3",
+  "to": "/src/snd/to.mp3",
+  "bal": "/src/snd/bal.mp3",
+  "co": "/src/snd/co.mp3",
+  "ta": "/src/snd/ta.mp3",
+  "bi": "/src/snd/bi.mp3",
+  "pi": "/src/snd/pi.mp3",
+  "ra": "/src/snd/ra.mp3",
+  "la": "/src/snd/la.mp3",
+};
+
+const yaySound = "/src/snd/yay.mp3";
+function playYay() {
+  const audio = new Audio(yaySound);
+  audio.play(); 
+}
 
 enum GameState {
   STARTING,
   RUNNING,
   BETWEEN_LEVELS,
   COMPLETED,
+  LOADING
 }
 
 interface StartScreenProps {
@@ -31,9 +66,10 @@ const BetweenLevelsScreen: React.FC<BetweenLevelsScreenProps> = ({
   {getConfetti()}
   {getFireworks()}
   {getStars()}
+  <audio src={yaySound} autoPlay />
   <div className="Congrats">
-    <h1>Level completed!</h1>
-    <button className="Button" onClick={onNextLevel}>Next Level</button>
+    <h1>Parabens!</h1>
+    <button className="Button btn btn-outline-primary" onClick={onNextLevel}>Proxima Fase</button>
   </div>
   </div>
 );
@@ -41,27 +77,26 @@ const BetweenLevelsScreen: React.FC<BetweenLevelsScreenProps> = ({
 const StartScreen: React.FC<StartScreenProps> = ({ onStart }) => (
   <div>
     <h1>Welcome to the Game!</h1>
-    <button className="Button" onClick={onStart}>Play</button>
+    <button className="Button btn btn-outline-primary" onClick={onStart}>Jogar</button>
   </div>
 );
 
 
 const microfone = "/src/img/microfone.png";
-const palavras = ["jabuticaba", "tartaruga", "baleia", "barco", "pirata"];
+const palavras = ["tubarão", "tartaruga", "baleia", "barco", "pirata"];
 const silabas = [
-  ["ba", "co", "ti", "ca", "ja", "bu", "sa"],
-  ["ta", "tar", "lu", "ga", "ru", "pa"],
+  ["tu", "ba", "rão", "lão", "pa"],
+  ["ta", "tar", "lu", "ga", "ru", "tal"],
   ["lei", "pa", "a", "ba", "rei"],
-  ["par", "bar", "co", "to"],
+  ["par", "bar", "to", "bal", "co"],
   ["ta", "bi", "pi", "ra", "la"],
 ];
+
 const resposta1: string[] = [];
 const Tempos: number[] = [];
 const stopwatch = new Stopwatch();
 
-const JaSom = "/src/snd/ja.mp3";
-const BuSom = "/src/snd/bu.mp3";
-const TiSom = "/src/snd/ti.mp3";
+
 
 function generateInitialData(currentLine) {
   let initialData = {
@@ -71,32 +106,20 @@ function generateInitialData(currentLine) {
   let idCounter = 1;
 
   silabas[currentLine].forEach((syllable) => {
-    let audioSrc;
-    switch (syllable) {
-      case "ja":
-        audioSrc = JaSom;
-        break;
-      case "bu":
-        audioSrc = BuSom;
-        break;
-      case "ti":
-        audioSrc = TiSom;
-        break;
-      default:
-        audioSrc = "";
-    }
-
     initialData.list1.push({
       id: `item${idCounter}`,
       content: syllable,
       imgUrl: microfone,
-      audioSrc: audioSrc,
-      audioRef: React.createRef(),
+      audioSrc: audioMap[syllable] || ""
     });
     idCounter++;
   });
-
   return initialData;
+}
+
+function playSound(src) {
+  const audio = new Audio(src);
+  audio.play();
 }
 
 const Drag = () => {
@@ -123,8 +146,14 @@ const Drag = () => {
     stopwatch.reset();
     console.log(Tempos);
     resposta1.push(getWordFromList());
+    playYay();
+    if(currentLine < silabas.length - 1) {
     setGameState(GameState.BETWEEN_LEVELS); // Go to BETWEEN_LEVELS state when a level ends
-  };
+  }
+ else {
+    loadNextLine();
+ } 
+};
 
   useEffect(() => {
     setData(generateInitialData(currentLine));
@@ -219,7 +248,7 @@ const Drag = () => {
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
                             >
-                              <button className="Button" onClick={() => item.audioRef.current.play()}>
+                              <button onClick={() => playSound(item.audioSrc)}>
                                 <img src={item.imgUrl} alt={item.content} className="Mic"/>
                               </button>
                               <p>{item.content}</p>
@@ -248,7 +277,7 @@ const Drag = () => {
         return (
           <div>
             <span>Parabéns! Você completou o jogo!</span>
-            <button onClick={() => navigate("/Imagem")}>Go to Image</button>
+            <button className="Button btn btn-outline-primary" onClick={() => navigate("/Imagem")}>Go to Image</button>
           </div>
         );
       default:
@@ -257,9 +286,11 @@ const Drag = () => {
   };
 
   return (
-    <div className="app-container" key={gameState}>
+    <AnimatedPages key={gameState}> 
+      <div className="app-container">
       {renderGameState()}
-    </div>
+      </div>
+    </AnimatedPages>
   );
 }
 
