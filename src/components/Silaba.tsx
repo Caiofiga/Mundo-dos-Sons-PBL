@@ -100,7 +100,7 @@ const Silaba = () => {
         tempoObj: tempoObj,
       });
 
-      alert("Parabéns! Você completou o jogo!");
+    
     }
   };
 

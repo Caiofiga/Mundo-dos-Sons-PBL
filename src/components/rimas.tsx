@@ -140,10 +140,6 @@ const Rimas = () => {
         answerObj: answerObj,
         tempoObj: tempoObj,
       });
-
-      alert("Parabéns! Você completou o jogo!");
-      navigate("/Sons");
-      setCurrentSyllableIndex(0);
     }
   };
 

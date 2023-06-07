@@ -13,7 +13,6 @@
   "dependencies": {
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
-    "@fireworks-js/react": "^2.10.4",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.13.3",
     "axios": "^1.4.0",
@@ -26,6 +25,7 @@
     "react-bootstrap": "^2.7.4",
     "react-chartjs-2": "^5.2.0",
     "react-circular-progressbar": "^2.1.0",
+    "react-confetti": "^6.1.0",
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^18.2.0",
@@ -40,6 +40,7 @@
     "ts-stopwatch": "^0.0.4"
   },
   "devDependencies": {
+    "@fireworks-js/react": "^2.10.5",
     "@types/node": "^20.2.4",
     "@types/pg": "^8.10.1",
     "@types/react": "^18.0.28",

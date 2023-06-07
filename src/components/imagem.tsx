@@ -131,9 +131,6 @@ const Imagem = () => {
         answerObj: answerObj,
         tempoObj: tempoObj,
       });
-
-      alert("Parabéns! Você completou o jogo!");
-      navigate("/Rimas");
     }
   };
 

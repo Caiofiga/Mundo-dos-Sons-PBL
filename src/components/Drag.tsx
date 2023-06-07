@@ -5,7 +5,9 @@ import { UserContext } from "./UserContext";
 import { addAnswersToDB } from "./firebase";
 import { Stopwatch } from "ts-stopwatch";
 import "../css/drag.css";
-
+import { getConfetti } from "./congrats";
+import { getFireworks } from "./congrats";
+import { getStars } from "./congrats";
 enum GameState {
   STARTING,
   RUNNING,
@@ -25,6 +27,9 @@ const BetweenLevelsScreen: React.FC<BetweenLevelsScreenProps> = ({
   onNextLevel,
 }) => (
   <div>
+  {getConfetti()}
+  {getFireworks()}
+  {getStars()}
     <h1>Level completed!</h1>
     <button onClick={onNextLevel}>Next Level</button>
   </div>
@@ -141,7 +146,6 @@ const Drag = () => {
         answerObj: answerObj,
         tempoObj: tempoObj,
       });
-      navigate("/Silaba");
     }
   };
 
@@ -235,7 +239,7 @@ const Drag = () => {
       case GameState.BETWEEN_LEVELS:
         return (
           <BetweenLevelsScreen
-            onNextLevel={startLevel}
+            onNextLevel={loadNextLine}
           />
         );
       case GameState.COMPLETED:
