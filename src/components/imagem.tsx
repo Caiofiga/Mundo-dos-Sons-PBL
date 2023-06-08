@@ -79,7 +79,7 @@ const Imagem = () => {
         <span>
           <img
             className="microfone"
-            src="src/img/microfone.png"
+            src="src/img/mic.png"
             onClick={playSound}
           ></img>
           <img className="syllableImage" src={image} alt={word}></img>

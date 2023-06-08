@@ -82,7 +82,7 @@ const StartScreen: React.FC<StartScreenProps> = ({ onStart }) => (
 );
 
 
-const microfone = "/src/img/microfone.png";
+const microfone = "/src/img/mic.png";
 const palavras = ["tubarão", "tartaruga", "baleia", "barco", "pirata"];
 const silabas = [
   ["tu", "ba", "rão", "lão", "pa"],
@@ -277,7 +277,7 @@ const Drag = () => {
         return (
           <div>
             <span>Parabéns! Você completou o jogo!</span>
-            <button className="Button btn btn-outline-primary" onClick={() => navigate("/Imagem")}>Go to Image</button>
+            <button className="Button btn btn-outline-primary" onClick={() => navigate("/Silabas")}>Go to Silabas</button>
           </div>
         );
       default:

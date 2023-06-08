@@ -51,13 +51,13 @@ const Sons = () => {
 
   console.log(gameState);
 
-  const imagesMain = ["Chinelo", "Sol", "Vaca", "Minhoca", "Pato"];
+  const imagesMain = ["chinelo", "sol", "vaca", "manga", "pato"];
   const imageMainSrc = "src/img/" + imagesMain[currentSyllableIndex] + ".png";
 
   const imagesSec = [
     ["Chuva", "cobra"],
     ["zebra", "sapo"],
-    ["fazenda", "vassoura"],
+    ["fazenda", "vela"],
     ["milho", "ninho"],
     ["passaro", "banana"],
   ];
@@ -79,10 +79,10 @@ const Sons = () => {
         <span>
           <img
             className="microfone"
-            src="src/img/microfone.png"
+            src="src/img/mic.png"
             onClick={() => playSound(image)}
           ></img>
-          <img className="syllableImage" src={image} alt={image}></img>
+          <img className="syllableImage" src={imageMainSrc} alt={image}></img>
         </span>
       </div>
     </div>
@@ -107,7 +107,7 @@ const Sons = () => {
           <div>
             <img
               className="microfone"
-              src="src/img/microfone.png"
+              src="src/img/mic.png"
               onClick={() => playSound(image)}
             ></img>
           </div>

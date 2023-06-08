@@ -59,8 +59,8 @@ const Silaba = () => {
     ["lago", "pato", "rato", "gato"],
     ["gato", "buraco", "cavalo", "vaca"],
     ["galinha", "cavalo", "ovelha", "milho"], //agora sao as que terminam com a silaba
-    ["macaco", "martelo", "galinha", "fonte"],
-    ["tucano", "fonte", "arvore", "vulcao"], //agora é a do meio
+    ["macaco", "martelo", "galinha", "ponte"],
+    ["tucano", "ponte", "arvore", "vulcao"], //agora é a do meio
     ["vaca", "gato", "vulcao", "tucano"],
     ["rato", "aranha", "gato", "tucano"],
   ];
@@ -122,7 +122,7 @@ const Silaba = () => {
         <span>
           <img
             className="microfone"
-            src="src/img/microfone.png"
+            src="src/img/mic.png"
             onClick={playSound}
           ></img>
         </span>
