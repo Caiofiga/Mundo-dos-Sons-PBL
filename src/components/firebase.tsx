@@ -10,12 +10,10 @@ import {
 } from "firebase/firestore";
 import firebaseConfig from "./firebaseconfig";
 
-
-
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 
-export async function addUserToDB(user) {
+export async function addUserToDB(user:string[]) {
   try {
     await addDoc(collection(db, "users"), user);
   } catch (e) {
@@ -23,7 +21,7 @@ export async function addUserToDB(user) {
   }
 }
 
-export async function addAnswersToDB(database, answers) {
+export async function addAnswersToDB(database: string, answers: string[] | number[] | any) {
   try {
     await addDoc(collection(db, database), answers);
   } catch (e) {
@@ -31,12 +29,12 @@ export async function addAnswersToDB(database, answers) {
   }
 }
 
-export async function getDocsByUserId(collectionName, userId) {
+export async function getDocsByUserId(collectionName: string, userId: string) {
   const collectionRef = collection(db, collectionName);
   const q = query(collectionRef, where("userId", "==", userId));
   const querySnapshot = await getDocs(q);
 
-  let docs = [];
+  const docs:any[] = [];
   querySnapshot.forEach((doc) => {
     // doc.data() is never undefined for query doc snapshots
     console.log(doc.id, " => ", doc.data());

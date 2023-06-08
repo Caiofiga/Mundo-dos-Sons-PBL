@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import "../css/silaba.css";
 import AnimatedPages from "./animated";
-import { Navigate, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { UserContext } from "./UserContext";
 import { addAnswersToDB } from "./firebase";
 import { Stopwatch } from "ts-stopwatch";
-import { getConfetti, getFireworks, getStars } from "./congrats";
+import { GetConfetti, GetFireworks, GetStars } from "./congrats";
 import "bootstrap/dist/css/bootstrap.css";
 
 
 const resposta2: string[] = [];
 const Tempos: number[] = [];
-let stopwatch = new Stopwatch();
+const stopwatch = new Stopwatch();
 
 enum GameState {
   STARTING,
@@ -33,9 +33,9 @@ interface GameOverProps {
 
 const GameOverScreen: React.FC<GameOverProps> = ({ onNextgame }) => (
   <div className="app-container">
- {getConfetti()}
- {getFireworks()}
- {getStars()}
+ {GetConfetti()}
+ {GetFireworks()}
+ {GetStars()}
  <div className="Complete">
  <h1>Fase Completa!</h1>
  <button className="Button btn btn-outline-primary" onClick={onNextgame}>Proximo Jogo</button>
@@ -47,9 +47,9 @@ const BetweenLevelsScreen: React.FC<BetweenLevelsScreenProps> = ({
   onNextLevel,
 }) => (
   <div className="app-container">
-  {getConfetti()}
-  {getFireworks()}
-  {getStars()}
+  {GetConfetti()}
+  {GetFireworks()}
+  {GetStars()}
   <div className="Congrats ">
     <h1>Parabens!</h1>
     <button className="Button btn btn-outline-primary" onClick={onNextLevel}>Proxima Fase</button>
@@ -66,9 +66,6 @@ const StartScreen: React.FC<StartScreenProps> = ({ onStart }) => (
 
 const Silaba = () => {
   const [currentSyllableIndex, setCurrentSyllableIndex] = useState(0);
-  const [parabens, setParabens] = useState(false);
-  const [runAnimation, setRunAnimation] = useState(false);
-  const [button, setbutton] = useState("button");
   const { userId } = React.useContext(UserContext);
   const [gameState, setGameState] = useState<GameState>(GameState.STARTING);
 
@@ -88,18 +85,6 @@ const Silaba = () => {
     ["rato", "aranha", "gato", "tucano"],
   ];
 
-  const palavra_corretas = [
-    ["macaco"],
-    ["buraco"],
-    ["lago"],
-    ["cavalo"],
-    ["milho"],
-    ["fonte"],
-    ["arvore"],
-    ["tucano"],
-    ["aranha"],
-  ];
-  const palavra_correta = palavra_corretas[currentSyllableIndex];
   const palavra = palavras[currentSyllableIndex];
   const pictures = palavra.map((word) => `src/img/${word}.png`);
   const sound = syllables.map((word) => `src/snd/${word}.mp3`);
@@ -114,8 +99,8 @@ const Silaba = () => {
       setGameState(GameState.BETWEEN_LEVELS);
     } else {
       setGameState(GameState.COMPLETED);
-      let answerObj = resposta2.slice(0);
-      let tempoObj = Tempos.slice(0);
+      const answerObj = resposta2.slice(0);
+      const tempoObj = Tempos.slice(0);
 
       addAnswersToDB("perguntas2", {
         userId: userId,
@@ -130,14 +115,6 @@ const Silaba = () => {
   interface SyllableProps {
     syllable: string;
   }
-
-  useEffect(() => {
-    if (parabens) {
-      setTimeout(() => {
-        handleNextPhase();
-      }, 3000); // delay for 3 seconds
-    }
-  }, [parabens]);
 
   const Syllable: React.FC<SyllableProps> = ({ syllable }) => (
     <div>

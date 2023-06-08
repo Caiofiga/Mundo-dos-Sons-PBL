@@ -4,10 +4,9 @@ import {
   Route,
   Outlet,
   Link,
-  Navigate,
 } from "react-router-dom";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import "../css/Route.css";
 import Drag from "./Drag";
 import Silaba from "./Silaba";
@@ -15,7 +14,6 @@ import Imagem from "./imagem";
 import Rimas from "./rimas";
 import Sons from "./sons";
 import SignUp from "./login";
-import { link } from "fs";
 import { UserContext } from "./UserContext";
 import { useState } from "react";
 import UserResults from "./resultados";

@@ -2,7 +2,6 @@ import React, { useState, useContext } from "react";
 import 'bootstrap/dist/css/bootstrap.css';
 import { initializeApp } from "firebase/app";
 import { getFirestore, addDoc, collection } from "firebase/firestore";
-import CheckboxOption from "./CheckboxOption";
 import "../css/login.css";
 import { Md5 } from "ts-md5";
 import { useNavigate } from "react-router-dom";
@@ -15,31 +14,9 @@ const titulo = "./src/img/titulo.png";
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-interface CheckboxState {
-  [key: string]: boolean;
-}
 
-interface ToggleableSectionProps {
-  title: string;
-  children: React.ReactNode;
-}
-
-const ToggleableSection: React.FC<ToggleableSectionProps> = ({
-  title,
-  children,
-}) => {
-  const [isVisible, setIsVisible] = useState(false);
-
-  return (
-    <div>
-      <h2 onClick={() => setIsVisible(!isVisible)}>{title}</h2>
-      {isVisible && children}
-    </div>
-  );
-};
 
 const SignUp: React.FC = () => {
-  const [checkboxState, setCheckboxState] = useState<CheckboxState>({});
   const [nome, setNome] = useState("");
   const [sobrenome, setSobrenome] = useState("");
   const [atividades, setAtividades] = useState([""]); // Array of strings
@@ -47,13 +24,6 @@ const SignUp: React.FC = () => {
   const { setUserId } = useContext(UserContext);
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false); // Add state variable
-
-  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setCheckboxState({
-      ...checkboxState,
-      [event.target.value]: event.target.checked,
-    });
-  };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

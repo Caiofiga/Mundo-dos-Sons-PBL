@@ -5,18 +5,18 @@ import { useNavigate } from "react-router";
 import { UserContext } from "./UserContext";
 import { addAnswersToDB } from "./firebase";
 import { Stopwatch } from "ts-stopwatch";
-import { getConfetti, getFireworks, getStars } from "./congrats";
+import { GetConfetti, GetFireworks, GetStars } from "./congrats";
 import "bootstrap/dist/css/bootstrap.css";
 
 const resposta4: string[] = [];
 const Tempos: number[] = [];
-let stopwatch = new Stopwatch();
+const stopwatch = new Stopwatch();
 
 enum GameState {
   STARTING,
   RUNNING,
   BETWEEN_LEVELS,
-  COMPLETED,
+  COMPconstED,
 }
 
 interface StartScreenProps {
@@ -33,9 +33,9 @@ interface GameOverProps {
 
 const GameOverScreen: React.FC<GameOverProps> = ({ onNextgame }) => (
   <div className="app-container">
- {getConfetti()}
- {getFireworks()}
- {getStars()}
+ {GetConfetti()}
+ {GetFireworks()}
+ {GetStars()}
  <div className="Complete">
  <h1>Fase Completa!</h1>
  <button className="Button btn btn-outline-primary" onClick={onNextgame}>Proximo Jogo</button>
@@ -47,9 +47,9 @@ const BetweenLevelsScreen: React.FC<BetweenLevelsScreenProps> = ({
   onNextLevel,
 }) => (
   <div className="app-container">
-  {getConfetti()}
-  {getFireworks()}
-  {getStars()}
+  {GetConfetti()}
+  {GetFireworks()}
+  {GetStars()}
   <div className="Congrats ">
     <h1>Parabens!</h1>
     <button className="Button btn btn-outline-primary" onClick={onNextLevel}>Proxima Fase</button>
@@ -66,9 +66,6 @@ const StartScreen: React.FC<StartScreenProps> = ({ onStart }) => (
 
 const Rimas = () => {
   const [currentSyllableIndex, setCurrentSyllableIndex] = useState(0);
-  const [parabens, setParabens] = useState(false);
-  const [runAnimation, setRunAnimation] = useState(false);
-  const [button, setbutton] = useState("button");
   const { userId } = React.useContext(UserContext);
   const [gameState, setGameState] = useState<GameState>(GameState.STARTING);
 
@@ -84,12 +81,8 @@ const Rimas = () => {
     ["alga", "caranguejo", "camarão", "gaivota"],
     ["cavalo-marinho", "concha", "toalha", "raia"],
   ];
-  const imageSecSrc = "src/img/" + imagesSec[currentSyllableIndex][0] + ".png";
   const num_correto = ["sereia", "cavalo-marinho", "sol", "camarao", "raia"];
   const imageMain = imagesMain[currentSyllableIndex];
-  const soundMain = imagesMain.map((image) => `src/snd/${image}.mp3`);
-  const soundSec = imagesSec.map((image) => `src/snd/${image}.mp3`);
-  const imageSec = imagesSec[currentSyllableIndex];
   const navigate = useNavigate();
 
   interface SyllableProps {
@@ -155,9 +148,9 @@ const Rimas = () => {
     if (currentSyllableIndex < imagesMain.length - 1) {
       setGameState(GameState.BETWEEN_LEVELS);
     } else {
-      setGameState(GameState.COMPLETED);
-      let answerObj = resposta4.slice(0);
-      let tempoObj = Tempos.slice(0);
+      setGameState(GameState.COMPconstED);
+      const answerObj = resposta4.slice(0);
+      const tempoObj = Tempos.slice(0);
 
       addAnswersToDB("perguntas4", {
         userId: userId,
@@ -183,7 +176,7 @@ const Rimas = () => {
           }}
         />
       )}
-      {gameState === GameState.RUNNING && !parabens && (
+      {gameState === GameState.RUNNING && (
         <div className="container">
           <div>
             <Syllable image={imageMain} />
@@ -195,12 +188,6 @@ const Rimas = () => {
           </div>
         </div>
       )}
-      {parabens && (
-        <div>
-          <span>Parabens!</span>
-          <button onClick={handleNextPhase}>Next Syllable</button>
-        </div>
-      )}
       {gameState === GameState.BETWEEN_LEVELS && (
         <BetweenLevelsScreen
           onNextLevel={() => {
@@ -210,7 +197,7 @@ const Rimas = () => {
           }}
         />
       )}
-      {gameState === GameState.COMPLETED && (
+      {gameState === GameState.COMPconstED && (
         <GameOverScreen onNextgame={() => navigate("/sons")} />
       )}
     </AnimatedPages>

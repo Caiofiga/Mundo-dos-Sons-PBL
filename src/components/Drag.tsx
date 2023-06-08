@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.css';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useNavigate } from "react-router-dom";
@@ -6,12 +6,12 @@ import { UserContext } from "./UserContext";
 import { addAnswersToDB } from "./firebase";
 import { Stopwatch } from "ts-stopwatch";
 import "../css/drag.css";
-import { getConfetti } from "./congrats";
-import { getFireworks } from "./congrats";
-import { getStars } from "./congrats";
+import { GetConfetti } from "./congrats";
+import { GetFireworks } from "./congrats";
+import { GetStars } from "./congrats";
 import AnimatedPages from "./animated";
 
-const audioMap = {
+const audioMap: { [key: string]: string } = {
   "tu": "/src/snd/tu.mp3",
   "ba": "/src/snd/ba.mp3",
   "rão": "/src/snd/rao.mp3",
@@ -66,9 +66,9 @@ const BetweenLevelsScreen: React.FC<BetweenLevelsScreenProps> = ({
   onNextLevel,
 }) => (
   <div >
-  {getConfetti()}
-  {getFireworks()}
-  {getStars()}
+  {GetConfetti()}
+  {GetFireworks()}
+  {GetStars()}
   <div className="Congrats">
     <h1>Parabens!</h1>
     <button className="Button btn btn-outline-primary" onClick={onNextLevel}>Proxima Fase</button>
@@ -85,9 +85,9 @@ const StartScreen: React.FC<StartScreenProps> = ({ onStart }) => (
 
 const GameOverScreen: React.FC<GameOverProps> = ({ onNextgame }) => (
  <div>
-{getConfetti()}
-{getFireworks()}
-{getStars()}
+{GetConfetti()}
+{GetFireworks()}
+{GetStars()}
 <div className="Complete">
 <h1>Fase Completa!</h1>
 <button className="Button btn btn-outline-primary" onClick={onNextgame}>Proximo Jogo</button>
@@ -110,10 +110,10 @@ const resposta1: string[] = [];
 const Tempos: number[] = [];
 const stopwatch = new Stopwatch();
 
+type ListItem = {id: string, content: string, imgUrl: string, audioSrc: string};
 
-
-function generateInitialData(currentLine) {
-  let initialData = {
+function generateInitialData(currentLine:number) {
+  const initialData: { list1: ListItem[], list2: ListItem[]} = {
     list1: [],
     list2: [],
   };
@@ -128,17 +128,22 @@ function generateInitialData(currentLine) {
     });
     idCounter++;
   });
+
   return initialData;
 }
 
-function playSound(src) {
+interface Data { 
+  [key: string]: ListItem[]
+}
+
+function playSound(src : string) {
   const audio = new Audio(src);
   audio.play();
 }
 
 const Drag = () => {
   const [currentLine, setCurrentLine] = useState(0);
-  const [data, setData] = useState(generateInitialData(currentLine));
+  const [data, setData] = useState<Data>(generateInitialData(currentLine));
   const palavra = palavras[currentLine];
   const imagem = "/src/img/" + palavra + ".png";
   const navigate = useNavigate();
@@ -178,13 +183,14 @@ const Drag = () => {
       setCurrentLine((line) => line + 1);
       setData(generateInitialData(currentLine + 1)); 
       setGameState(GameState.RUNNING); // Go to RUNNING state when Next Level is clicked
+      stopwatch.start();
       console.log(resposta1);
     } else {
       setGameState(GameState.COMPLETED);
       console.log(resposta1);
       // Store resposta and tempo as arrays
-      let answerObj = resposta1.slice(0);
-      let tempoObj = Tempos.slice(0);
+      const answerObj = resposta1.slice(0);
+      const tempoObj = Tempos.slice(0);
 
       addAnswersToDB("perguntas1", {
         userId: userId,
@@ -194,34 +200,41 @@ const Drag = () => {
     }
   };
 
-  const handleDragEnd = (result) => {
+
+  type DroppableId = 'list1' | 'list2';
+
+  const handleDragEnd = (result:any) => {
     const { source, destination } = result;
-
+  
     if (!destination) return;
-
-    if (source.droppableId === destination.droppableId) {
-      const newList = Array.from(data[source.droppableId]);
+  
+    const sourceDroppableId: DroppableId = source.droppableId as DroppableId;
+    const destinationDroppableId: DroppableId = destination.droppableId as DroppableId;
+  
+    if (sourceDroppableId === destinationDroppableId) {
+      const newList = Array.from(data[sourceDroppableId]);
       const [removed] = newList.splice(source.index, 1);
       newList.splice(destination.index, 0, removed);
-
+  
       setData((prevState) => ({
         ...prevState,
-        [source.droppableId]: newList,
+        [sourceDroppableId]: newList,
       }));
     } else {
-      const sourceList = Array.from(data[source.droppableId]);
-      const destinationList = Array.from(data[destination.droppableId]);
+      const sourceList = Array.from(data[sourceDroppableId]);
+      const destinationList = Array.from(data[destinationDroppableId]);
       const [draggedItem] = sourceList.splice(source.index, 1);
-
+  
       destinationList.splice(destination.index, 0, draggedItem);
-
+  
       setData((prevState) => ({
         ...prevState,
-        [source.droppableId]: sourceList,
-        [destination.droppableId]: destinationList,
+        [sourceDroppableId]: sourceList,
+        [destinationDroppableId]: destinationList,
       }));
     }
   };
+  
 
   const renderGameState = () => {
     switch (gameState) {
@@ -283,7 +296,7 @@ const Drag = () => {
               </div>
             </DragDropContext>
             <button  className="btn btn-outline-success" onClick={endLevel}>
-              {currentLine < silabas.length - 1 ? "Next Line" : "End Game"}
+              {currentLine < silabas.length - 1 ? "Finalizar" : "Finalizar"}
             </button>
           </div>
         );
