@@ -5,6 +5,8 @@ import { useNavigate } from "react-router";
 import { UserContext } from "./UserContext";
 import { addAnswersToDB } from "./firebase";
 import { Stopwatch } from "ts-stopwatch";
+import { getConfetti, getFireworks, getStars } from "./congrats";
+import "bootstrap/dist/css/bootstrap.css";
 
 const resposta3: string[] = [];
 
@@ -26,19 +28,40 @@ interface BetweenLevelsScreenProps {
   onNextLevel: () => void;
 }
 
+interface GameOverProps {
+  onNextgame: () => void;
+}
+
+const GameOverScreen: React.FC<GameOverProps> = ({ onNextgame }) => (
+  <div className="app-container">
+ {getConfetti()}
+ {getFireworks()}
+ {getStars()}
+ <div className="Complete">
+ <h1>Fase Completa!</h1>
+ <button className="Button btn btn-outline-primary" onClick={onNextgame}>Proximo Jogo</button>
+  </div>
+  </div>
+ );
+
 const BetweenLevelsScreen: React.FC<BetweenLevelsScreenProps> = ({
   onNextLevel,
 }) => (
-  <div>
-    <h1>Level completed!</h1>
-    <button onClick={onNextLevel}>Next Level</button>
+  <div className="app-container">
+  {getConfetti()}
+  {getFireworks()}
+  {getStars()}
+  <div className="Congrats ">
+    <h1>Parabens!</h1>
+    <button className="Button btn btn-outline-primary" onClick={onNextLevel}>Proxima Fase</button>
+  </div>
   </div>
 );
 
 const StartScreen: React.FC<StartScreenProps> = ({ onStart }) => (
-  <div>
-    <h1>Welcome to the Game!</h1>
-    <button onClick={onStart}>Play</button>
+  <div className="appContainer">
+    <h1>Desafio 3: Conte as Silabas</h1>
+    <button className="btn btn-outline-success" onClick={onStart}>Jogar</button>
   </div>
 );
 
@@ -171,8 +194,8 @@ const Imagem = () => {
       )}
       {gameState === GameState.COMPLETED && (
         <div>
-          <span>Parabéns! Você completou o jogo!</span>
-          <button onClick={() => navigate("/Rimas")}>Go to Image</button>
+         <GameOverScreen 
+         onNextgame={() => navigate("/Rimas")} />
         </div>
       )}
     </AnimatedPages>

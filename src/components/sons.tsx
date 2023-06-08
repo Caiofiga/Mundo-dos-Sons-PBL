@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "./UserContext";
 import { addAnswersToDB } from "./firebase";
 import { Stopwatch } from "ts-stopwatch";
+import { getConfetti, getFireworks, getStars } from "./congrats";
 const respostas5: string[] = [];
 const Tempos: number[] = [];
 let stopwatch = new Stopwatch();
@@ -24,21 +25,43 @@ interface BetweenLevelsScreenProps {
   onNextLevel: () => void;
 }
 
+interface GameOverProps {
+  onNextgame: () => void;
+}
+
+const GameOverScreen: React.FC<GameOverProps> = ({ onNextgame }) => (
+  <div className="app-container">
+ {getConfetti()}
+ {getFireworks()}
+ {getStars()}
+ <div className="Complete">
+ <h1>Fim de Jogo!</h1>
+ <button className="Button btn btn-outline-primary" onClick={onNextgame}>Resultados</button>
+  </div>
+  </div>
+ );
+
 const BetweenLevelsScreen: React.FC<BetweenLevelsScreenProps> = ({
   onNextLevel,
 }) => (
-  <div>
-    <h1>Level completed!</h1>
-    <button onClick={onNextLevel}>Next Level</button>
+  <div className="app-container">
+  {getConfetti()}
+  {getFireworks()}
+  {getStars()}
+  <div className="Congrats ">
+    <h1>Parabens!</h1>
+    <button className="Button btn btn-outline-primary" onClick={onNextLevel}>Proxima Fase</button>
+  </div>
   </div>
 );
 
 const StartScreen: React.FC<StartScreenProps> = ({ onStart }) => (
-  <div>
-    <h1>Welcome to the Game!</h1>
-    <button onClick={onStart}>Play</button>
+  <div className="appContainer">
+    <h1>Desafio 4: Identifique as Rimas</h1>
+    <button className="btn btn-outline-success" onClick={onStart}>Jogar</button>
   </div>
 );
+
 
 const Sons = () => {
   const [currentSyllableIndex, setCurrentSyllableIndex] = useState(0);
@@ -184,10 +207,7 @@ const Sons = () => {
         />
       )}
       {gameState === GameState.COMPLETED && (
-        <div>
-          <span>Parabéns! Você completou o jogo!</span>
-          <button onClick={() => navigate("/Resultados")}>Go to Image</button>
-        </div>
+      <GameOverScreen onNextgame={() => navigate("/Resultados")} />
       )}
     </AnimatedPages>
   );

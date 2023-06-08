@@ -50,3 +50,28 @@
 .button-visible {
   display: block;
 }
+.Congrats {
+  position : absolute;
+  background-color: transparent;
+  z-index: 3;
+  top: 46%;
+  left: 46%;
+}
+.Complete {
+  position : absolute;
+  background-color: transparent;
+  z-index: 3;
+  left: 42.5%;
+}
+.appContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+}
+.star {
+  display: none;
+}
+

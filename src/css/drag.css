@@ -33,5 +33,12 @@
   position : absolute;
   background-color: transparent;
   z-index: 3;
-  left: 47.5%;
+  top: 46%;
+  left: 46%;
+}
+.Complete {
+  position : absolute;
+  background-color: transparent;
+  z-index: 3;
+  left: 42.5%;
 }

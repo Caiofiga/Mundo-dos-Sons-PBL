@@ -58,6 +58,9 @@ interface StartScreenProps {
 interface BetweenLevelsScreenProps {
   onNextLevel: () => void;
 }
+interface GameOverProps {
+  onNextgame: () => void;
+}
 
 const BetweenLevelsScreen: React.FC<BetweenLevelsScreenProps> = ({
   onNextLevel,
@@ -66,7 +69,6 @@ const BetweenLevelsScreen: React.FC<BetweenLevelsScreenProps> = ({
   {getConfetti()}
   {getFireworks()}
   {getStars()}
-  <audio src={yaySound} autoPlay />
   <div className="Congrats">
     <h1>Parabens!</h1>
     <button className="Button btn btn-outline-primary" onClick={onNextLevel}>Proxima Fase</button>
@@ -76,16 +78,28 @@ const BetweenLevelsScreen: React.FC<BetweenLevelsScreenProps> = ({
 
 const StartScreen: React.FC<StartScreenProps> = ({ onStart }) => (
   <div>
-    <h1>Welcome to the Game!</h1>
+    <h1>Desafio 1: Forme a palavra</h1>
     <button className="Button btn btn-outline-primary" onClick={onStart}>Jogar</button>
   </div>
+);
+
+const GameOverScreen: React.FC<GameOverProps> = ({ onNextgame }) => (
+ <div>
+{getConfetti()}
+{getFireworks()}
+{getStars()}
+<div className="Complete">
+<h1>Fase Completa!</h1>
+<button className="Button btn btn-outline-primary" onClick={onNextgame}>Proximo Jogo</button>
+ </div>
+ </div>
 );
 
 
 const microfone = "/src/img/mic.png";
 const palavras = ["tubarão", "tartaruga", "baleia", "barco", "pirata"];
 const silabas = [
-  ["tu", "ba", "rão", "lão", "pa"],
+  ["pa", "lão", "rão", "ba", "tu"],
   ["ta", "tar", "lu", "ga", "ru", "tal"],
   ["lei", "pa", "a", "ba", "rei"],
   ["par", "bar", "to", "bal", "co"],
@@ -220,8 +234,9 @@ const Drag = () => {
       case GameState.RUNNING:
         return (
           <div>
-            <img src={imagem} alt={palavra} style={{ width: "200px" }} />
+            <img src={imagem} alt={palavra} style={{ height: "300px" }} />
             <DragDropContext onDragEnd={handleDragEnd}>
+              <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
               {Object.keys(data).map((list) => (
                 <Droppable droppableId={list} direction="horizontal" key={list}>
                   {(provided, snapshot) => (
@@ -231,12 +246,16 @@ const Drag = () => {
                       {...provided.droppableProps}
                       style={{
                         display: "flex",
+                        justifyContent: "center",
                         margin: "10px",
                         padding: "10px",
                         border: "1px solid black",
                         backgroundColor: snapshot.isDraggingOver
                           ? "#e0e0e0"
                           : "white",
+                          minWidth: "200px",
+                          minHeight: "200px",
+                          alignItems: "center",
                       }}
                     >
                       {data[list].map((item, index) => (
@@ -248,7 +267,7 @@ const Drag = () => {
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
                             >
-                              <button onClick={() => playSound(item.audioSrc)}>
+                              <button  className="btn btn-outline-primary" onClick={() => playSound(item.audioSrc)}>
                                 <img src={item.imgUrl} alt={item.content} className="Mic"/>
                               </button>
                               <p>{item.content}</p>
@@ -261,8 +280,9 @@ const Drag = () => {
                   )}
                 </Droppable>
               ))}
+              </div>
             </DragDropContext>
-            <button onClick={endLevel}>
+            <button  className="btn btn-outline-success" onClick={endLevel}>
               {currentLine < silabas.length - 1 ? "Next Line" : "End Game"}
             </button>
           </div>
@@ -275,10 +295,7 @@ const Drag = () => {
         );
       case GameState.COMPLETED:
         return (
-          <div>
-            <span>Parabéns! Você completou o jogo!</span>
-            <button className="Button btn btn-outline-primary" onClick={() => navigate("/Silabas")}>Go to Silabas</button>
-          </div>
+          <GameOverScreen onNextgame={() => navigate("/Silaba")} />
         );
       default:
         return null;
