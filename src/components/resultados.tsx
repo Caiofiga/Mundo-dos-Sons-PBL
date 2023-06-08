@@ -254,7 +254,7 @@ export default function SimpleTabs({ userId }: { userId: string }) {
   }
   const [value, setValue] = React.useState(0);
 
-  const handleChange = (event: React.ChangeEvent<NonNullable<unknown>>, newValue: number) => {
+  const handleChange = (_: React.ChangeEvent<NonNullable<unknown>>, newValue: number) => {
     setValue(newValue);
   };
   console.log(Times1[0]);
