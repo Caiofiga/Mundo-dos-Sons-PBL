@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import 'bootstrap/dist/css/bootstrap.css';
 
 
-const titulo = "img/titulo.png";
+const titulo = "/img/titulo.png";
 
 export const Home: React.FC = () => {
     const navigate = useNavigate();
