@@ -8,7 +8,7 @@ import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
 const CorrectAnswers1: string[] = [
-  "Jabuticaba",
+  "tubarão",
   "tartaruga",
   "baleia",
   "barco",
@@ -41,7 +41,6 @@ const CorrectAnswers5: string[] = [
   "milho",
   "passaro",
 ];
-
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -113,8 +112,6 @@ export default function SimpleTabs({ userId }: { userId: string }) {
   // add more state variables if you need to fetch from more collections
 
   useEffect(() => {
-
-    
     async function fetchData() {
       const data1 = await getDocsByUserId("perguntas1", userId);
       const data2 = await getDocsByUserId("perguntas2", userId);
@@ -130,35 +127,35 @@ export default function SimpleTabs({ userId }: { userId: string }) {
       let newAcertos5 = 0;
 
       data1.forEach((doc) => {
-        doc.tempoObj.forEach((tempo:number) => {
+        doc.tempoObj.forEach((tempo: number) => {
           const tempos = tempo / 1000;
           Times1.push(tempos);
         });
         console.log(Times1);
       });
       data2.forEach((doc) => {
-        doc.tempoObj.forEach((tempo:number) => {
+        doc.tempoObj.forEach((tempo: number) => {
           const tempos = tempo / 1000;
           Times2.push(tempos);
         });
         console.log(Times2);
       });
       data3.forEach((doc) => {
-        doc.tempoObj.forEach((tempo:number) => {
+        doc.tempoObj.forEach((tempo: number) => {
           const tempos = tempo / 1000;
           Times3.push(tempos);
         });
         console.log(Times3);
       });
       data4.forEach((doc) => {
-        doc.tempoObj.forEach((tempo:number) => {
+        doc.tempoObj.forEach((tempo: number) => {
           const tempos = tempo / 1000;
           Times4.push(tempos);
         });
         console.log(Times4);
       });
       data5.forEach((doc) => {
-        doc.tempoObj.forEach((tempo:number) => {
+        doc.tempoObj.forEach((tempo: number) => {
           const tempos = tempo / 1000;
           Times5.push(tempos);
         });
@@ -221,7 +218,6 @@ export default function SimpleTabs({ userId }: { userId: string }) {
     fetchData();
   }, [userId]);
 
- 
   // Function to check answer
   function checkAnswer(
     userAnswer: string | number,
@@ -254,7 +250,10 @@ export default function SimpleTabs({ userId }: { userId: string }) {
   }
   const [value, setValue] = React.useState(0);
 
-  const handleChange = (_: React.ChangeEvent<NonNullable<unknown>>, newValue: number) => {
+  const handleChange = (
+    _: React.ChangeEvent<NonNullable<unknown>>,
+    newValue: number
+  ) => {
     setValue(newValue);
   };
   console.log(Times1[0]);
@@ -273,7 +272,18 @@ export default function SimpleTabs({ userId }: { userId: string }) {
         ))}
       </Box>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <Tabs value={value} onChange={(event: React.ChangeEvent<NonNullable<unknown>>, newValue: number) => handleChange(event as React.ChangeEvent<{ object: string }>, newValue)}>
+        <Tabs
+          value={value}
+          onChange={(
+            event: React.ChangeEvent<NonNullable<unknown>>,
+            newValue: number
+          ) =>
+            handleChange(
+              event as React.ChangeEvent<{ object: string }>,
+              newValue
+            )
+          }
+        >
           <Tab label="Pergunta 1" />
           <Tab label="Pergunta 2" />
           <Tab label="Pergunta 3" />

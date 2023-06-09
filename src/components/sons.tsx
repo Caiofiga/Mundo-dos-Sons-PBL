@@ -80,7 +80,7 @@ const Sons = () => {
   const imageMainSrc = "/img/" + imagesMain[currentSyllableIndex] + ".png";
 
   const imagesSec = [
-    ["Chuva", "cobra"],
+    ["chuva", "cobra"],
     ["zebra", "sapo"],
     ["fazenda", "vela"],
     ["milho", "ninho"],
