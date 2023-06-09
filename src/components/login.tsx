@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import 'bootstrap/dist/css/bootstrap.css';
+import "bootstrap/dist/css/bootstrap.css";
 import { initializeApp } from "firebase/app";
 import { getFirestore, addDoc, collection } from "firebase/firestore";
 import "../css/login.css";
@@ -8,13 +8,10 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "./UserContext";
 import firebaseConfig from "./firebaseconfig";
 
-const titulo = "./src/img/titulo.png";
-
+const titulo = "/img/titulo.png";
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-
-
 
 const SignUp: React.FC = () => {
   const [nome, setNome] = useState("");
@@ -56,51 +53,61 @@ const SignUp: React.FC = () => {
       <img src={titulo} alt="logo" />
       <div className="row justify-content-center">
         <div className="col-md-12">
-    <form onSubmit={handleSubmit}>
-      <div className="form-group">
-      <input
-        type="text"
-        name="nome"
-        placeholder="Coloque o nome"
-        value={nome}
-        onChange={(event) => setNome(event.target.value)}
-        className="form-control"
-        required
-      />
-      <br />
-      <input
-        type="text"
-        name="sobrenome"
-        placeholder="Coloque o sobrenome"
-        value={sobrenome}
-        onChange={(event) => setSobrenome(event.target.value)}
-        className="form-control"
-        required
-      />
-      <br />
-      <input
-        type="number" min={0}
-        name="idade"
-        placeholder="Coloque a idade"
-        value={idade}
-        onChange={(event) => setIdade(event.target.value)}
-        className="form-control"
-        required
-      />
-      <br />
-      <input
-        type="text"
-        name="atividades"
-        placeholder="Coloque as atividades"
-        value={atividades.join(", ")}
-        onChange={(event) => setAtividades(event.target.value.split(", "))}
-        className="form-control"
-      />
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <input
+                type="text"
+                name="nome"
+                placeholder="Coloque o nome"
+                value={nome}
+                onChange={(event) => setNome(event.target.value)}
+                className="form-control"
+                required
+              />
+              <br />
+              <input
+                type="text"
+                name="sobrenome"
+                placeholder="Coloque o sobrenome"
+                value={sobrenome}
+                onChange={(event) => setSobrenome(event.target.value)}
+                className="form-control"
+                required
+              />
+              <br />
+              <input
+                type="number"
+                min={0}
+                name="idade"
+                placeholder="Coloque a idade"
+                value={idade}
+                onChange={(event) => setIdade(event.target.value)}
+                className="form-control"
+                required
+              />
+              <br />
+              <input
+                type="text"
+                name="atividades"
+                placeholder="Coloque as atividades"
+                value={atividades.join(", ")}
+                onChange={(event) =>
+                  setAtividades(event.target.value.split(", "))
+                }
+                className="form-control"
+              />
+            </div>
+            <button
+              className="btn btn-outline-primary"
+              type="submit"
+              disabled={isSubmitting}
+            >
+              Cadastrar
+            </button>{" "}
+            {/* Disable button if submitting */}
+          </form>
+        </div>
       </div>
-      <button className="btn btn-outline-primary" type="submit" disabled={isSubmitting}>Cadastrar</button> {/* Disable button if submitting */}
-    </form>
-    </div>
-    </div>
     </div>
   );
 };
