@@ -60,7 +60,6 @@ function Layout() {
 
   return (
     <div>
-      <hr />
       <TransitionGroup>
         <CSSTransition key={location.key} classNames="slide" timeout={300}>
           <Outlet />
