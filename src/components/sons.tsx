@@ -29,54 +29,55 @@ interface GameOverProps {
   onNextgame: () => void;
 }
 
-
 const GameOverScreen: React.FC<GameOverProps> = ({ onNextgame }) => (
   <div className="app-container">
- {GetConfetti()}
- {GetFireworks()}
- {GetStars()}
- <div className="Complete">
- <h1>Fim de Jogo!</h1>
- <button className="Button btn btn-outline-primary" onClick={onNextgame}>Resultados</button>
+    {GetConfetti()}
+    {GetFireworks()}
+    {GetStars()}
+    <div className="Complete">
+      <h1>Fim de Jogo!</h1>
+      <button className="Button btn btn-outline-primary" onClick={onNextgame}>
+        Resultados
+      </button>
+    </div>
   </div>
-  </div>
- );
+);
 
 const BetweenLevelsScreen: React.FC<BetweenLevelsScreenProps> = ({
   onNextLevel,
 }) => (
   <div className="app-container">
-  {GetConfetti()}
-  {GetFireworks()}
-  {GetStars()}
-  <div className="Congrats ">
-    <h1>Parabens!</h1>
-    <button className="Button btn btn-outline-primary" onClick={onNextLevel}>Proxima Fase</button>
-  </div>
+    {GetConfetti()}
+    {GetFireworks()}
+    {GetStars()}
+    <div className="Congrats ">
+      <h1>Parabens!</h1>
+      <button className="Button btn btn-outline-primary" onClick={onNextLevel}>
+        Proxima Fase
+      </button>
+    </div>
   </div>
 );
 
 const StartScreen: React.FC<StartScreenProps> = ({ onStart }) => (
   <div className="appContainer">
     <h1>Desafio 5: Identifique os sons</h1>
-    <button className="btn btn-outline-success" onClick={onStart}>Jogar</button>
+    <button className="btn btn-outline-success" onClick={onStart}>
+      Jogar
+    </button>
   </div>
 );
 
-
 const Sons = () => {
-
   const [currentSyllableIndex, setCurrentSyllableIndex] = useState(0);
   const navigate = useNavigate();
   const { userId } = React.useContext(UserContext);
   const [gameState, setGameState] = useState<GameState>(GameState.STARTING);
 
-
-
   console.log(gameState);
 
   const imagesMain = ["chinelo", "sol", "vaca", "manga", "pato"];
-  const imageMainSrc = "src/img/" + imagesMain[currentSyllableIndex] + ".png";
+  const imageMainSrc = "/img/" + imagesMain[currentSyllableIndex] + ".png";
 
   const imagesSec = [
     ["Chuva", "cobra"],
@@ -89,7 +90,6 @@ const Sons = () => {
   const num_correto = ["sereia", "cavalo-marinho", "sol", "camarao", "raia"];
   const imageMain = imagesMain[currentSyllableIndex];
 
-
   interface SyllableProps {
     image: string;
   }
@@ -100,7 +100,7 @@ const Sons = () => {
         <span>
           <img
             className="microfone"
-            src="src/img/mic.png"
+            src="/img/mic.png"
             onClick={() => playSound(image)}
           ></img>
           <img className="syllableImage" src={imageMainSrc} alt={image}></img>
@@ -120,7 +120,7 @@ const Sons = () => {
           <div>
             <img
               className="image"
-              src={`src/img/${image}.png`}
+              src={`/img/${image}.png`}
               alt={image}
               onClick={() => onImageClick(image)}
             ></img>
@@ -128,7 +128,7 @@ const Sons = () => {
           <div>
             <img
               className="microfone"
-              src="src/img/mic.png"
+              src="/img/mic.png"
               onClick={() => playSound(image)}
             ></img>
           </div>
@@ -167,11 +167,10 @@ const Sons = () => {
   };
 
   function playSound(image: string) {
-    const audio = new Audio(`src/snd/${image}.mp3`);
+    const audio = new Audio(`/snd/${image}.mp3`);
     audio.play();
-    console.log("playing sound:" + `src/snd/${image}.mp3`);
+    console.log("playing sound:" + `/snd/${image}.mp3`);
   }
-
 
   return (
     <AnimatedPages key={gameState}>
@@ -205,7 +204,7 @@ const Sons = () => {
         />
       )}
       {gameState === GameState.COMPLETED && (
-      <GameOverScreen onNextgame={() => navigate("/Resultados")} />
+        <GameOverScreen onNextgame={() => navigate("/Resultados")} />
       )}
     </AnimatedPages>
   );

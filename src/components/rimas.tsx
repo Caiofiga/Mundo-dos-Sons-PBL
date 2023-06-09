@@ -33,34 +33,40 @@ interface GameOverProps {
 
 const GameOverScreen: React.FC<GameOverProps> = ({ onNextgame }) => (
   <div className="app-container">
- {GetConfetti()}
- {GetFireworks()}
- {GetStars()}
- <div className="Complete">
- <h1>Fase Completa!</h1>
- <button className="Button btn btn-outline-primary" onClick={onNextgame}>Proximo Jogo</button>
+    {GetConfetti()}
+    {GetFireworks()}
+    {GetStars()}
+    <div className="Complete">
+      <h1>Fase Completa!</h1>
+      <button className="Button btn btn-outline-primary" onClick={onNextgame}>
+        Proximo Jogo
+      </button>
+    </div>
   </div>
-  </div>
- );
+);
 
 const BetweenLevelsScreen: React.FC<BetweenLevelsScreenProps> = ({
   onNextLevel,
 }) => (
   <div className="app-container">
-  {GetConfetti()}
-  {GetFireworks()}
-  {GetStars()}
-  <div className="Congrats ">
-    <h1>Parabens!</h1>
-    <button className="Button btn btn-outline-primary" onClick={onNextLevel}>Proxima Fase</button>
-  </div>
+    {GetConfetti()}
+    {GetFireworks()}
+    {GetStars()}
+    <div className="Congrats ">
+      <h1>Parabens!</h1>
+      <button className="Button btn btn-outline-primary" onClick={onNextLevel}>
+        Proxima Fase
+      </button>
+    </div>
   </div>
 );
 
 const StartScreen: React.FC<StartScreenProps> = ({ onStart }) => (
   <div className="appContainer">
     <h1>Desafio 4: Identifique as Rimas</h1>
-    <button className="btn btn-outline-success" onClick={onStart}>Jogar</button>
+    <button className="btn btn-outline-success" onClick={onStart}>
+      Jogar
+    </button>
   </div>
 );
 
@@ -72,7 +78,7 @@ const Rimas = () => {
   console.log(gameState);
 
   const imagesMain = ["areia", "golfinho", "farol", "tubarão", "praia"];
-  const imageMainSrc = "src/img/" + imagesMain[currentSyllableIndex] + ".png";
+  const imageMainSrc = "/img/" + imagesMain[currentSyllableIndex] + ".png";
 
   const imagesSec = [
     ["sereia", "tartaruga", "barco", "pirata"],
@@ -95,7 +101,7 @@ const Rimas = () => {
         <span>
           <img
             className="microfone"
-            src="src/img/mic.png"
+            src="/img/mic.png"
             onClick={() => playSound(image)}
           ></img>
           <img className="syllableImage" src={imageMainSrc} alt={image}></img>
@@ -114,13 +120,13 @@ const Rimas = () => {
         <div key={index} className="image-container">
           <img
             className="image"
-            src={`src/img/${image}.png`}
+            src={`/img/${image}.png`}
             alt={image}
             onClick={() => onImageClick(image)}
           ></img>
           <img
             className="microfone"
-            src="src/img/mic.png"
+            src="/img/mic.png"
             onClick={() => playSound(image)}
           ></img>
         </div>
@@ -161,9 +167,9 @@ const Rimas = () => {
   };
 
   function playSound(image: string) {
-    const audio = new Audio(`src/snd/${image}.mp3`);
+    const audio = new Audio(`/snd/${image}.mp3`);
     audio.play();
-    console.log("playing sound:" + `src/snd/${image}.mp3`);
+    console.log("playing sound:" + `/snd/${image}.mp3`);
   }
 
   return (

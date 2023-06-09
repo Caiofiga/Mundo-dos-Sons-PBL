@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import "../css/silaba.css";
 import AnimatedPages from "./animated";
 import { useNavigate } from "react-router";
@@ -7,7 +7,6 @@ import { addAnswersToDB } from "./firebase";
 import { Stopwatch } from "ts-stopwatch";
 import { GetConfetti, GetFireworks, GetStars } from "./congrats";
 import "bootstrap/dist/css/bootstrap.css";
-
 
 const resposta2: string[] = [];
 const Tempos: number[] = [];
@@ -33,34 +32,40 @@ interface GameOverProps {
 
 const GameOverScreen: React.FC<GameOverProps> = ({ onNextgame }) => (
   <div className="app-container">
- {GetConfetti()}
- {GetFireworks()}
- {GetStars()}
- <div className="Complete">
- <h1>Fase Completa!</h1>
- <button className="Button btn btn-outline-primary" onClick={onNextgame}>Proximo Jogo</button>
+    {GetConfetti()}
+    {GetFireworks()}
+    {GetStars()}
+    <div className="Complete">
+      <h1>Fase Completa!</h1>
+      <button className="Button btn btn-outline-primary" onClick={onNextgame}>
+        Proximo Jogo
+      </button>
+    </div>
   </div>
-  </div>
- );
+);
 
 const BetweenLevelsScreen: React.FC<BetweenLevelsScreenProps> = ({
   onNextLevel,
 }) => (
   <div className="app-container">
-  {GetConfetti()}
-  {GetFireworks()}
-  {GetStars()}
-  <div className="Congrats ">
-    <h1>Parabens!</h1>
-    <button className="Button btn btn-outline-primary" onClick={onNextLevel}>Proxima Fase</button>
-  </div>
+    {GetConfetti()}
+    {GetFireworks()}
+    {GetStars()}
+    <div className="Congrats ">
+      <h1>Parabens!</h1>
+      <button className="Button btn btn-outline-primary" onClick={onNextLevel}>
+        Proxima Fase
+      </button>
+    </div>
   </div>
 );
 
 const StartScreen: React.FC<StartScreenProps> = ({ onStart }) => (
   <div className="appContainer">
     <h1>Desafio 2: Junte a Silaba com a Palavra</h1>
-    <button className="btn btn-outline-success" onClick={onStart}>Jogar</button>
+    <button className="btn btn-outline-success" onClick={onStart}>
+      Jogar
+    </button>
   </div>
 );
 
@@ -86,8 +91,8 @@ const Silaba = () => {
   ];
 
   const palavra = palavras[currentSyllableIndex];
-  const pictures = palavra.map((word) => `src/img/${word}.png`);
-  const sound = syllables.map((word) => `src/snd/${word}.mp3`);
+  const pictures = palavra.map((word) => `/img/${word}.png`);
+  const sound = syllables.map((word) => `/snd/${word}.mp3`);
   const navigate = useNavigate();
 
   const handleNextPhase = () => {
@@ -107,8 +112,6 @@ const Silaba = () => {
         answerObj: answerObj,
         tempoObj: tempoObj,
       });
-
-    
     }
   };
 
@@ -122,7 +125,7 @@ const Silaba = () => {
         <span>
           <img
             className="microfone"
-            src="src/img/mic.png"
+            src="/img/mic.png"
             onClick={playSound}
           ></img>
         </span>

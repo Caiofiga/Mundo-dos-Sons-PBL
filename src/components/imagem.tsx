@@ -34,34 +34,40 @@ interface GameOverProps {
 
 const GameOverScreen: React.FC<GameOverProps> = ({ onNextgame }) => (
   <div className="app-container">
- {GetConfetti()}
- {GetFireworks()}
- {GetStars()}
- <div className="Complete">
- <h1>Fase Completa!</h1>
- <button className="Button btn btn-outline-primary" onClick={onNextgame}>Proximo Jogo</button>
+    {GetConfetti()}
+    {GetFireworks()}
+    {GetStars()}
+    <div className="Complete">
+      <h1>Fase Completa!</h1>
+      <button className="Button btn btn-outline-primary" onClick={onNextgame}>
+        Proximo Jogo
+      </button>
+    </div>
   </div>
-  </div>
- );
+);
 
 const BetweenLevelsScreen: React.FC<BetweenLevelsScreenProps> = ({
   onNextLevel,
 }) => (
   <div className="app-container">
-  {GetConfetti()}
-  {GetFireworks()}
-  {GetStars()}
-  <div className="Congrats ">
-    <h1>Parabens!</h1>
-    <button className="Button btn btn-outline-primary" onClick={onNextLevel}>Proxima Fase</button>
-  </div>
+    {GetConfetti()}
+    {GetFireworks()}
+    {GetStars()}
+    <div className="Congrats ">
+      <h1>Parabens!</h1>
+      <button className="Button btn btn-outline-primary" onClick={onNextLevel}>
+        Proxima Fase
+      </button>
+    </div>
   </div>
 );
 
 const StartScreen: React.FC<StartScreenProps> = ({ onStart }) => (
   <div className="appContainer">
     <h1>Desafio 3: Conte as Silabas</h1>
-    <button className="btn btn-outline-success" onClick={onStart}>Jogar</button>
+    <button className="btn btn-outline-success" onClick={onStart}>
+      Jogar
+    </button>
   </div>
 );
 
@@ -75,7 +81,7 @@ const Imagem = () => {
   // Now you can use userId in this component
 
   const words = ["caminho", "borboleta", "passaro", "abelha", "onca"];
-  const image = "src/img/" + words[currentSyllableIndex] + ".png";
+  const image = "/img/" + words[currentSyllableIndex] + ".png";
 
   const num_corretos = [
     [3, 2, 4, 5],
@@ -86,7 +92,7 @@ const Imagem = () => {
   ];
   const num_correto = [3, 4, 3, 3, 2];
   const word = words[currentSyllableIndex];
-  const sound = words.map((word) => `src/snd/${word}.mp3`);
+  const sound = words.map((word) => `/snd/${word}.mp3`);
   const navigate = useNavigate();
 
   interface SyllableProps {
@@ -99,7 +105,7 @@ const Imagem = () => {
         <span>
           <img
             className="microfone"
-            src="src/img/mic.png"
+            src="/img/mic.png"
             onClick={playSound}
           ></img>
           <img className="syllableImage" src={image} alt={word}></img>
@@ -122,7 +128,7 @@ const Imagem = () => {
       ))}
     </div>
   );
-  const handleWordClick = (word:number) => {
+  const handleWordClick = (word: number) => {
     console.log(word);
     resposta3.push(word);
     console.log(num_correto[currentSyllableIndex]);
@@ -186,8 +192,7 @@ const Imagem = () => {
       )}
       {gameState === GameState.COMPLETED && (
         <div>
-         <GameOverScreen 
-         onNextgame={() => navigate("/Rimas")} />
+          <GameOverScreen onNextgame={() => navigate("/Rimas")} />
         </div>
       )}
     </AnimatedPages>
