@@ -40,7 +40,6 @@ const SignUp: React.FC = () => {
       setUserId(userId); // Set the userId in the context
       navigate("/Home"); // Redirect to /other
 
-      alert("Data has been submitted");
     } catch (e) {
       console.error("Error adding document: ", e);
     } finally {
