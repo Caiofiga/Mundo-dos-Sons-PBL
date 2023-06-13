@@ -22,7 +22,7 @@ const CorrectAnswers2: string[] = [
   "milho",
   "fonte",
   "arvore",
-  "vulcao",
+  "tucano",
   "aranha",
 ];
 const CorrectAnswers3: number[] = [3, 4, 3, 3, 2];
@@ -31,7 +31,7 @@ const CorrectAnswers4: string[] = [
   "Sereia",
   "cavalo-marinho",
   "sol",
-  "camarao",
+  "camarão",
   "raia",
 ];
 const CorrectAnswers5: string[] = [
