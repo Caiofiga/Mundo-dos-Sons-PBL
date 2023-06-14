@@ -43,4 +43,8 @@ export async function getDocsByUserId(collectionName: string, userId: string) {
 
   return docs;
 }
+export async function getUser(){
+  
+}
+
 // Add other Firestore functions as needed
