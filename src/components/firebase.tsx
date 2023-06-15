@@ -112,11 +112,24 @@ export async function DelDocByID( documentId: string) {
   const docSnap = await getDoc(docRef);
 
   if (docSnap.exists()) {
-    await updateDoc(docRef, { nome: 'NewName', sobrenome: 'NewSurname', age: 25 });
+    await updateDoc(docRef, { nome: 'Pessoa', sobrenome: 'Anonima', age: 25 });
     return docSnap.data();
   } else {
     console.log("No such document!");
   }
+}
+export async function GetCustomUId(nome:string, sobrenome: string, idade: string) {
+  const UCollection = collection(db, "users")
+  const q = query(
+    UCollection, 
+    where("nome", "==", nome),
+    where("sobrenome", "==", sobrenome),
+    where("idade", "==", idade),
+  )
+const docSnap = await getDocs(q);
+if(!docSnap.empty){
+ const UserId = docSnap.docs.map(doc => doc.data)
+}
 }
 
 // Add other Firestore functions as needed

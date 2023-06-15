@@ -7,7 +7,7 @@ import { Md5 } from "ts-md5";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "./UserContext";
 import firebaseConfig from "./firebaseconfig";
-import { getUser, getAllUsers, DeleteData, GetUserId, DelDocByID } from "./firebase";
+import { getUser, getAllUsers, DeleteData, GetUserId, DelDocByID, GetCustomUId } from "./firebase";
 
 
 const videosrc = "./video/video.mp4"
@@ -47,6 +47,7 @@ interface ResultsProps {
 
 const ResultsPage: React.FC<ResultsProps> = ({ users, onSelect, onDelete }) => {
   return (
+
     <div>
       {users.map((user, index) => (
         <div key={index}>
@@ -187,6 +188,7 @@ const SignUp: React.FC = () => {
 
   const ChangeData = async (nome: string, sobrenome: string, idade: string) => {
     try {
+      
       const id = await GetUserId(nome, sobrenome, idade);
       console.log(id)
       await DelDocByID(id);
@@ -223,11 +225,21 @@ const SignUp: React.FC = () => {
     }
   };
 
+  const handleSelect = (nome: string, sobrenome: string, idade: string) => {
+  const UserId = await GetCustomUId(nome, sobrenome, idade)
+  setUserId(UserId)
+  navigate("/Resultados")
+  };
+
   return (
   <div key={PageState}>
 
 {PageState === PageStates.RESULTS && (
-  <ResultsPage users={results} onSelect={() => navigate("Resultados")} onDelete={() => ChangeData(nome, sobrenome, idade)}/>
+  <ResultsPage 
+  users={results} 
+  onSelect={(user) =>handleSelect(user.nome, user.sobrenome, user.idade)} 
+  onDelete={(user) => ChangeData(user.nome, user.sobrenome, user.idade)}
+/>
 )}
 
     {PageState === PageStates.CHECK && (
