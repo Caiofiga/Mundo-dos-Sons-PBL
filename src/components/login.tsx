@@ -7,7 +7,7 @@ import { Md5 } from "ts-md5";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "./UserContext";
 import firebaseConfig from "./firebaseconfig";
-import { getUser, getAllUsers, DeleteData, GetUserId, DelDocByID, GetCustomUId } from "./firebase";
+import { getUser, getAllUsers, GetUserId, DelDocByID, GetCustomUId } from "./firebase";
 
 
 const videosrc = "./video/video.mp4"
@@ -226,9 +226,11 @@ const SignUp: React.FC = () => {
   };
 
   const handleSelect = (nome: string, sobrenome: string, idade: string) => {
-  const UserId = await GetCustomUId(nome, sobrenome, idade)
-  setUserId(UserId)
-  navigate("/Resultados")
+    GetCustomUId(nome, sobrenome, idade).then(UserId => {
+      setUserId(UserId);
+      console.log("UserId: ", UserId);
+      navigate("/Resultados");
+    });
   };
 
   return (

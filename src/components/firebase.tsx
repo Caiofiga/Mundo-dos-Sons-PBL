@@ -128,8 +128,10 @@ export async function GetCustomUId(nome:string, sobrenome: string, idade: string
   )
 const docSnap = await getDocs(q);
 if(!docSnap.empty){
- const UserId = docSnap.docs.map(doc => doc.data)
+  const UserId = docSnap.docs[0].data().userId;
+  return UserId;
 }
+
 }
 
 // Add other Firestore functions as needed
