@@ -6,6 +6,9 @@ import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+
 
 const CorrectAnswers1: string[] = [
   "tubarão",
@@ -257,7 +260,65 @@ export default function SimpleTabs({ userId }: { userId: string }) {
     setValue(newValue);
   };
   console.log(Times1[0]);
-
+  
+  const handleExport = () => {
+    const tabContents = Array.from({ length: 5 }).map((_, i) => document.getElementById(`tabpanel${i}`) as HTMLElement);
+    const pdf = new jsPDF();
+  
+    const captureTab = (index: number) => {
+      if (index >= 5) { // if we have captured all tabs, then save the PDF
+        pdf.save("download.pdf");
+        return;
+      }
+    
+      setValue(index);
+    
+      setTimeout(() => {
+        const tabContent = document.getElementById(`tabpanel${index}`) as HTMLElement;
+    
+        if (!tabContent) {
+          console.error(`No element with id tabpanel${index}`);
+          return;
+        }
+    
+        html2canvas(tabContent)
+        .then((canvas) => {
+            const imgData = canvas.toDataURL('image/png');
+      
+            const pdfPageWidth = pdf.internal.pageSize.getWidth();
+            const pdfPageHeight = pdf.internal.pageSize.getHeight();
+    
+            const aspectRatio = canvas.width / canvas.height;
+      
+            let imgWidth = pdfPageWidth;  // default value, will stretch to fill page width
+            let imgHeight = pdfPageHeight; // default value, will stretch to fill page height
+    
+            if (pdfPageWidth / aspectRatio < pdfPageHeight) {
+                imgHeight = pdfPageWidth / aspectRatio;
+            } else {
+                imgWidth = pdfPageHeight * aspectRatio;
+            }
+      
+            if (index > 0) {
+                pdf.addPage();
+            }
+      
+            const xOffset = (pdfPageWidth - imgWidth) / 2;
+            const yOffset = (pdfPageHeight - imgHeight) / 2;
+    
+            pdf.addImage(imgData, 'JPEG', xOffset, yOffset, imgWidth, imgHeight);
+    
+            captureTab(index + 1);
+        });
+    
+      }, 200); // delay to let the tab content render
+    };
+    
+    captureTab(0);
+  };
+    
+    
+  
   return (
     <div>
       <Box
@@ -270,6 +331,9 @@ export default function SimpleTabs({ userId }: { userId: string }) {
             <p>Sobrenome: {user.sobrenome} </p>
           </div>
         ))}
+        <button className="btn btn-outline-info" onClick={() => handleExport()}>
+          Exportar
+        </button>
       </Box>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs
@@ -284,15 +348,16 @@ export default function SimpleTabs({ userId }: { userId: string }) {
             )
           }
         >
-          <Tab label="Pergunta 1" />
-          <Tab label="Pergunta 2" />
-          <Tab label="Pergunta 3" />
-          <Tab label="Pergunta 4" />
-          <Tab label="Pergunta 5" />
+          <Tab label="Formar Palavra" />
+          <Tab label="Silabas e Imagems" />
+          <Tab label="Numero de Silabas" />
+          <Tab label="Rimas" />
+          <Tab label="Fonemas" />
           {/* More Tabs if needed */}
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
+        <div id="tabpanel0">
         {userDataCollection1.map((user: User, index: number) => (
           <Grid container key={index} spacing={0}>
             <Grid item xs={4}>
@@ -363,8 +428,10 @@ export default function SimpleTabs({ userId }: { userId: string }) {
             </Grid>
           </Grid>
         ))}
+        </div>
       </TabPanel>
       <TabPanel value={value} index={1}>
+        <div id="tabpanel1">
         {userDataCollection2.map((user: User, index: number) => (
           <Grid container key={index} spacing={0}>
             <Grid item xs={4}>
@@ -469,8 +536,10 @@ export default function SimpleTabs({ userId }: { userId: string }) {
             </Grid>
           </Grid>
         ))}
+      </div>
       </TabPanel>
       <TabPanel value={value} index={2}>
+      <div id="tabpanel2">
         {userDataCollection3.map((user: User, index: number) => (
           <Grid container key={index} spacing={0}>
             <Grid item xs={4}>
@@ -540,8 +609,10 @@ export default function SimpleTabs({ userId }: { userId: string }) {
             </Grid>
           </Grid>
         ))}
+        </div>
       </TabPanel>
       <TabPanel value={value} index={3}>
+      <div id="tabpanel3">
         {userDataCollection4.map((user: User, index: number) => (
           <Grid container key={index} spacing={0}>
             <Grid item xs={4}>
@@ -610,8 +681,10 @@ export default function SimpleTabs({ userId }: { userId: string }) {
             </Grid>
           </Grid>
         ))}
+        </div>
       </TabPanel>
       <TabPanel value={value} index={4}>
+      <div id="tabpanel4">
         {userDataCollection5.map((user: User, index: number) => (
           <Grid container key={index} spacing={0}>
             <Grid item xs={4}>
@@ -680,6 +753,7 @@ export default function SimpleTabs({ userId }: { userId: string }) {
             </Grid>
           </Grid>
         ))}
+        </div>
       </TabPanel>
     </div>
   );
