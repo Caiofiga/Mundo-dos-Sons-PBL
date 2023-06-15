@@ -20,7 +20,7 @@ const CorrectAnswers2: string[] = [
   "lago",
   "cavalo",
   "milho",
-  "fonte",
+  "ponte",
   "arvore",
   "tucano",
   "aranha",
@@ -37,7 +37,7 @@ const CorrectAnswers4: string[] = [
 const CorrectAnswers5: string[] = [
   "chuva",
   "sapo",
-  "vassoura",
+  "Vela",
   "milho",
   "passaro",
 ];

@@ -7,14 +7,17 @@ import { Md5 } from "ts-md5";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "./UserContext";
 import firebaseConfig from "./firebaseconfig";
+import { getUser, getAllUsers, DeleteData, GetUserId, DelDocByID } from "./firebase";
 
 
-const videosrc = "./public/video.mp4"
+const videosrc = "./video/video.mp4"
 enum PageStates {
   VIDEO,
   CHECK,
   LOGIN,
-  LOOKUP
+  LOOKUP,
+  RESULTS,
+  DENIED
 }
 
 interface VideoProps {
@@ -25,31 +28,71 @@ interface CheckProps {
   OnNewClick: () => void;
   OnOldClick: () => void;
 }
-
 interface LookupProps {
-  OnLookupClick: () => void;
-  handleSubmit: () => void;
+  OnLookupClick: (event: React.FormEvent<HTMLFormElement>) => Promise<void>;
+  OnListAllClick: () => Promise<void>;
+  nome: string;
+  setNome: React.Dispatch<React.SetStateAction<string>>;
+  sobrenome: string;
+  setSobrenome: React.Dispatch<React.SetStateAction<string>>;
+  idade: string;
+  setIdade: React.Dispatch<React.SetStateAction<string>>;
 }
+
+interface ResultsProps {
+  users: any[];
+  onSelect: (user: any) => void;
+  onDelete: (user: any) => void;
+}
+
+const ResultsPage: React.FC<ResultsProps> = ({ users, onSelect, onDelete }) => {
+  return (
+    <div>
+      {users.map((user, index) => (
+        <div key={index}>
+          <p>Nome: {user.nome}, Sobrenome: {user.sobrenome}, Idade: {user.idade} 
+          <button onClick={() => onSelect(user)} style={{marginLeft: "10px"}} className="btn btn-outline-primary">
+            Selecionar
+          </button>
+          <button onClick={() => onDelete(user)} style={{marginLeft: "10px"}} className="btn btn-outline-danger">
+          Remover
+          </button>
+          </p>
+          {index !== users.length - 1 && <hr />}  {/* Don't render on the last user */}
+        </div>
+      ))}
+    </div>
+  )
+}
+
+
 
 const VideoPage: React.FC<VideoProps> = ({ OnAcceptClick, OnDenyClick }) => {
-  <div>
-  <video width="320" height="240" controls>
+  return (
+  <div className="app-container">
+  <video className="video" width="504" height="440" controls>
     <source src={videosrc} type="video/mp4" />
     </video>
-  <button onClick={OnAcceptClick}>Aceitar</button>
-  <button onClick={OnDenyClick}>Recusar</button>
+    <div className="button-container"> 
+  <button className="buttonsme" onClick={OnAcceptClick}>Aceitar</button>
+  <button className="buttonsme" onClick={OnDenyClick}>Recusar</button>
   </div>
+  </div>
+  )
 }
 const CheckPage: React.FC<CheckProps> = ({ OnNewClick, OnOldClick }) => {
+  return (
   <div>
     <span>  Ja jogou? </span>
   <button onClick={OnNewClick}>Novo usuario</button>
   <button onClick={OnOldClick}>Usuario antigo</button>
   </div>
+  )
 }
-const LookupPage: React.FC<LookupProps> = ({ OnLookupClick }) => {
+const LookupPage: React.FC<LookupProps> = ({ OnLookupClick, OnListAllClick, nome, setNome, sobrenome, setSobrenome, idade, setIdade }) => {
+  return (
   <div>
-<form onSubmit={handleSubmit}>
+<form onSubmit={OnLookupClick}>
   <div className="form-group">
   <input
         type="text"
@@ -82,10 +125,15 @@ const LookupPage: React.FC<LookupProps> = ({ OnLookupClick }) => {
       />
       <br />
       </div>
-      <button type="submit" className="btn btn-primary" />
+      <button type="submit" className="btn btn-primary" >
+        Pesquisar 
+        </button>
 </form>
-
+<button onClick={OnListAllClick} className="btn btn-secondary">
+        List All 
+      </button>
   </div>
+  )
 }
 
 
@@ -107,6 +155,47 @@ const SignUp: React.FC = () => {
   const { setUserId } = useContext(UserContext);
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false); // Add state variable
+  const [PageState, setPageState] = useState(PageStates.VIDEO)
+  const [results, setResults] = useState<any[]>([]); // to hold results from the lookup
+  
+  const handleLookup = async (event: React.FormEvent<HTMLFormElement>) => {
+    // prevent form from submitting normally
+    event.preventDefault();
+  
+    try {
+      const users = await getUser(nome, sobrenome); // call getUser with nome and sobrenome
+      setResults(users); // save the result in state
+      setPageState(PageStates.RESULTS); // go to results page after fetching
+      console.log(nome)
+      console.log(sobrenome)
+      console.log(results)
+    } catch (e) {
+      console.error("Error fetching documents: ", e);
+    }
+  };
+
+  const handleListAll = async () => {
+    try {
+      const users = await getAllUsers(); // implement this function to fetch all users from Firebase
+      setResults(users);
+      setPageState(PageStates.RESULTS);
+    } catch (e) {
+      console.error("Error fetching all users: ", e);
+    }
+  };
+
+
+  const ChangeData = async (nome: string, sobrenome: string, idade: string) => {
+    try {
+      const id = await GetUserId(nome, sobrenome, idade);
+      console.log(id)
+      await DelDocByID(id);
+      console.log("user ", nome, sobrenome, id, "is deleted!");
+    } catch (error) {
+      console.error("Error deleting user: ", error);
+    }
+  }
+    
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -135,6 +224,37 @@ const SignUp: React.FC = () => {
   };
 
   return (
+  <div key={PageState}>
+
+{PageState === PageStates.RESULTS && (
+  <ResultsPage users={results} onSelect={() => navigate("Resultados")} onDelete={() => ChangeData(nome, sobrenome, idade)}/>
+)}
+
+    {PageState === PageStates.CHECK && (
+      <CheckPage
+      OnNewClick={() => setPageState(PageStates.LOGIN)} OnOldClick={() => setPageState(PageStates.LOOKUP)} />
+
+    )}
+   {PageState === PageStates.LOOKUP &&(
+     <LookupPage 
+     OnLookupClick={handleLookup}
+     OnListAllClick={handleListAll}
+     nome={nome}
+     setNome={setNome}
+     sobrenome={sobrenome}
+     setSobrenome={setSobrenome}
+     idade={idade}
+     setIdade={setIdade}
+   />
+
+)}
+
+{PageState === PageStates.VIDEO &&(
+  <VideoPage OnAcceptClick={() => setPageState(PageStates.CHECK)} OnDenyClick={() => setPageState(PageStates.DENIED)} />
+)}
+
+
+    {PageState === PageStates.LOGIN && (
     <div className="container">
       <img src={titulo} alt="logo" />
       <div className="row justify-content-center">
@@ -184,6 +304,10 @@ const SignUp: React.FC = () => {
     </form>
     </div>
     </div>
+    </div>
+    )
+}
+
     </div>
   );
 };
