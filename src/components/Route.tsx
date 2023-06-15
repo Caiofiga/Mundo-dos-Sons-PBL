@@ -18,6 +18,7 @@ import { UserContext } from "./UserContext";
 import { useState } from "react";
 import UserResults from "./resultados";
 import { Home } from "./startScreen";
+import PDF from "./PDF";
 
 export default function Routers() {
   const [userId, setUserId] = useState("");
@@ -37,6 +38,7 @@ export default function Routers() {
               <Route path="Rimas" element={<Rimas />} />
               <Route path="Sons" element={<Sons />} />
               <Route path="Home" element={<Home />} />
+              <Route path="PDF" element={<PDF userId={userId} />} />
               <Route
                 path="Resultados"
                 element={<UserResults userId={userId} />}

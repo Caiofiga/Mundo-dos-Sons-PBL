@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Tab, Tabs, Box, Grid } from "@mui/material";
+import React, { useState, useEffect, useRef } from "react";
+import { Box, Grid } from "@mui/material";
 import { getDocsByUserId } from "./firebase";
 import "../css/resultados.css";
 import CheckIcon from "@mui/icons-material/Check";
@@ -8,7 +8,7 @@ import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
-import { useNavigate } from "react-router";
+
 
 const CorrectAnswers1: string[] = [
   "tubarão",
@@ -45,27 +45,6 @@ const CorrectAnswers5: string[] = [
   "passaro",
 ];
 
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: unknown;
-  value: unknown;
-}
-
-function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box p={3}>{children}</Box>}
-    </div>
-  );
-}
 
 interface User {
   nome: string;
@@ -89,7 +68,7 @@ const Times3: number[] = [];
 const Times4: number[] = [];
 const Times5: number[] = [];
 
-export default function SimpleTabs({ userId }: { userId: string }) {
+export default function PDF({ userId }: { userId: string }) {
   const [userDataCollection1, setUserDataCollection1] = useState<User[]>([]);
   const [userDataCollection2, setUserDataCollection2] = useState<User[]>([]);
   const [userDataCollection3, setUserDataCollection3] = useState<User[]>([]);
@@ -251,73 +230,24 @@ export default function SimpleTabs({ userId }: { userId: string }) {
     const percentage = (acertos / totals) * 100;
     return percentage;
   }
-  const [value, setValue] = React.useState(0);
 
-  const handleChange = (
-    _: React.ChangeEvent<NonNullable<unknown>>,
-    newValue: number
-  ) => {
-    setValue(newValue);
-  };
-  console.log(Times1[0]);
-  
-  const handleExport = () => {
-    const tabContents = Array.from({ length: 5 }).map((_, i) => document.getElementById(`tabpanel${i}`) as HTMLElement);
+  const divRef1 = useRef<HTMLDivElement | null>(null);
+const divRef2 = useRef<HTMLDivElement | null>(null);
+const divRef3 = useRef<HTMLDivElement | null>(null);
+const divRef4 = useRef<HTMLDivElement | null>(null);
+const divRef5 = useRef<HTMLDivElement | null>(null);
+
+
+  const handleExport = async () => {
     const pdf = new jsPDF();
   
-    const captureTab = (index: number) => {
-      if (index >= 5) { // if we have captured all tabs, then save the PDF
-        pdf.save("download.pdf");
-        return;
-      }
-    
-      setValue(index);
-    
-      setTimeout(() => {
-        const tabContent = document.getElementById(`tabpanel${index}`) as HTMLElement;
-    
-        if (!tabContent) {
-          console.error(`No element with id tabpanel${index}`);
-          return;
-        }
-    
-        html2canvas(tabContent)
-        .then((canvas) => {
-            const imgData = canvas.toDataURL('image/png');
-      
-            const pdfPageWidth = pdf.internal.pageSize.getWidth();
-            const pdfPageHeight = pdf.internal.pageSize.getHeight();
-    
-            const aspectRatio = canvas.width / canvas.height;
-      
-            let imgWidth = pdfPageWidth;  // default value, will stretch to fill page width
-            let imgHeight = pdfPageHeight; // default value, will stretch to fill page height
-    
-            if (pdfPageWidth / aspectRatio < pdfPageHeight) {
-                imgHeight = pdfPageWidth / aspectRatio;
-            } else {
-                imgWidth = pdfPageHeight * aspectRatio;
-            }
-      
-            if (index > 0) {
-                pdf.addPage();
-            }
-      
-            const xOffset = (pdfPageWidth - imgWidth) / 2;
-            const yOffset = (pdfPageHeight - imgHeight) / 2;
-    
-            pdf.addImage(imgData, 'JPEG', xOffset, yOffset, imgWidth, imgHeight);
-    
-            captureTab(index + 1);
-        });
-    
-      }, 200); // delay to let the tab content render
+      const canvas = await html2canvas(document.body);
+      const imgData = canvas.toDataURL('image/png');
+  
+      pdf.addImage(imgData, 'PNG', 0, 0, 210, 297);
+  
+    pdf.save("result.pdf");
     };
-    
-    captureTab(0);
-  };
-    
-  const navigate = useNavigate();
   
   return (
     <div>
@@ -331,33 +261,18 @@ export default function SimpleTabs({ userId }: { userId: string }) {
             <p>Sobrenome: {user.sobrenome} </p>
           </div>
         ))}
-        <button className="btn btn-outline-info" onClick={() => navigate("/PDF")}>
+        <button className="btn btn-outline-info" onClick={() => handleExport()}>
           Exportar
         </button>
       </Box>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <Tabs
-          value={value}
-          onChange={(
-            event: React.ChangeEvent<NonNullable<unknown>>,
-            newValue: number
-          ) =>
-            handleChange(
-              event as React.ChangeEvent<{ object: string }>,
-              newValue
-            )
-          }
-        >
-          <Tab label="Formar Palavra" />
-          <Tab label="Silabas e Imagems" />
-          <Tab label="Numero de Silabas" />
-          <Tab label="Rimas" />
-          <Tab label="Fonemas" />
-          {/* More Tabs if needed */}
-        </Tabs>
+     
       </Box>
-      <TabPanel value={value} index={0}>
-        <div id="tabpanel0">
+      
+        <div id="tabpanel0" ref={divRef1}>
+        <h4><b>Pergunta 1: Forme a palavra</b></h4>
+        <br></br>
+        <br></br>
         {userDataCollection1.map((user: User, index: number) => (
           <Grid container key={index} spacing={0}>
             <Grid item xs={4}>
@@ -429,9 +344,11 @@ export default function SimpleTabs({ userId }: { userId: string }) {
           </Grid>
         ))}
         </div>
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        <div id="tabpanel1">
+      <hr></hr>
+        <div id="tabpanel1" ref={divRef2}>
+        <h4><b>Pergunta 2: Junte a Silaba com a Imagem</b></h4>
+        <br></br>
+        <br></br>
         {userDataCollection2.map((user: User, index: number) => (
           <Grid container key={index} spacing={0}>
             <Grid item xs={4}>
@@ -537,9 +454,11 @@ export default function SimpleTabs({ userId }: { userId: string }) {
           </Grid>
         ))}
       </div>
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-      <div id="tabpanel2">
+      <hr></hr>
+      <div id="tabpanel2" ref={divRef3}>
+      <h4><b>Pergunta 3: Conte as Silabas</b></h4>
+        <br></br>
+        <br></br>
         {userDataCollection3.map((user: User, index: number) => (
           <Grid container key={index} spacing={0}>
             <Grid item xs={4}>
@@ -610,9 +529,11 @@ export default function SimpleTabs({ userId }: { userId: string }) {
           </Grid>
         ))}
         </div>
-      </TabPanel>
-      <TabPanel value={value} index={3}>
-      <div id="tabpanel3">
+      <hr></hr>
+      <div id="tabpanel3" ref={divRef4}>
+      <h4><b>Pergunta 4: Encontre as Rimas</b></h4>
+        <br></br>
+        <br></br>
         {userDataCollection4.map((user: User, index: number) => (
           <Grid container key={index} spacing={0}>
             <Grid item xs={4}>
@@ -682,9 +603,11 @@ export default function SimpleTabs({ userId }: { userId: string }) {
           </Grid>
         ))}
         </div>
-      </TabPanel>
-      <TabPanel value={value} index={4}>
-      <div id="tabpanel4">
+     <hr></hr>
+      <div id="tabpanel4" ref={divRef5}>
+        <h4><b>Pergunta 5: Encontre os Fonemas</b></h4>
+        <br></br>
+        <br></br>
         {userDataCollection5.map((user: User, index: number) => (
           <Grid container key={index} spacing={0}>
             <Grid item xs={4}>
@@ -754,7 +677,6 @@ export default function SimpleTabs({ userId }: { userId: string }) {
           </Grid>
         ))}
         </div>
-      </TabPanel>
-    </div>
+        </div>
   );
 }
