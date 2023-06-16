@@ -67,6 +67,9 @@ br {
   margin-right: 30px;
   margin-left: 30px;
 }
-.hidden {
-  
+.alert-bottom-right {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  margin: 20px;
 }

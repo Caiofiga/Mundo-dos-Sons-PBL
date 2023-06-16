@@ -10,9 +10,6 @@ import firebaseConfig from "./firebaseconfig";
 import { getUser, getAllUsers, GetUserId, DelDocByID, GetCustomUId } from "./firebase";
 import AlertComponent from "./AlertComponent";
 
-
-
-
 const videosrc = "./video/video.mp4"
 const titulo = "./img/titulo.png";
 
@@ -48,32 +45,50 @@ interface ResultsProps {
   users: any[];
   onSelect: (user: any) => void;
   onDelete: (user: any) => void;
+  show: boolean;
+  setShow: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ResultsPage: React.FC<ResultsProps> = ({ users, onSelect, onDelete }) => {
+const ResultsPage: React.FC<ResultsProps> = ({ users, onSelect, onDelete, show, setShow }) => {
+  const [alertText, setAlertText] = useState(''); // for managing alert text
+
+  const handleAlertClose = () => {
+    setShow(false);
+  };
+
+  // Delete handler that sets the alert text
+  const handleDelete = (user: any) => {
+    onDelete(user);
+    setAlertText(`Usuario ${user.nome} ${user.sobrenome} removido com sucesso!`);
+    setShow(true); // display the alert after setting the text
+  }
+
+
   return (
     <div>
       {users.map((user, index) => {
-        const [show, setShow] = useState(false);
-
         return (
           <div key={index}>
             <p>Nome: {user.nome}, Sobrenome: {user.sobrenome}, Idade: {user.idade} 
             <button onClick={() => onSelect(user)} style={{marginLeft: "10px"}} className="btn btn-outline-primary">
               Selecionar
             </button>
-            <button onClick={() => onDelete(user, setShow)} style={{marginLeft: "10px"}} className="btn btn-outline-danger">
-            Remover
+            <button onClick={() => handleDelete(user)} style={{marginLeft: "10px"}} className="btn btn-outline-danger">
+              Remover
             </button>
-              <AlertComponent text={`Usuario ${user.nome} ${user.sobrenome} removido com sucesso!`} show={show} />
             </p>
             {index !== users.length - 1 && <hr />}  {/* Don't render on the last user */}
           </div>
         );
       })}
+      <div className="alert-bottom-right">
+        <AlertComponent text={alertText} show={show} onClose={handleAlertClose} />
+      </div>
     </div>
   )
 }
+
+
 
 
 const VideoPage: React.FC<VideoProps> = ({ OnAcceptClick, OnDenyClick }) => {
@@ -174,15 +189,7 @@ const SignUp: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false); // Add state variable
   const [PageState, setPageState] = useState(PageStates.VIDEO)
   const [results, setResults] = useState<any[]>([]); // to hold results from the lookup
-
-  const alerts = Array.from(
-    document.getElementsByClassName('hidden') as HTMLCollectionOf<HTMLElement>,
-  );
-  
-  alerts.forEach(alert => {
-    alert.style.display = 'inline';
-    alert.classList.add
-  });
+  const [show, setShow] = useState(false);  // define 'show' and 'setShow' inside the component
 
   
   const handleLookup = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -212,18 +219,18 @@ const SignUp: React.FC = () => {
   };
 
 
-  const ChangeData = async (nome: string, sobrenome: string, idade: string, setShow: React.Dispatch<React.SetStateAction<boolean>>) => {
+  const ChangeData = async (nome: string, sobrenome: string, idade: string) => {
     try {
       const id = await GetUserId(nome, sobrenome, idade);
       if (id) {
         await DelDocByID(id);
       }
-      setShow(true);
+      setShow(true); // use setShow to update the state when you want to show the alert
     } catch (error) {
       console.error("Error deleting user: ", error);
     }
   }
-    
+  
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -263,11 +270,13 @@ const SignUp: React.FC = () => {
   <div key={PageState}>
 
 {PageState === PageStates.RESULTS && (
-  <ResultsPage 
-  users={results} 
-  onSelect={(user) =>handleSelect(user.nome, user.sobrenome, user.idade)} 
-  onDelete={(user, setShow) => ChangeData(user.nome, user.sobrenome, user.idade, setShow)}
-/>
+   <ResultsPage 
+   users={results} 
+   onSelect={(user) =>handleSelect(user.nome, user.sobrenome, user.idade)} 
+   onDelete={(user) => ChangeData(user.nome, user.sobrenome, user.idade)}
+   show={show}
+   setShow={setShow}
+ />
 )}
 
     {PageState === PageStates.CHECK && (
