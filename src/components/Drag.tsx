@@ -11,6 +11,8 @@ import { GetFireworks } from "./congrats";
 import { GetStars } from "./congrats";
 import AnimatedPages from "./animated";
 
+const colors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange', 'pink']; // Add as many colors as you need
+
 const audioMap: { [key: string]: string } = {
   tu: "/snd/tu.mp3",
   ba: "/snd/ba.mp3",
@@ -244,6 +246,15 @@ const Drag = () => {
     }
   };
 
+  function idToColor(id: string) {
+    let hash = 0;
+    for (let i = 0; i < id.length; i++) {
+      hash = id.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    const index = Math.abs(hash) % colors.length;
+    return colors[index];
+  }
+
   const renderGameState = () => {
     switch (gameState) {
       case GameState.STARTING:
@@ -299,8 +310,8 @@ const Drag = () => {
                                 {...provided.dragHandleProps}
                               >
                                 <button
-                                  className="btn btn-outline-primary"
-                                  onClick={() => playSound(item.audioSrc)}
+                                  className="btn btn-primary"
+                                  style={{backgroundColor: idToColor(item.id), borderColor: idToColor(item.id)}}                                  onClick={() => playSound(item.audioSrc)}
                                 >
                                   <img
                                     src={item.imgUrl}
@@ -308,7 +319,8 @@ const Drag = () => {
                                     className="Mic"
                                   />
                                 </button>
-                                <p>{item.content}</p>
+                                <p>Clique aqui para arrastar</p>
+                                <p className="getout">{item.content}</p>
                               </div>
                             )}
                           </Draggable>
