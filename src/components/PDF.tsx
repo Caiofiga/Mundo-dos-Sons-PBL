@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Box, Grid } from "@mui/material";
 import { getDocsByUserId } from "./firebase";
 import "../css/PDF.css";

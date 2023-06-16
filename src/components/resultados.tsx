@@ -6,8 +6,6 @@ import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
 import { useNavigate } from "react-router";
 
 const CorrectAnswers1: string[] = [
@@ -261,61 +259,10 @@ export default function SimpleTabs({ userId }: { userId: string }) {
   };
   console.log(Times1[0]);
   
-  const handleExport = () => {
-    const tabContents = Array.from({ length: 5 }).map((_, i) => document.getElementById(`tabpanel${i}`) as HTMLElement);
-    const pdf = new jsPDF();
-  
-    const captureTab = (index: number) => {
-      if (index >= 5) { // if we have captured all tabs, then save the PDF
-        pdf.save("download.pdf");
-        return;
-      }
+ 
+     
     
-      setValue(index);
-    
-      setTimeout(() => {
-        const tabContent = document.getElementById(`tabpanel${index}`) as HTMLElement;
-    
-        if (!tabContent) {
-          console.error(`No element with id tabpanel${index}`);
-          return;
-        }
-    
-        html2canvas(tabContent)
-        .then((canvas) => {
-            const imgData = canvas.toDataURL('image/png');
-      
-            const pdfPageWidth = pdf.internal.pageSize.getWidth();
-            const pdfPageHeight = pdf.internal.pageSize.getHeight();
-    
-            const aspectRatio = canvas.width / canvas.height;
-      
-            let imgWidth = pdfPageWidth;  // default value, will stretch to fill page width
-            let imgHeight = pdfPageHeight; // default value, will stretch to fill page height
-    
-            if (pdfPageWidth / aspectRatio < pdfPageHeight) {
-                imgHeight = pdfPageWidth / aspectRatio;
-            } else {
-                imgWidth = pdfPageHeight * aspectRatio;
-            }
-      
-            if (index > 0) {
-                pdf.addPage();
-            }
-      
-            const xOffset = (pdfPageWidth - imgWidth) / 2;
-            const yOffset = (pdfPageHeight - imgHeight) / 2;
-    
-            pdf.addImage(imgData, 'JPEG', xOffset, yOffset, imgWidth, imgHeight);
-    
-            captureTab(index + 1);
-        });
-    
-      }, 200); // delay to let the tab content render
-    };
-    
-    captureTab(0);
-  };
+   
     
   const navigate = useNavigate();
   

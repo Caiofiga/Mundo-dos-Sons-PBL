@@ -191,7 +191,9 @@ const SignUp: React.FC = () => {
       
       const id = await GetUserId(nome, sobrenome, idade);
       console.log(id)
-      await DelDocByID(id);
+      if (id) {
+        await DelDocByID(id);
+      }
       console.log("user ", nome, sobrenome, id, "is deleted!");
     } catch (error) {
       console.error("Error deleting user: ", error);
