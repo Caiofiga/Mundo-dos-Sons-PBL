@@ -169,11 +169,6 @@ const LookupPage: React.FC<LookupProps> = ({ OnLookupClick, OnListAllClick, nome
   )
 } 
 
-
-
-
-
-
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
