@@ -42,3 +42,14 @@
   z-index: 3;
   left: 42.5%;
 }
+.mycolor:nth-child(1) {
+  background-color: #8064A2 !important;
+  border-color: #8064A2 !important;
+}
+.mycolor:nth-child(2) {
+  background-color: yellow !important;
+  border-color: yellow !important;
+}
+.getout {
+  display: none;
+}

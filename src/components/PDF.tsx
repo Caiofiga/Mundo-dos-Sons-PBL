@@ -1,13 +1,15 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Box, Grid } from "@mui/material";
 import { getDocsByUserId } from "./firebase";
-import "../css/resultados.css";
+import "../css/PDF.css";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+
+const titulo = "/img/titulo.png"
 
 
 const CorrectAnswers1: string[] = [
@@ -61,6 +63,7 @@ interface User {
   resposta9: string;
   answerObj: string[];
   tempoObj: number[];
+  idade: string;
 }
 const Times1: number[] = [];
 const Times2: number[] = [];
@@ -75,6 +78,8 @@ export default function PDF({ userId }: { userId: string }) {
   const [userDataCollection4, setUserDataCollection4] = useState<User[]>([]);
   const [userDataCollection5, setUserDataCollection5] = useState<User[]>([]);
   const [userDataCollection6, setUserDataCollection6] = useState<User[]>([]);
+
+  const [buttonOn, setButton] = useState(true);
 
   const [acertos1, setAcertos1] = useState(0);
   const [acertos2, setAcertos2] = useState(0);
@@ -225,6 +230,10 @@ export default function PDF({ userId }: { userId: string }) {
     }
   }
 
+  function timeout(delay: number) {
+    return new Promise( res => setTimeout(res, delay) );
+}
+
   function calculatePercentage(acertos: number, total: string[] | number[]) {
     const totals = total.length;
     const percentage = (acertos / totals) * 100;
@@ -239,6 +248,10 @@ const divRef5 = useRef<HTMLDivElement | null>(null);
 
 
   const handleExport = async () => {
+    const user: User = userDataCollection6.find(user => user.nome)!;
+    const fileName = `Resultados_${user.nome}_${user.sobrenome}.pdf`;
+    setButton(false);
+   await timeout(1000);
     const pdf = new jsPDF();
   
       const canvas = await html2canvas(document.body);
@@ -246,7 +259,7 @@ const divRef5 = useRef<HTMLDivElement | null>(null);
   
       pdf.addImage(imgData, 'PNG', 0, 0, 210, 297);
   
-    pdf.save("result.pdf");
+    pdf.save(fileName);
     };
   
   return (
@@ -254,16 +267,43 @@ const divRef5 = useRef<HTMLDivElement | null>(null);
       <Box
         sx={{ border: 1, borderRadius: 20, borderColor: "white", padding: 2 }}
       >
-        <h2> Dados do usuario: </h2>
-        {userDataCollection6.map((user, index) => (
+        <Grid container>
+          <Grid item xs={4}>
+      
+          <h2> Dados do usuario: </h2>
+          {userDataCollection6.map((user, index) => (
           <div key={index}>
             <p>Nome: {user.nome} </p>
             <p>Sobrenome: {user.sobrenome} </p>
           </div>
         ))}
-        <button className="btn btn-outline-info" onClick={() => handleExport()}>
-          Exportar
-        </button>
+     
+       
+          {userDataCollection6.map((user, index) => (
+            <div key={index}>
+              <p>Idade: {user.idade}</p>
+            </div>
+          ))}
+      
+          </Grid>
+          <Grid item xs={4}>
+            <img src={titulo} className="imgman"></img>
+          </Grid>
+          <Grid item xs={4}>
+          <div className="boxesman">
+            {buttonOn && (
+              <button className="btn btn-outline-info" onClick={() => handleExport()}>
+                Exportar
+              </button>
+            )}
+          </div>
+          </Grid>
+          </Grid>
+        
+
+       
+    
+       
       </Box>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
      

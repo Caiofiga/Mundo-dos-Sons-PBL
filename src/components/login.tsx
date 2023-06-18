@@ -8,9 +8,11 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "./UserContext";
 import firebaseConfig from "./firebaseconfig";
 import { getUser, getAllUsers, GetUserId, DelDocByID, GetCustomUId } from "./firebase";
-
+import AlertComponent from "./AlertComponent";
 
 const videosrc = "./video/video.mp4"
+const titulo = "./img/titulo.png";
+
 enum PageStates {
   VIDEO,
   CHECK,
@@ -43,28 +45,49 @@ interface ResultsProps {
   users: any[];
   onSelect: (user: any) => void;
   onDelete: (user: any) => void;
+  show: boolean;
+  setShow: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ResultsPage: React.FC<ResultsProps> = ({ users, onSelect, onDelete }) => {
-  return (
+const ResultsPage: React.FC<ResultsProps> = ({ users, onSelect, onDelete, show, setShow }) => {
+  const [alertText, setAlertText] = useState(''); // for managing alert text
 
+  const handleAlertClose = () => {
+    setShow(false);
+  };
+
+  // Delete handler that sets the alert text
+  const handleDelete = (user: any) => {
+    onDelete(user);
+    setAlertText(`Usuario ${user.nome} ${user.sobrenome} removido com sucesso!`);
+    setShow(true); // display the alert after setting the text
+  }
+
+
+  return (
     <div>
-      {users.map((user, index) => (
-        <div key={index}>
-          <p>Nome: {user.nome}, Sobrenome: {user.sobrenome}, Idade: {user.idade} 
-          <button onClick={() => onSelect(user)} style={{marginLeft: "10px"}} className="btn btn-outline-primary">
-            Selecionar
-          </button>
-          <button onClick={() => onDelete(user)} style={{marginLeft: "10px"}} className="btn btn-outline-danger">
-          Remover
-          </button>
-          </p>
-          {index !== users.length - 1 && <hr />}  {/* Don't render on the last user */}
-        </div>
-      ))}
+      {users.map((user, index) => {
+        return (
+          <div key={index}>
+            <p>Nome: {user.nome}, Sobrenome: {user.sobrenome}, Idade: {user.idade} 
+            <button onClick={() => onSelect(user)} style={{marginLeft: "10px"}} className="btn btn-outline-primary">
+              Selecionar
+            </button>
+            <button onClick={() => handleDelete(user)} style={{marginLeft: "10px"}} className="btn btn-outline-danger">
+              Remover
+            </button>
+            </p>
+            {index !== users.length - 1 && <hr />}  {/* Don't render on the last user */}
+          </div>
+        );
+      })}
+      <div className="alert-bottom-right">
+        <AlertComponent text={alertText} show={show} onClose={handleAlertClose} />
+      </div>
     </div>
   )
 }
+
 
 
 
@@ -75,24 +98,31 @@ const VideoPage: React.FC<VideoProps> = ({ OnAcceptClick, OnDenyClick }) => {
     <source src={videosrc} type="video/mp4" />
     </video>
     <div className="button-container"> 
-  <button className="buttonsme" onClick={OnAcceptClick}>Aceitar</button>
-  <button className="buttonsme" onClick={OnDenyClick}>Recusar</button>
+  <button className="buttonsme btn btn-outline-success" onClick={OnAcceptClick}>Aceitar 👍 </button>
+  <button className="buttonsme btn btn-outline-danger" onClick={OnDenyClick}>Recusar 👎</button>
   </div>
   </div>
   )
 }
 const CheckPage: React.FC<CheckProps> = ({ OnNewClick, OnOldClick }) => {
   return (
-  <div>
-    <span>  Ja jogou? </span>
-  <button onClick={OnNewClick}>Novo usuario</button>
-  <button onClick={OnOldClick}>Usuario antigo</button>
+  <div className="app-container">
+    <span> <img src={titulo}></img></span>
+    <br></br>
+    <br></br>
+    <h2>  Ja jogou? </h2>
+    <div className="button-container">
+  <button className="buttonsme2 btn btn-outline-warning"  onClick={OnNewClick}>Novo usuario</button>
+  <button className="buttonsme2 btn btn-outline-primary"  onClick={OnOldClick}>Usuario antigo</button>
+  </div>
   </div>
   )
 }
 const LookupPage: React.FC<LookupProps> = ({ OnLookupClick, OnListAllClick, nome, setNome, sobrenome, setSobrenome, idade, setIdade }) => {
+
   return (
-  <div>
+  <div className="app-container">
+    <h1> Pesquisar Usuarios </h1>
 <form onSubmit={OnLookupClick}>
   <div className="form-group">
   <input
@@ -126,22 +156,18 @@ const LookupPage: React.FC<LookupProps> = ({ OnLookupClick, OnListAllClick, nome
       />
       <br />
       </div>
-      <button type="submit" className="btn btn-primary" >
+      <div className="button-container">
+      <button type="submit" className=" buttonsme3 btn btn-primary">
         Pesquisar 
-        </button>
-</form>
-<button onClick={OnListAllClick} className="btn btn-secondary">
+      </button>
+      <button onClick={OnListAllClick} className="buttonsme3 btn btn-secondary">
         List All 
       </button>
-  </div>
+    </div>
+  </form>
+</div>
   )
-}
-
-
-
-
-const titulo = "./src/img/titulo.png";
-
+} 
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
@@ -158,6 +184,8 @@ const SignUp: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false); // Add state variable
   const [PageState, setPageState] = useState(PageStates.VIDEO)
   const [results, setResults] = useState<any[]>([]); // to hold results from the lookup
+  const [show, setShow] = useState(false);  // define 'show' and 'setShow' inside the component
+
   
   const handleLookup = async (event: React.FormEvent<HTMLFormElement>) => {
     // prevent form from submitting normally
@@ -188,16 +216,16 @@ const SignUp: React.FC = () => {
 
   const ChangeData = async (nome: string, sobrenome: string, idade: string) => {
     try {
-      
       const id = await GetUserId(nome, sobrenome, idade);
-      console.log(id)
-      await DelDocByID(id);
-      console.log("user ", nome, sobrenome, id, "is deleted!");
+      if (id) {
+        await DelDocByID(id);
+      }
+      setShow(true); // use setShow to update the state when you want to show the alert
     } catch (error) {
       console.error("Error deleting user: ", error);
     }
   }
-    
+  
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -217,7 +245,6 @@ const SignUp: React.FC = () => {
       setUserId(userId); // Set the userId in the context
       navigate("/Home"); // Redirect to /other
 
-      alert("Data has been submitted");
     } catch (e) {
       console.error("Error adding document: ", e);
     } finally {
@@ -237,11 +264,13 @@ const SignUp: React.FC = () => {
   <div key={PageState}>
 
 {PageState === PageStates.RESULTS && (
-  <ResultsPage 
-  users={results} 
-  onSelect={(user) =>handleSelect(user.nome, user.sobrenome, user.idade)} 
-  onDelete={(user) => ChangeData(user.nome, user.sobrenome, user.idade)}
-/>
+   <ResultsPage 
+   users={results} 
+   onSelect={(user) =>handleSelect(user.nome, user.sobrenome, user.idade)} 
+   onDelete={(user) => ChangeData(user.nome, user.sobrenome, user.idade)}
+   show={show}
+   setShow={setShow}
+ />
 )}
 
     {PageState === PageStates.CHECK && (
@@ -321,7 +350,11 @@ const SignUp: React.FC = () => {
     </div>
     )
 }
-
+{PageState === PageStates.DENIED &&(
+  <div className="app-container">
+  <h1>OK, entendido</h1>
+  </div>
+)}
     </div>
   );
 };
