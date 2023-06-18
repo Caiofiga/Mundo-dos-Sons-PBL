@@ -12,6 +12,16 @@ const resposta2: string[] = [];
 const Tempos: number[] = [];
 const stopwatch = new Stopwatch();
 
+function getSoundPaths(syllables: string[]): string[] {
+  const counts: { [key: string]: number } = {};
+  return syllables.map(syllable => {
+    counts[syllable] = (counts[syllable] || 0) + 1;
+    const suffix = counts[syllable] > 1 ? `-${counts[syllable]}` : '';
+    return `/snd/${syllable}${suffix}.mp3`;
+  });
+}
+
+
 enum GameState {
   STARTING,
   RUNNING,
@@ -92,7 +102,7 @@ const Silaba = () => {
 
   const palavra = palavras[currentSyllableIndex];
   const pictures = palavra.map((word) => `/img/${word}.png`);
-  const sound = syllables.map((word) => `/snd/${word}.mp3`);
+  const sound = getSoundPaths(syllables);
   const navigate = useNavigate();
 
   const handleNextPhase = () => {
