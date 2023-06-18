@@ -1,0 +1,17 @@
+.correct {
+    color: green;
+  }
+  
+  .incorrect {
+    color: red;
+  }
+.boxesman {
+    display: flex;
+    flex-direction: row;
+    margin-left: 45%;
+}  
+.imgman {
+    height: 50px;
+    
+    align-items: center;
+}

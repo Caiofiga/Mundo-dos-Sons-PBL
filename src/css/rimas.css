@@ -41,11 +41,13 @@
   margin-bottom: 10px;
   width: fit-content !important;
   padding: 10px;
+  border: transparent !important;
 }
+
 .microfone {
   cursor: pointer;
 }
 
 .image {
-  height: 200px;
+  height: 150px;
 }

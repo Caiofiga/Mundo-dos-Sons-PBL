@@ -4,10 +4,9 @@ import {
   Route,
   Outlet,
   Link,
-  Navigate,
 } from "react-router-dom";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import "../css/Route.css";
 import Drag from "./Drag";
 import Silaba from "./Silaba";
@@ -15,11 +14,11 @@ import Imagem from "./imagem";
 import Rimas from "./rimas";
 import Sons from "./sons";
 import SignUp from "./login";
-import { link } from "fs";
 import { UserContext } from "./UserContext";
 import { useState } from "react";
 import UserResults from "./resultados";
 import { Home } from "./startScreen";
+import PDF from "./PDF";
 
 export default function Routers() {
   const [userId, setUserId] = useState("");
@@ -39,6 +38,7 @@ export default function Routers() {
               <Route path="Rimas" element={<Rimas />} />
               <Route path="Sons" element={<Sons />} />
               <Route path="Home" element={<Home />} />
+              <Route path="PDF" element={<PDF userId={userId} />} />
               <Route
                 path="Resultados"
                 element={<UserResults userId={userId} />}
@@ -62,7 +62,6 @@ function Layout() {
 
   return (
     <div>
-      <hr />
       <TransitionGroup>
         <CSSTransition key={location.key} classNames="slide" timeout={300}>
           <Outlet />

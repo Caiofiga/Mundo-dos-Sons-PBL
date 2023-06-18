@@ -1,17 +1,52 @@
 import React, { useState, useEffect } from "react";
 import { Tab, Tabs, Box, Grid } from "@mui/material";
 import { getDocsByUserId } from "./firebase";
-import { db } from "./firebase"; // Assuming your Firestore db instance is exported from 'firebase.tsx'
 import "../css/resultados.css";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import { useNavigate } from "react-router";
+
+const CorrectAnswers1: string[] = [
+  "tubarão",
+  "tartaruga",
+  "baleia",
+  "barco",
+  "pirata",
+];
+const CorrectAnswers2: string[] = [
+  "Macaco",
+  "buraco",
+  "lago",
+  "cavalo",
+  "milho",
+  "ponte",
+  "arvore",
+  "tucano",
+  "aranha",
+];
+const CorrectAnswers3: number[] = [3, 4, 3, 3, 2];
+
+const CorrectAnswers4: string[] = [
+  "Sereia",
+  "cavalo-marinho",
+  "sol",
+  "camarão",
+  "raia",
+];
+const CorrectAnswers5: string[] = [
+  "chuva",
+  "sapo",
+  "Vela",
+  "milho",
+  "passaro",
+];
 
 interface TabPanelProps {
   children?: React.ReactNode;
-  index: any;
-  value: any;
+  index: unknown;
+  value: unknown;
 }
 
 function TabPanel(props: TabPanelProps) {
@@ -31,6 +66,9 @@ function TabPanel(props: TabPanelProps) {
 }
 
 interface User {
+  nome: string;
+  sobrenome: string;
+  userId: string;
   resposta1: string;
   resposta2: string;
   resposta3: string;
@@ -41,6 +79,7 @@ interface User {
   resposta8: string;
   resposta9: string;
   answerObj: string[];
+  tempoObj: number[];
 }
 const Times1: number[] = [];
 const Times2: number[] = [];
@@ -48,7 +87,7 @@ const Times3: number[] = [];
 const Times4: number[] = [];
 const Times5: number[] = [];
 
-export default function SimpleTabs({ userId }) {
+export default function SimpleTabs({ userId }: { userId: string }) {
   const [userDataCollection1, setUserDataCollection1] = useState<User[]>([]);
   const [userDataCollection2, setUserDataCollection2] = useState<User[]>([]);
   const [userDataCollection3, setUserDataCollection3] = useState<User[]>([]);
@@ -89,43 +128,43 @@ export default function SimpleTabs({ userId }) {
       let newAcertos5 = 0;
 
       data1.forEach((doc) => {
-        doc.tempoObj.forEach((tempo) => {
-          let tempos = tempo / 1000;
+        doc.tempoObj.forEach((tempo: number) => {
+          const tempos = tempo / 1000;
           Times1.push(tempos);
         });
         console.log(Times1);
       });
       data2.forEach((doc) => {
-        doc.tempoObj.forEach((tempo) => {
-          let tempos = tempo / 1000;
+        doc.tempoObj.forEach((tempo: number) => {
+          const tempos = tempo / 1000;
           Times2.push(tempos);
         });
         console.log(Times2);
       });
       data3.forEach((doc) => {
-        doc.tempoObj.forEach((tempo) => {
-          let tempos = tempo / 1000;
+        doc.tempoObj.forEach((tempo: number) => {
+          const tempos = tempo / 1000;
           Times3.push(tempos);
         });
         console.log(Times3);
       });
       data4.forEach((doc) => {
-        doc.tempoObj.forEach((tempo) => {
-          let tempos = tempo / 1000;
+        doc.tempoObj.forEach((tempo: number) => {
+          const tempos = tempo / 1000;
           Times4.push(tempos);
         });
         console.log(Times4);
       });
       data5.forEach((doc) => {
-        doc.tempoObj.forEach((tempo) => {
-          let tempos = tempo / 1000;
+        doc.tempoObj.forEach((tempo: number) => {
+          const tempos = tempo / 1000;
           Times5.push(tempos);
         });
         console.log(Times5);
       });
 
       data1.forEach((doc) => {
-        doc.answerObj.forEach((resposta, index) => {
+        doc.answerObj.forEach((resposta: string, index: number) => {
           if (isAnswerCorrect(resposta, CorrectAnswers1[index])) {
             newAcertos1++;
           }
@@ -133,7 +172,7 @@ export default function SimpleTabs({ userId }) {
       });
 
       data2.forEach((doc) => {
-        doc.answerObj.forEach((resposta, index) => {
+        doc.answerObj.forEach((resposta: string, index: number) => {
           if (isAnswerCorrect(resposta, CorrectAnswers2[index])) {
             newAcertos2++;
           }
@@ -141,7 +180,7 @@ export default function SimpleTabs({ userId }) {
       });
 
       data3.forEach((doc) => {
-        doc.answerObj.forEach((resposta, index) => {
+        doc.answerObj.forEach((resposta: string, index: number) => {
           if (isAnswerCorrect(resposta, CorrectAnswers3[index])) {
             newAcertos3++;
           }
@@ -149,7 +188,7 @@ export default function SimpleTabs({ userId }) {
       });
 
       data4.forEach((doc) => {
-        doc.answerObj.forEach((resposta, index) => {
+        doc.answerObj.forEach((resposta: string, index: number) => {
           if (isAnswerCorrect(resposta, CorrectAnswers4[index])) {
             newAcertos4++;
           }
@@ -157,7 +196,7 @@ export default function SimpleTabs({ userId }) {
       });
 
       data5.forEach((doc) => {
-        doc.answerObj.forEach((resposta, index) => {
+        doc.answerObj.forEach((resposta: string, index: number) => {
           if (isAnswerCorrect(resposta, CorrectAnswers5[index])) {
             newAcertos5++;
           }
@@ -179,41 +218,6 @@ export default function SimpleTabs({ userId }) {
     }
     fetchData();
   }, [userId]);
-
-  const CorrectAnswers1: string[] = [
-    "Jabuticaba",
-    "tartaruga",
-    "baleia",
-    "barco",
-    "pirata",
-  ];
-  const CorrectAnswers2: string[] = [
-    "Macaco",
-    "buraco",
-    "lago",
-    "cavalo",
-    "milho",
-    "fonte",
-    "arvore",
-    "vulcao",
-    "aranha",
-  ];
-  const CorrectAnswers3: number[] = [3, 4, 3, 3, 2];
-
-  const CorrectAnswers4: string[] = [
-    "Sereia",
-    "cavalo-marinho",
-    "sol",
-    "camarao",
-    "raia",
-  ];
-  const CorrectAnswers5: string[] = [
-    "chuva",
-    "sapo",
-    "vassoura",
-    "milho",
-    "passaro",
-  ];
 
   // Function to check answer
   function checkAnswer(
@@ -247,11 +251,21 @@ export default function SimpleTabs({ userId }) {
   }
   const [value, setValue] = React.useState(0);
 
-  const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+  const handleChange = (
+    _: React.ChangeEvent<NonNullable<unknown>>,
+    newValue: number
+  ) => {
     setValue(newValue);
   };
   console.log(Times1[0]);
-
+  
+ 
+     
+    
+   
+    
+  const navigate = useNavigate();
+  
   return (
     <div>
       <Box
@@ -264,18 +278,33 @@ export default function SimpleTabs({ userId }) {
             <p>Sobrenome: {user.sobrenome} </p>
           </div>
         ))}
+        <button className="btn btn-outline-info" onClick={() => navigate("/PDF")}>
+          Exportar
+        </button>
       </Box>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <Tabs value={value} onChange={handleChange}>
-          <Tab label="Pergunta 1" />
-          <Tab label="Pergunta 2" />
-          <Tab label="Pergunta 3" />
-          <Tab label="Pergunta 4" />
-          <Tab label="Pergunta 5" />
+        <Tabs
+          value={value}
+          onChange={(
+            event: React.ChangeEvent<NonNullable<unknown>>,
+            newValue: number
+          ) =>
+            handleChange(
+              event as React.ChangeEvent<{ object: string }>,
+              newValue
+            )
+          }
+        >
+          <Tab label="Formar Palavra" />
+          <Tab label="Silabas e Imagems" />
+          <Tab label="Numero de Silabas" />
+          <Tab label="Rimas" />
+          <Tab label="Fonemas" />
           {/* More Tabs if needed */}
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
+        <div id="tabpanel0">
         {userDataCollection1.map((user: User, index: number) => (
           <Grid container key={index} spacing={0}>
             <Grid item xs={4}>
@@ -320,7 +349,7 @@ export default function SimpleTabs({ userId }) {
               </p>
             </Grid>
             <Grid item xs={4}>
-              <h3>Percentage of correct answers: </h3> <br></br>
+              <h3>Porcentagem de Acertos: </h3> <br></br>
               <p>
                 <div style={{ width: 200, height: 200 }}>
                   <CircularProgressbar
@@ -346,8 +375,10 @@ export default function SimpleTabs({ userId }) {
             </Grid>
           </Grid>
         ))}
+        </div>
       </TabPanel>
       <TabPanel value={value} index={1}>
+        <div id="tabpanel1">
         {userDataCollection2.map((user: User, index: number) => (
           <Grid container key={index} spacing={0}>
             <Grid item xs={4}>
@@ -418,7 +449,7 @@ export default function SimpleTabs({ userId }) {
               </div>
             </Grid>
             <Grid item xs={4}>
-              <h3>Percentage of correct answers: </h3> <br></br>
+              <h3>Porcentagem de Acertos: </h3> <br></br>
               <p>
                 <div style={{ width: 200, height: 200 }}>
                   <CircularProgressbar
@@ -452,9 +483,10 @@ export default function SimpleTabs({ userId }) {
             </Grid>
           </Grid>
         ))}
+      </div>
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <h2>Pergunta 3</h2>
+      <div id="tabpanel2">
         {userDataCollection3.map((user: User, index: number) => (
           <Grid container key={index} spacing={0}>
             <Grid item xs={4}>
@@ -497,7 +529,7 @@ export default function SimpleTabs({ userId }) {
               </div>
             </Grid>
             <Grid item xs={4}>
-              <h3>Percentage of correct answers: </h3> <br></br>
+              <h3>Porcentagem de Acertos: </h3> <br></br>
               <p>
                 <div style={{ width: 200, height: 200 }}>
                   <CircularProgressbar
@@ -524,9 +556,10 @@ export default function SimpleTabs({ userId }) {
             </Grid>
           </Grid>
         ))}
+        </div>
       </TabPanel>
       <TabPanel value={value} index={3}>
-        <h2>Pergunta 4</h2>
+      <div id="tabpanel3">
         {userDataCollection4.map((user: User, index: number) => (
           <Grid container key={index} spacing={0}>
             <Grid item xs={4}>
@@ -569,7 +602,7 @@ export default function SimpleTabs({ userId }) {
               </div>
             </Grid>
             <Grid item xs={4}>
-              <h3>Percentage of correct answers: </h3> <br></br>
+              <h3>Porcentagem de Acertos: </h3> <br></br>
               <p>
                 <div style={{ width: 200, height: 200 }}>
                   <CircularProgressbar
@@ -595,9 +628,10 @@ export default function SimpleTabs({ userId }) {
             </Grid>
           </Grid>
         ))}
+        </div>
       </TabPanel>
       <TabPanel value={value} index={4}>
-        <h2>Pergunta 5</h2>
+      <div id="tabpanel4">
         {userDataCollection5.map((user: User, index: number) => (
           <Grid container key={index} spacing={0}>
             <Grid item xs={4}>
@@ -640,7 +674,7 @@ export default function SimpleTabs({ userId }) {
               </div>
             </Grid>
             <Grid item xs={4}>
-              <h3>Percentage of correct answers: </h3> <br></br>
+              <h3>Porcentagem de Acertos: </h3> <br></br>
               <p>
                 <div style={{ width: 200, height: 200 }}>
                   <CircularProgressbar
@@ -666,6 +700,7 @@ export default function SimpleTabs({ userId }) {
             </Grid>
           </Grid>
         ))}
+        </div>
       </TabPanel>
     </div>
   );

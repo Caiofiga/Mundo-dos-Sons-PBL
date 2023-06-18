@@ -1,10 +1,10 @@
 import React from "react";
 
-interface UserContextProps {
+export interface UserContextProps {
   userId: string;
   setUserId: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export const UserContext = React.createContext<UserContextProps | undefined>(
-  undefined
+export const UserContext = React.createContext<UserContextProps>(
+  {} as UserContextProps
 );

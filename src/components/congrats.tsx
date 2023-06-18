@@ -1,11 +1,9 @@
-import React, { useRef, useEffect } from "react";
 import Confetti from "react-confetti";
 import useWindowSize from "react-use/lib/useWindowSize";
 import  { Fireworks } from '@fireworks-js/react'
 import "../css/congrats.css"
-import zIndex from "@mui/material/styles/zIndex";
 
-export function getConfetti() {
+export function GetConfetti() {
     const { width, height } = useWindowSize();
     const gravity = 0.1;
     const numberOfPieces = 1000;
@@ -26,7 +24,7 @@ export function getConfetti() {
     />;
   }
   
-  export function getFireworks() {
+  export function GetFireworks() {
     return (
         
         <Fireworks
@@ -49,7 +47,7 @@ export function getConfetti() {
       )
   }
   
-    export function getStars() {
+    export function GetStars() {
         return(
             <>
             <span className="stars star1">
@@ -63,7 +61,5 @@ export function getConfetti() {
             </span>
           </>
         )
-    }
-
-    
+    } 
 
