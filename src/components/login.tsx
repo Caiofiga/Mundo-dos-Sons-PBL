@@ -94,9 +94,10 @@ const ResultsPage: React.FC<ResultsProps> = ({ users, onSelect, onDelete, show, 
 const VideoPage: React.FC<VideoProps> = ({ OnAcceptClick, OnDenyClick }) => {
   return (
   <div className="app-container">
-  <video className="video" width="504" height="440" controls>
-    <source src={videosrc} type="video/mp4" />
-    </video>
+  <iframe width="960" height="540" src="https://www.youtube.com/embed/FmlMAN68u5Y" title="Join Our Team" 
+   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+  allowFullScreen className="video">
+  </iframe>
     <div className="button-container"> 
   <button className="buttonsme btn btn-outline-success" onClick={OnAcceptClick}>Aceitar 👍 </button>
   <button className="buttonsme btn btn-outline-danger" onClick={OnDenyClick}>Recusar 👎</button>
