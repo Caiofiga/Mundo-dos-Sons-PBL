@@ -92,7 +92,7 @@ const Imagem = () => {
   ];
   const num_correto = [3, 4, 3, 3, 2];
   const word = words[currentSyllableIndex];
-  const sound = words.map((word) => `/snd/${word}.mp3`);
+  const sound = words.map((word) => `/snd/${word}q.mp3`);
   const navigate = useNavigate();
 
   interface SyllableProps {

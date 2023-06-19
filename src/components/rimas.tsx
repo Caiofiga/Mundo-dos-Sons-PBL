@@ -102,7 +102,7 @@ const Rimas = () => {
           <img
             className="microfone"
             src="/img/mic.png"
-            onClick={() => playSound(image)}
+            onClick={() => playSound2(image)}
           ></img>
           <img className="syllableImage" src={imageMainSrc} alt={image}></img>
         </span>
@@ -171,6 +171,12 @@ const Rimas = () => {
     audio.play();
     console.log("playing sound:" + `/snd/${image}.mp3`);
   }
+  function playSound2(image: string) {
+    const audio = new Audio(`/snd/${image}.mp3`);
+    audio.play();
+    console.log("playing sound:" + `/snd/${image}q.mp3`);
+  }
+
 
   return (
     <AnimatedPages key={gameState}>
