@@ -10,7 +10,6 @@ import firebaseConfig from "./firebaseconfig";
 import { getUser, getAllUsers, GetUserId, DelDocByID, GetCustomUId } from "./firebase";
 import AlertComponent from "./AlertComponent";
 
-const videosrc = "./video/video.mp4"
 const titulo = "./img/titulo.png";
 
 enum PageStates {
