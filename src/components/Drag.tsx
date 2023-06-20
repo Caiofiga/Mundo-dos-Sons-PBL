@@ -12,6 +12,7 @@ import { GetStars } from "./congrats";
 import AnimatedPages from "./animated";
 
 const colors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange', 'pink']; // Add as many colors as you need
+const map1 = "/img/BGDrag.jpg";
 
 const audioMap: { [key: string]: string } = {
   tu: "/snd/tu.mp3",
@@ -82,6 +83,7 @@ const BetweenLevelsScreen: React.FC<BetweenLevelsScreenProps> = ({
 
 const StartScreen: React.FC<StartScreenProps> = ({ onStart }) => (
   <div>
+    <img src="/img/BGDrag.jpg" />
     <h1>Desafio 1: Forme a palavra</h1>
     <button className="Button btn btn-outline-primary" onClick={onStart}>
       Jogar
