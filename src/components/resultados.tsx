@@ -271,7 +271,7 @@ export default function SimpleTabs({ userId }: { userId: string }) {
       <Box
         sx={{ border: 1, borderRadius: 20, borderColor: "white", padding: 2 }}
       >
-        <h2> Dados do usuario: </h2>
+        <h2> Dados do usuário: </h2>
         {userDataCollection6.map((user, index) => (
           <div key={index}>
             <p>Nome: {user.nome} </p>
@@ -296,8 +296,8 @@ export default function SimpleTabs({ userId }: { userId: string }) {
           }
         >
           <Tab label="Formar Palavra" />
-          <Tab label="Silabas e Imagems" />
-          <Tab label="Numero de Silabas" />
+          <Tab label="Sílabas e Imagems" />
+          <Tab label="Número de Sílabas" />
           <Tab label="Rimas" />
           <Tab label="Fonemas" />
           {/* More Tabs if needed */}
@@ -462,7 +462,7 @@ export default function SimpleTabs({ userId }: { userId: string }) {
               </p>
             </Grid>
             <Grid item xs={4}>
-              <h3> Tempo por Questao: </h3>
+              <h3> Tempo por Questão: </h3>
               <p>Resposta 1: {Times2[0]} segundos</p>
               <br></br>
               <p>Resposta 2: {Times2[1]} segundos</p>
@@ -542,7 +542,7 @@ export default function SimpleTabs({ userId }: { userId: string }) {
               </p>
             </Grid>
             <Grid item xs={4}>
-              <h3> Tempo por Questao: </h3>
+              <h3> Tempo por Questão: </h3>
               <p>Resposta 1: {Times3[0]} segundos</p>
               <br></br>
               <p>Resposta 2: {Times3[1]} segundos</p>
@@ -615,7 +615,7 @@ export default function SimpleTabs({ userId }: { userId: string }) {
               </p>
             </Grid>
             <Grid item xs={4}>
-              <h3> Tempo por Questao: </h3>
+              <h3> Tempo por Questão: </h3>
               <p>Resposta 1: {Times4[0]} segundos</p>
               <br></br>
               <p>Resposta 2: {Times4[1]} segundos</p>
@@ -687,7 +687,7 @@ export default function SimpleTabs({ userId }: { userId: string }) {
               </p>
             </Grid>
             <Grid item xs={4}>
-              <h3> Tempo por Questao: </h3>
+              <h3> Tempo por Questão: </h3>
               <p>Resposta 1: {Times5[0]} segundos</p>
               <br></br>
               <p>Resposta 2: {Times5[1]} segundos</p>

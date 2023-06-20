@@ -270,7 +270,7 @@ const divRef5 = useRef<HTMLDivElement | null>(null);
         <Grid container>
           <Grid item xs={4}>
       
-          <h2> Dados do usuario: </h2>
+          <h2> Dados do usuário: </h2>
           {userDataCollection6.map((user, index) => (
           <div key={index}>
             <p>Nome: {user.nome} </p>
@@ -370,7 +370,7 @@ const divRef5 = useRef<HTMLDivElement | null>(null);
               </p>
             </Grid>
             <Grid item xs={4}>
-              <h3> Tempo por Questao: </h3>
+              <h3> Tempo por Questão: </h3>
               <p>Resposta 1: {Times1[0]} segundos</p>
               <br></br>
               <p>Resposta 2: {Times1[1]} segundos</p>
@@ -386,7 +386,7 @@ const divRef5 = useRef<HTMLDivElement | null>(null);
         </div>
       <hr></hr>
         <div id="tabpanel1" ref={divRef2}>
-        <h4><b>Pergunta 2: Junte a Silaba com a Imagem</b></h4>
+        <h4><b>Pergunta 2: Junte a Sílaba com a Imagem</b></h4>
         <br></br>
         <br></br>
         {userDataCollection2.map((user: User, index: number) => (
@@ -472,7 +472,7 @@ const divRef5 = useRef<HTMLDivElement | null>(null);
               </p>
             </Grid>
             <Grid item xs={4}>
-              <h3> Tempo por Questao: </h3>
+              <h3> Tempo por Questão: </h3>
               <p>Resposta 1: {Times2[0]} segundos</p>
               <br></br>
               <p>Resposta 2: {Times2[1]} segundos</p>
@@ -496,7 +496,7 @@ const divRef5 = useRef<HTMLDivElement | null>(null);
       </div>
       <hr></hr>
       <div id="tabpanel2" ref={divRef3}>
-      <h4><b>Pergunta 3: Conte as Silabas</b></h4>
+      <h4><b>Pergunta 3: Conte as Sílabas</b></h4>
         <br></br>
         <br></br>
         {userDataCollection3.map((user: User, index: number) => (
@@ -554,7 +554,7 @@ const divRef5 = useRef<HTMLDivElement | null>(null);
               </p>
             </Grid>
             <Grid item xs={4}>
-              <h3> Tempo por Questao: </h3>
+              <h3> Tempo por Questão: </h3>
               <p>Resposta 1: {Times3[0]} segundos</p>
               <br></br>
               <p>Resposta 2: {Times3[1]} segundos</p>
@@ -629,7 +629,7 @@ const divRef5 = useRef<HTMLDivElement | null>(null);
               </p>
             </Grid>
             <Grid item xs={4}>
-              <h3> Tempo por Questao: </h3>
+              <h3> Tempo por Questão: </h3>
               <p>Resposta 1: {Times4[0]} segundos</p>
               <br></br>
               <p>Resposta 2: {Times4[1]} segundos</p>
@@ -703,7 +703,7 @@ const divRef5 = useRef<HTMLDivElement | null>(null);
               </p>
             </Grid>
             <Grid item xs={4}>
-              <h3> Tempo por Questao: </h3>
+              <h3> Tempo por Questão: </h3>
               <p>Resposta 1: {Times5[0]} segundos</p>
               <br></br>
               <p>Resposta 2: {Times5[1]} segundos</p>

@@ -59,7 +59,7 @@ const ResultsPage: React.FC<ResultsProps> = ({ users, onSelect, onDelete, show, 
   // Delete handler that sets the alert text
   const handleDelete = (user: any) => {
     onDelete(user);
-    setAlertText(`Usuario ${user.nome} ${user.sobrenome} removido com sucesso!`);
+    setAlertText(`Usuário ${user.nome} ${user.sobrenome} removido com sucesso!`);
     setShow(true); // display the alert after setting the text
   }
 
@@ -110,10 +110,10 @@ const CheckPage: React.FC<CheckProps> = ({ OnNewClick, OnOldClick }) => {
     <span> <img src={titulo}></img></span>
     <br></br>
     <br></br>
-    <h2>  Ja jogou? </h2>
+    <h2>  Já jogou? </h2>
     <div className="button-container">
-  <button className="buttonsme2 btn btn-outline-warning"  onClick={OnNewClick}>Novo usuario</button>
-  <button className="buttonsme2 btn btn-outline-primary"  onClick={OnOldClick}>Usuario antigo</button>
+  <button className="buttonsme2 btn btn-outline-warning"  onClick={OnNewClick}>Novo usuário</button>
+  <button className="buttonsme2 btn btn-outline-primary"  onClick={OnOldClick}>Usuário antigo</button>
   </div>
   </div>
   )
@@ -122,7 +122,7 @@ const LookupPage: React.FC<LookupProps> = ({ OnLookupClick, OnListAllClick, nome
 
   return (
   <div className="app-container">
-    <h1> Pesquisar Usuarios </h1>
+    <h1> Pesquisar Usuários </h1>
 <form onSubmit={OnLookupClick}>
   <div className="form-group">
   <input
@@ -161,7 +161,7 @@ const LookupPage: React.FC<LookupProps> = ({ OnLookupClick, OnListAllClick, nome
         Pesquisar 
       </button>
       <button onClick={OnListAllClick} className="buttonsme3 btn btn-secondary">
-        List All 
+        Listar todos 
       </button>
     </div>
   </form>
@@ -182,7 +182,7 @@ const SignUp: React.FC = () => {
   const { setUserId } = useContext(UserContext);
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false); // Add state variable
-  const [PageState, setPageState] = useState(PageStates.VIDEO)
+  const [PageState, setPageState] = useState(PageStates.CHECK); // Add state variable
   const [results, setResults] = useState<any[]>([]); // to hold results from the lookup
   const [show, setShow] = useState(false);  // define 'show' and 'setShow' inside the component
 

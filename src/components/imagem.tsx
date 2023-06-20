@@ -40,7 +40,7 @@ const GameOverScreen: React.FC<GameOverProps> = ({ onNextgame }) => (
     <div className="Complete">
       <h1>Fase Completa!</h1>
       <button className="Button btn btn-outline-primary" onClick={onNextgame}>
-        Proximo Jogo
+        Próximo Jogo
       </button>
     </div>
   </div>
@@ -54,9 +54,9 @@ const BetweenLevelsScreen: React.FC<BetweenLevelsScreenProps> = ({
     {GetFireworks()}
     {GetStars()}
     <div className="Congrats ">
-      <h1>Parabens!</h1>
+      <h1>Parabéns!</h1>
       <button className="Button btn btn-outline-primary" onClick={onNextLevel}>
-        Proxima Fase
+        Próxima Fase
       </button>
     </div>
   </div>
@@ -64,7 +64,7 @@ const BetweenLevelsScreen: React.FC<BetweenLevelsScreenProps> = ({
 
 const StartScreen: React.FC<StartScreenProps> = ({ onStart }) => (
   <div className="appContainer">
-    <h1>Desafio 3: Conte as Silabas</h1>
+    <h1>Desafio 3: Conte as Sílabas</h1>
     <button className="btn btn-outline-success" onClick={onStart}>
       Jogar
     </button>
