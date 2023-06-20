@@ -6,6 +6,7 @@ import { UserContext } from "./UserContext";
 import { addAnswersToDB } from "./firebase";
 import { Stopwatch } from "ts-stopwatch";
 import { GetConfetti, GetFireworks, GetStars } from "./congrats";
+import ReactPlayer from "react-player";
 import "bootstrap/dist/css/bootstrap.css";
 
 const resposta2: string[] = [];
@@ -26,6 +27,7 @@ enum GameState {
   STARTING,
   RUNNING,
   BETWEEN_LEVELS,
+  VIDEO,
   COMPLETED,
 }
 
@@ -40,14 +42,44 @@ interface GameOverProps {
   onNextgame: () => void;
 }
 
+interface VideoProps {
+  onVideoEnd: () => void;
+  }
+
+  const VideoScreen: React.FC<VideoProps> = ({ onVideoEnd }) => (
+    <div className="Videome" style={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        position: 'fixed', 
+        top: 0, 
+        left: 0, 
+        width: '100vw', 
+        height: '100vh', 
+        zIndex: 9999, 
+        backgroundColor: 'black' 
+      }}>
+      <ReactPlayer 
+        url="https://www.youtube.com/embed/iFuDg96IWKU" 
+        playing={true}
+        onEnded={onVideoEnd}
+        width='100%'
+        height='100%'
+        style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}
+      />
+    </div>
+  );
+  
+
 const GameOverScreen: React.FC<GameOverProps> = ({ onNextgame }) => (
   <div className="app-container">
     {GetConfetti()}
     {GetFireworks()}
     {GetStars()}
+    <img  className="overandout" src="/img/color2.png" alt="gameOver"></img>
     <div className="Complete">
-      <h1>Fase Completa!</h1>
-      <button className="Button btn btn-outline-primary" onClick={onNextgame}>
+      <h1><b>Fase Completa!</b></h1>
+      <button className="Button btn btn-primary" onClick={onNextgame}>
         Próximo Jogo
       </button>
     </div>
@@ -113,7 +145,7 @@ const Silaba = () => {
     if (currentSyllableIndex < palavras.length - 1) {
       setGameState(GameState.BETWEEN_LEVELS);
     } else {
-      setGameState(GameState.COMPLETED);
+      setGameState(GameState.VIDEO);
       const answerObj = resposta2.slice(0);
       const tempoObj = Tempos.slice(0);
 
@@ -202,6 +234,9 @@ const Silaba = () => {
             stopwatch.start();
           }}
         />
+      )}~
+      {gameState === GameState.VIDEO && (
+        <VideoScreen onVideoEnd={() => setGameState(GameState.COMPLETED)} /> 
       )}
       {gameState === GameState.COMPLETED && (
         <GameOverScreen onNextgame={() => navigate("/Imagem")} />
