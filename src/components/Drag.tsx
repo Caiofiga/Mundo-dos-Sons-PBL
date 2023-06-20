@@ -84,7 +84,7 @@ const BetweenLevelsScreen: React.FC<BetweenLevelsScreenProps> = ({
 const StartScreen: React.FC<StartScreenProps> = ({ onStart }) => (
   <div>
     <img src="/img/BGDrag.jpg" />
-    <h1>Desafio 1: Forme a palavra</h1>
+    <h1>Desafio 5: Forme a palavra</h1>
     <button className="Button btn btn-outline-primary" onClick={onStart}>
       Jogar
     </button>
@@ -97,9 +97,9 @@ const GameOverScreen: React.FC<GameOverProps> = ({ onNextgame }) => (
     {GetFireworks()}
     {GetStars()}
     <div className="Complete">
-      <h1>Fase Completa!</h1>
+      <h1>Fim de Jogo!</h1>
       <button className="Button btn btn-outline-primary" onClick={onNextgame}>
-        Próximo Jogo
+        Obrigado por Jogar!
       </button>
     </div>
   </div>
@@ -321,7 +321,6 @@ const Drag = () => {
                                     className="Mic"
                                   />
                                 </button>
-                                <p>Clique aqui para arrastar</p>
                                 <p className="getout">{item.content}</p>
                               </div>
                             )}

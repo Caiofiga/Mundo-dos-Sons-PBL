@@ -35,9 +35,9 @@ const GameOverScreen: React.FC<GameOverProps> = ({ onNextgame }) => (
     {GetFireworks()}
     {GetStars()}
     <div className="Complete">
-      <h1>Fim de Jogo!</h1>
+      <h1>Fase completa!</h1>
       <button className="Button btn btn-outline-primary" onClick={onNextgame}>
-        Resultados
+        Próximo Jogo
       </button>
     </div>
   </div>
@@ -61,7 +61,7 @@ const BetweenLevelsScreen: React.FC<BetweenLevelsScreenProps> = ({
 
 const StartScreen: React.FC<StartScreenProps> = ({ onStart }) => (
   <div className="appContainer">
-    <h1>Desafio 5: Identifique os sons</h1>
+    <h1>Desafio 1: Identifique os sons</h1>
     <button className="btn btn-outline-success" onClick={onStart}>
       Jogar
     </button>
@@ -209,7 +209,7 @@ const Sons = () => {
         />
       )}
       {gameState === GameState.COMPLETED && (
-        <GameOverScreen onNextgame={() => navigate("/Resultados")} />
+        <GameOverScreen onNextgame={() => navigate("/Silabas")} />
       )}
     </AnimatedPages>
   );

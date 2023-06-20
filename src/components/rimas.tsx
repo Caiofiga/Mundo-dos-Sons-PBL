@@ -210,7 +210,7 @@ const Rimas = () => {
         />
       )}
       {gameState === GameState.COMPconstED && (
-        <GameOverScreen onNextgame={() => navigate("/sons")} />
+        <GameOverScreen onNextgame={() => navigate("/Drag")} />
       )}
     </AnimatedPages>
   );
