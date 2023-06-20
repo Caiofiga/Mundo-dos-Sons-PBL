@@ -340,7 +340,7 @@ const Drag = () => {
       case GameState.BETWEEN_LEVELS:
         return <BetweenLevelsScreen onNextLevel={loadNextLine} />;
       case GameState.COMPLETED:
-        return <GameOverScreen onNextgame={() => navigate("/Silaba")} />;
+        return <GameOverScreen onNextgame={() => navigate("/Resultados")} />;
       default:
         return null;
     }

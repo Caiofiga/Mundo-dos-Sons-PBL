@@ -209,7 +209,7 @@ const Sons = () => {
         />
       )}
       {gameState === GameState.COMPLETED && (
-        <GameOverScreen onNextgame={() => navigate("/Silabas")} />
+        <GameOverScreen onNextgame={() => navigate("/Silaba")} />
       )}
     </AnimatedPages>
   );
