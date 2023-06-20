@@ -12,7 +12,6 @@ import { GetStars } from "./congrats";
 import AnimatedPages from "./animated";
 
 const colors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange', 'pink']; // Add as many colors as you need
-const map1 = "/img/BGDrag.jpg";
 
 const audioMap: { [key: string]: string } = {
   tu: "/snd/tu.mp3",
