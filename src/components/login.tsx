@@ -182,7 +182,7 @@ const SignUp: React.FC = () => {
   const { setUserId } = useContext(UserContext);
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false); // Add state variable
-  const [PageState, setPageState] = useState(PageStates.CHECK); // Add state variable
+  const [PageState, setPageState] = useState(PageStates.VIDEO); // Add state variable
   const [results, setResults] = useState<any[]>([]); // to hold results from the lookup
   const [show, setShow] = useState(false);  // define 'show' and 'setShow' inside the component
 
