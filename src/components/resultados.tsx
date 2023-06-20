@@ -35,13 +35,7 @@ const CorrectAnswers4: string[] = [
   "camarão",
   "raia",
 ];
-const CorrectAnswers5: string[] = [
-  "chuva",
-  "sapo",
-  "Vela",
-  "milho",
-  "passaro",
-];
+const CorrectAnswers5: string[] = ["chuva", "sapo", "Vela", "milho", "passaro"];
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -258,14 +252,9 @@ export default function SimpleTabs({ userId }: { userId: string }) {
     setValue(newValue);
   };
   console.log(Times1[0]);
-  
- 
-     
-    
-   
-    
+
   const navigate = useNavigate();
-  
+
   return (
     <div>
       <Box
@@ -278,7 +267,10 @@ export default function SimpleTabs({ userId }: { userId: string }) {
             <p>Sobrenome: {user.sobrenome} </p>
           </div>
         ))}
-        <button className="btn btn-outline-info" onClick={() => navigate("/PDF")}>
+        <button
+          className="btn btn-outline-info"
+          onClick={() => navigate("/PDF")}
+        >
           Exportar
         </button>
       </Box>
@@ -305,401 +297,401 @@ export default function SimpleTabs({ userId }: { userId: string }) {
       </Box>
       <TabPanel value={value} index={0}>
         <div id="tabpanel0">
-        {userDataCollection1.map((user: User, index: number) => (
-          <Grid container key={index} spacing={0}>
-            <Grid item xs={4}>
-              <p>
-                Resposta 1: {user.answerObj[0]}{" "}
-                {checkAnswer(user.answerObj[0], CorrectAnswers1[0])}
-                {!isAnswerCorrect(user.answerObj[0], CorrectAnswers1[0])
-                  ? ` Resposta correta: ${CorrectAnswers1[0]}`
-                  : "\u00A0"}
-              </p>
+          {userDataCollection1.map((user: User, index: number) => (
+            <Grid container key={index} spacing={0}>
+              <Grid item xs={4}>
+                <p>
+                  Resposta 1: {user.answerObj[0]}{" "}
+                  {checkAnswer(user.answerObj[0], CorrectAnswers1[0])}
+                  {!isAnswerCorrect(user.answerObj[0], CorrectAnswers1[0])
+                    ? ` Resposta correta: ${CorrectAnswers1[0]}`
+                    : "\u00A0"}
+                </p>
 
-              <p>
-                Resposta 2: {user.answerObj[1]}{" "}
-                {checkAnswer(user.answerObj[1], CorrectAnswers1[1])}
-                {!isAnswerCorrect(user.answerObj[1], CorrectAnswers1[1])
-                  ? ` Resposta correta: ${CorrectAnswers1[1]}`
-                  : "\u00A0"}
-              </p>
+                <p>
+                  Resposta 2: {user.answerObj[1]}{" "}
+                  {checkAnswer(user.answerObj[1], CorrectAnswers1[1])}
+                  {!isAnswerCorrect(user.answerObj[1], CorrectAnswers1[1])
+                    ? ` Resposta correta: ${CorrectAnswers1[1]}`
+                    : "\u00A0"}
+                </p>
 
-              <p>
-                Resposta 3: {user.answerObj[2]}{" "}
-                {checkAnswer(user.answerObj[2], CorrectAnswers1[2])}
-                {!isAnswerCorrect(user.answerObj[2], CorrectAnswers1[2])
-                  ? ` Resposta correta: ${CorrectAnswers1[2]}`
-                  : "\u00A0"}
-              </p>
+                <p>
+                  Resposta 3: {user.answerObj[2]}{" "}
+                  {checkAnswer(user.answerObj[2], CorrectAnswers1[2])}
+                  {!isAnswerCorrect(user.answerObj[2], CorrectAnswers1[2])
+                    ? ` Resposta correta: ${CorrectAnswers1[2]}`
+                    : "\u00A0"}
+                </p>
 
-              <p>
-                Resposta 4: {user.answerObj[3]}{" "}
-                {checkAnswer(user.answerObj[3], CorrectAnswers1[3])}
-                {!isAnswerCorrect(user.answerObj[3], CorrectAnswers1[3])
-                  ? ` Resposta correta: ${CorrectAnswers1[3]}`
-                  : "\u00A0"}
-              </p>
+                <p>
+                  Resposta 4: {user.answerObj[3]}{" "}
+                  {checkAnswer(user.answerObj[3], CorrectAnswers1[3])}
+                  {!isAnswerCorrect(user.answerObj[3], CorrectAnswers1[3])
+                    ? ` Resposta correta: ${CorrectAnswers1[3]}`
+                    : "\u00A0"}
+                </p>
 
-              <p>
-                Resposta 5: {user.answerObj[4]}{" "}
-                {checkAnswer(user.answerObj[4], CorrectAnswers1[4])}
-                {!isAnswerCorrect(user.answerObj[4], CorrectAnswers1[4])
-                  ? ` Resposta correta: ${CorrectAnswers1[4]}`
-                  : "\u00A0"}
-              </p>
+                <p>
+                  Resposta 5: {user.answerObj[4]}{" "}
+                  {checkAnswer(user.answerObj[4], CorrectAnswers1[4])}
+                  {!isAnswerCorrect(user.answerObj[4], CorrectAnswers1[4])
+                    ? ` Resposta correta: ${CorrectAnswers1[4]}`
+                    : "\u00A0"}
+                </p>
+              </Grid>
+              <Grid item xs={4}>
+                <h3>Porcentagem de Acertos: </h3> <br></br>
+                <p>
+                  <div style={{ width: 200, height: 200 }}>
+                    <CircularProgressbar
+                      value={calculatePercentage(acertos1, CorrectAnswers1)}
+                      text={`${Math.round(
+                        calculatePercentage(acertos1, CorrectAnswers1)
+                      ).toFixed(2)}%`}
+                    />
+                  </div>
+                </p>
+              </Grid>
+              <Grid item xs={4}>
+                <h3> Tempo por Questão: </h3>
+                <p>Resposta 1: {Times1[0]} segundos</p>
+                <br></br>
+                <p>Resposta 2: {Times1[1]} segundos</p>
+                <br></br>
+                <p>Resposta 3: {Times1[2]} segundos</p>
+                <br></br>
+                <p>Resposta 4: {Times1[3]} segundos</p>
+                <br></br>
+                <p>Resposta 5: {Times1[4]} segundos</p>
+              </Grid>
             </Grid>
-            <Grid item xs={4}>
-              <h3>Porcentagem de Acertos: </h3> <br></br>
-              <p>
-                <div style={{ width: 200, height: 200 }}>
-                  <CircularProgressbar
-                    value={calculatePercentage(acertos1, CorrectAnswers1)}
-                    text={`${Math.round(
-                      calculatePercentage(acertos1, CorrectAnswers1)
-                    ).toFixed(2)}%`}
-                  />
-                </div>
-              </p>
-            </Grid>
-            <Grid item xs={4}>
-              <h3> Tempo por Questao: </h3>
-              <p>Resposta 1: {Times1[0]} segundos</p>
-              <br></br>
-              <p>Resposta 2: {Times1[1]} segundos</p>
-              <br></br>
-              <p>Resposta 3: {Times1[2]} segundos</p>
-              <br></br>
-              <p>Resposta 4: {Times1[3]} segundos</p>
-              <br></br>
-              <p>Resposta 5: {Times1[4]} segundos</p>
-            </Grid>
-          </Grid>
-        ))}
+          ))}
         </div>
       </TabPanel>
       <TabPanel value={value} index={1}>
         <div id="tabpanel1">
-        {userDataCollection2.map((user: User, index: number) => (
-          <Grid container key={index} spacing={0}>
-            <Grid item xs={4}>
-              <div key={index}>
-                <p>
-                  Resposta 1: {user.answerObj[0]}{" "}
-                  {checkAnswer(user.answerObj[0], CorrectAnswers2[0])}
-                  {!isAnswerCorrect(user.answerObj[0], CorrectAnswers2[0])
-                    ? ` Resposta correta: ${CorrectAnswers2[0]}`
-                    : "\u00A0"}
-                </p>
-                <p>
-                  Resposta 2: {user.answerObj[1]}{" "}
-                  {checkAnswer(user.answerObj[1], CorrectAnswers2[1])}
-                  {!isAnswerCorrect(user.answerObj[1], CorrectAnswers2[1])
-                    ? ` Resposta correta: ${CorrectAnswers2[1]}`
-                    : "\u00A0"}
-                </p>
-                <p>
-                  Resposta 3: {user.answerObj[2]}{" "}
-                  {checkAnswer(user.answerObj[2], CorrectAnswers2[2])}
-                  {!isAnswerCorrect(user.answerObj[2], CorrectAnswers2[2])
-                    ? ` Resposta correta: ${CorrectAnswers2[2]}`
-                    : "\u00A0"}
-                </p>
-                <p>
-                  Resposta 4: {user.answerObj[3]}{" "}
-                  {checkAnswer(user.answerObj[3], CorrectAnswers2[3])}
-                  {!isAnswerCorrect(user.answerObj[3], CorrectAnswers2[3])
-                    ? ` Resposta correta: ${CorrectAnswers2[3]}`
-                    : "\u00A0"}
-                </p>
-                <p>
-                  Resposta 5: {user.answerObj[4]}{" "}
-                  {checkAnswer(user.answerObj[4], CorrectAnswers2[4])}
-                  {!isAnswerCorrect(user.answerObj[4], CorrectAnswers2[4])
-                    ? ` Resposta correta: ${CorrectAnswers2[4]}`
-                    : "\u00A0"}
-                </p>
-                <p>
-                  Resposta 6: {user.answerObj[5]}{" "}
-                  {checkAnswer(user.answerObj[5], CorrectAnswers2[5])}
-                  {!isAnswerCorrect(user.answerObj[5], CorrectAnswers2[5])
-                    ? ` Resposta correta: ${CorrectAnswers2[5]}`
-                    : "\u00A0"}
-                </p>
-                <p>
-                  Resposta 7: {user.answerObj[6]}{" "}
-                  {checkAnswer(user.answerObj[6], CorrectAnswers2[6])}
-                  {!isAnswerCorrect(user.answerObj[6], CorrectAnswers2[6])
-                    ? ` Resposta correta: ${CorrectAnswers2[6]}`
-                    : "\u00A0"}
-                </p>
-                <p>
-                  Resposta 8: {user.answerObj[7]}{" "}
-                  {checkAnswer(user.answerObj[7], CorrectAnswers2[7])}
-                  {!isAnswerCorrect(user.answerObj[7], CorrectAnswers2[7])
-                    ? ` Resposta correta: ${CorrectAnswers2[7]}`
-                    : "\u00A0"}
-                </p>
-                <p>
-                  Resposta 9: {user.answerObj[8]}{" "}
-                  {checkAnswer(user.answerObj[8], CorrectAnswers2[8])}
-                  {!isAnswerCorrect(user.answerObj[8], CorrectAnswers2[8])
-                    ? ` Resposta correta: ${CorrectAnswers2[8]}`
-                    : "\u00A0"}
-                </p>
-              </div>
-            </Grid>
-            <Grid item xs={4}>
-              <h3>Porcentagem de Acertos: </h3> <br></br>
-              <p>
-                <div style={{ width: 200, height: 200 }}>
-                  <CircularProgressbar
-                    value={calculatePercentage(acertos2, CorrectAnswers2)}
-                    text={`${Math.round(
-                      calculatePercentage(acertos2, CorrectAnswers2)
-                    ).toFixed(2)}%`}
-                  />
+          {userDataCollection2.map((user: User, index: number) => (
+            <Grid container key={index} spacing={0}>
+              <Grid item xs={4}>
+                <div key={index}>
+                  <p>
+                    Resposta 1: {user.answerObj[0]}{" "}
+                    {checkAnswer(user.answerObj[0], CorrectAnswers2[0])}
+                    {!isAnswerCorrect(user.answerObj[0], CorrectAnswers2[0])
+                      ? ` Resposta correta: ${CorrectAnswers2[0]}`
+                      : "\u00A0"}
+                  </p>
+                  <p>
+                    Resposta 2: {user.answerObj[1]}{" "}
+                    {checkAnswer(user.answerObj[1], CorrectAnswers2[1])}
+                    {!isAnswerCorrect(user.answerObj[1], CorrectAnswers2[1])
+                      ? ` Resposta correta: ${CorrectAnswers2[1]}`
+                      : "\u00A0"}
+                  </p>
+                  <p>
+                    Resposta 3: {user.answerObj[2]}{" "}
+                    {checkAnswer(user.answerObj[2], CorrectAnswers2[2])}
+                    {!isAnswerCorrect(user.answerObj[2], CorrectAnswers2[2])
+                      ? ` Resposta correta: ${CorrectAnswers2[2]}`
+                      : "\u00A0"}
+                  </p>
+                  <p>
+                    Resposta 4: {user.answerObj[3]}{" "}
+                    {checkAnswer(user.answerObj[3], CorrectAnswers2[3])}
+                    {!isAnswerCorrect(user.answerObj[3], CorrectAnswers2[3])
+                      ? ` Resposta correta: ${CorrectAnswers2[3]}`
+                      : "\u00A0"}
+                  </p>
+                  <p>
+                    Resposta 5: {user.answerObj[4]}{" "}
+                    {checkAnswer(user.answerObj[4], CorrectAnswers2[4])}
+                    {!isAnswerCorrect(user.answerObj[4], CorrectAnswers2[4])
+                      ? ` Resposta correta: ${CorrectAnswers2[4]}`
+                      : "\u00A0"}
+                  </p>
+                  <p>
+                    Resposta 6: {user.answerObj[5]}{" "}
+                    {checkAnswer(user.answerObj[5], CorrectAnswers2[5])}
+                    {!isAnswerCorrect(user.answerObj[5], CorrectAnswers2[5])
+                      ? ` Resposta correta: ${CorrectAnswers2[5]}`
+                      : "\u00A0"}
+                  </p>
+                  <p>
+                    Resposta 7: {user.answerObj[6]}{" "}
+                    {checkAnswer(user.answerObj[6], CorrectAnswers2[6])}
+                    {!isAnswerCorrect(user.answerObj[6], CorrectAnswers2[6])
+                      ? ` Resposta correta: ${CorrectAnswers2[6]}`
+                      : "\u00A0"}
+                  </p>
+                  <p>
+                    Resposta 8: {user.answerObj[7]}{" "}
+                    {checkAnswer(user.answerObj[7], CorrectAnswers2[7])}
+                    {!isAnswerCorrect(user.answerObj[7], CorrectAnswers2[7])
+                      ? ` Resposta correta: ${CorrectAnswers2[7]}`
+                      : "\u00A0"}
+                  </p>
+                  <p>
+                    Resposta 9: {user.answerObj[8]}{" "}
+                    {checkAnswer(user.answerObj[8], CorrectAnswers2[8])}
+                    {!isAnswerCorrect(user.answerObj[8], CorrectAnswers2[8])
+                      ? ` Resposta correta: ${CorrectAnswers2[8]}`
+                      : "\u00A0"}
+                  </p>
                 </div>
-              </p>
+              </Grid>
+              <Grid item xs={4}>
+                <h3>Porcentagem de Acertos: </h3> <br></br>
+                <p>
+                  <div style={{ width: 200, height: 200 }}>
+                    <CircularProgressbar
+                      value={calculatePercentage(acertos2, CorrectAnswers2)}
+                      text={`${Math.round(
+                        calculatePercentage(acertos2, CorrectAnswers2)
+                      ).toFixed(2)}%`}
+                    />
+                  </div>
+                </p>
+              </Grid>
+              <Grid item xs={4}>
+                <h3> Tempo por Questão: </h3>
+                <p>Resposta 1: {Times2[0]} segundos</p>
+                <br></br>
+                <p>Resposta 2: {Times2[1]} segundos</p>
+                <br></br>
+                <p>Resposta 3: {Times2[2]} segundos</p>
+                <br></br>
+                <p>Resposta 4: {Times2[3]} segundos</p>
+                <br></br>
+                <p>Resposta 5: {Times2[4]} segundos</p>
+                <br></br>
+                <p>Resposta 6: {Times2[5]} segundos</p>
+                <br></br>
+                <p>Resposta 7: {Times2[6]} segundos</p>
+                <br></br>
+                <p>Resposta 8: {Times2[7]} segundos</p>
+                <br></br>
+                <p>Resposta 9: {Times2[8]} segundos</p>
+              </Grid>
             </Grid>
-            <Grid item xs={4}>
-              <h3> Tempo por Questão: </h3>
-              <p>Resposta 1: {Times2[0]} segundos</p>
-              <br></br>
-              <p>Resposta 2: {Times2[1]} segundos</p>
-              <br></br>
-              <p>Resposta 3: {Times2[2]} segundos</p>
-              <br></br>
-              <p>Resposta 4: {Times2[3]} segundos</p>
-              <br></br>
-              <p>Resposta 5: {Times2[4]} segundos</p>
-              <br></br>
-              <p>Resposta 6: {Times2[5]} segundos</p>
-              <br></br>
-              <p>Resposta 7: {Times2[6]} segundos</p>
-              <br></br>
-              <p>Resposta 8: {Times2[7]} segundos</p>
-              <br></br>
-              <p>Resposta 9: {Times2[8]} segundos</p>
-            </Grid>
-          </Grid>
-        ))}
-      </div>
+          ))}
+        </div>
       </TabPanel>
       <TabPanel value={value} index={2}>
-      <div id="tabpanel2">
-        {userDataCollection3.map((user: User, index: number) => (
-          <Grid container key={index} spacing={0}>
-            <Grid item xs={4}>
-              <div key={index}>
-                <p>
-                  Resposta 1: {user.answerObj[0]}{" "}
-                  {checkAnswer(user.answerObj[0], CorrectAnswers3[0])}
-                  {!isAnswerCorrect(user.answerObj[0], CorrectAnswers3[0])
-                    ? ` Resposta correta: ${CorrectAnswers3[0]}`
-                    : "\u00A0"}
-                </p>
-                <p>
-                  Resposta 2: {user.answerObj[1]}{" "}
-                  {checkAnswer(user.answerObj[1], CorrectAnswers3[1])}
-                  {!isAnswerCorrect(user.answerObj[1], CorrectAnswers3[1])
-                    ? ` Resposta correta: ${CorrectAnswers3[1]}`
-                    : "\u00A0"}
-                </p>
-                <p>
-                  Resposta 3: {user.answerObj[2]}{" "}
-                  {checkAnswer(user.answerObj[2], CorrectAnswers3[2])}
-                  {!isAnswerCorrect(user.answerObj[2], CorrectAnswers3[2])
-                    ? ` Resposta correta: ${CorrectAnswers3[2]}`
-                    : "\u00A0"}
-                </p>
-                <p>
-                  Resposta 4: {user.answerObj[3]}{" "}
-                  {checkAnswer(user.answerObj[3], CorrectAnswers3[3])}
-                  {!isAnswerCorrect(user.answerObj[3], CorrectAnswers3[3])
-                    ? ` Resposta correta: ${CorrectAnswers3[3]}`
-                    : "\u00A0"}
-                </p>
-                <p>
-                  Resposta 5: {user.answerObj[4]}{" "}
-                  {checkAnswer(user.answerObj[4], CorrectAnswers3[4])}
-                  {!isAnswerCorrect(user.answerObj[4], CorrectAnswers3[4])
-                    ? ` Resposta correta: ${CorrectAnswers3[4]}`
-                    : "\u00A0"}
-                </p>
-              </div>
-            </Grid>
-            <Grid item xs={4}>
-              <h3>Porcentagem de Acertos: </h3> <br></br>
-              <p>
-                <div style={{ width: 200, height: 200 }}>
-                  <CircularProgressbar
-                    value={calculatePercentage(acertos3, CorrectAnswers3)}
-                    text={`${Math.round(
-                      calculatePercentage(acertos3, CorrectAnswers3)
-                    ).toFixed(2)}%`}
-                  />
+        <div id="tabpanel2">
+          {userDataCollection3.map((user: User, index: number) => (
+            <Grid container key={index} spacing={0}>
+              <Grid item xs={4}>
+                <div key={index}>
+                  <p>
+                    Resposta 1: {user.answerObj[0]}{" "}
+                    {checkAnswer(user.answerObj[0], CorrectAnswers3[0])}
+                    {!isAnswerCorrect(user.answerObj[0], CorrectAnswers3[0])
+                      ? ` Resposta correta: ${CorrectAnswers3[0]}`
+                      : "\u00A0"}
+                  </p>
+                  <p>
+                    Resposta 2: {user.answerObj[1]}{" "}
+                    {checkAnswer(user.answerObj[1], CorrectAnswers3[1])}
+                    {!isAnswerCorrect(user.answerObj[1], CorrectAnswers3[1])
+                      ? ` Resposta correta: ${CorrectAnswers3[1]}`
+                      : "\u00A0"}
+                  </p>
+                  <p>
+                    Resposta 3: {user.answerObj[2]}{" "}
+                    {checkAnswer(user.answerObj[2], CorrectAnswers3[2])}
+                    {!isAnswerCorrect(user.answerObj[2], CorrectAnswers3[2])
+                      ? ` Resposta correta: ${CorrectAnswers3[2]}`
+                      : "\u00A0"}
+                  </p>
+                  <p>
+                    Resposta 4: {user.answerObj[3]}{" "}
+                    {checkAnswer(user.answerObj[3], CorrectAnswers3[3])}
+                    {!isAnswerCorrect(user.answerObj[3], CorrectAnswers3[3])
+                      ? ` Resposta correta: ${CorrectAnswers3[3]}`
+                      : "\u00A0"}
+                  </p>
+                  <p>
+                    Resposta 5: {user.answerObj[4]}{" "}
+                    {checkAnswer(user.answerObj[4], CorrectAnswers3[4])}
+                    {!isAnswerCorrect(user.answerObj[4], CorrectAnswers3[4])
+                      ? ` Resposta correta: ${CorrectAnswers3[4]}`
+                      : "\u00A0"}
+                  </p>
                 </div>
-              </p>
+              </Grid>
+              <Grid item xs={4}>
+                <h3>Porcentagem de Acertos: </h3> <br></br>
+                <p>
+                  <div style={{ width: 200, height: 200 }}>
+                    <CircularProgressbar
+                      value={calculatePercentage(acertos3, CorrectAnswers3)}
+                      text={`${Math.round(
+                        calculatePercentage(acertos3, CorrectAnswers3)
+                      ).toFixed(2)}%`}
+                    />
+                  </div>
+                </p>
+              </Grid>
+              <Grid item xs={4}>
+                <h3> Tempo por Questão: </h3>
+                <p>Resposta 1: {Times3[0]} segundos</p>
+                <br></br>
+                <p>Resposta 2: {Times3[1]} segundos</p>
+                <br></br>
+                <p>Resposta 3: {Times3[2]} segundos</p>
+                <br></br>
+                <p>Resposta 4: {Times3[3]} segundos</p>
+                <br></br>
+                <p>Resposta 5: {Times3[4]} segundos</p>
+                <br></br>
+              </Grid>
             </Grid>
-            <Grid item xs={4}>
-              <h3> Tempo por Questão: </h3>
-              <p>Resposta 1: {Times3[0]} segundos</p>
-              <br></br>
-              <p>Resposta 2: {Times3[1]} segundos</p>
-              <br></br>
-              <p>Resposta 3: {Times3[2]} segundos</p>
-              <br></br>
-              <p>Resposta 4: {Times3[3]} segundos</p>
-              <br></br>
-              <p>Resposta 5: {Times3[4]} segundos</p>
-              <br></br>
-            </Grid>
-          </Grid>
-        ))}
+          ))}
         </div>
       </TabPanel>
       <TabPanel value={value} index={3}>
-      <div id="tabpanel3">
-        {userDataCollection4.map((user: User, index: number) => (
-          <Grid container key={index} spacing={0}>
-            <Grid item xs={4}>
-              <div key={index}>
-                <p>
-                  Resposta 1: {user.answerObj[0]}{" "}
-                  {checkAnswer(user.answerObj[0], CorrectAnswers4[0])}
-                  {!isAnswerCorrect(user.answerObj[0], CorrectAnswers4[0])
-                    ? ` Resposta correta: ${CorrectAnswers4[0]}`
-                    : "\u00A0"}
-                </p>
-                <p>
-                  Resposta 2: {user.answerObj[1]}{" "}
-                  {checkAnswer(user.answerObj[1], CorrectAnswers4[1])}
-                  {!isAnswerCorrect(user.answerObj[1], CorrectAnswers4[1])
-                    ? ` Resposta correta: ${CorrectAnswers4[1]}`
-                    : "\u00A0"}
-                </p>
-                <p>
-                  Resposta 3: {user.answerObj[2]}{" "}
-                  {checkAnswer(user.answerObj[2], CorrectAnswers4[2])}
-                  {!isAnswerCorrect(user.answerObj[2], CorrectAnswers4[2])
-                    ? ` Resposta correta: ${CorrectAnswers4[2]}`
-                    : "\u00A0"}
-                </p>
-                <p>
-                  Resposta 4: {user.answerObj[3]}{" "}
-                  {checkAnswer(user.answerObj[3], CorrectAnswers4[3])}
-                  {!isAnswerCorrect(user.answerObj[3], CorrectAnswers4[3])
-                    ? ` Resposta correta: ${CorrectAnswers4[3]}`
-                    : "\u00A0"}
-                </p>
-                <p>
-                  Resposta 5: {user.answerObj[4]}{" "}
-                  {checkAnswer(user.answerObj[4], CorrectAnswers4[4])}
-                  {!isAnswerCorrect(user.answerObj[4], CorrectAnswers4[4])
-                    ? ` Resposta correta: ${CorrectAnswers4[4]}`
-                    : "\u00A0"}
-                </p>
-              </div>
-            </Grid>
-            <Grid item xs={4}>
-              <h3>Porcentagem de Acertos: </h3> <br></br>
-              <p>
-                <div style={{ width: 200, height: 200 }}>
-                  <CircularProgressbar
-                    value={calculatePercentage(acertos4, CorrectAnswers4)}
-                    text={`${Math.round(
-                      calculatePercentage(acertos4, CorrectAnswers4)
-                    ).toFixed(2)}%`}
-                  />
+        <div id="tabpanel3">
+          {userDataCollection4.map((user: User, index: number) => (
+            <Grid container key={index} spacing={0}>
+              <Grid item xs={4}>
+                <div key={index}>
+                  <p>
+                    Resposta 1: {user.answerObj[0]}{" "}
+                    {checkAnswer(user.answerObj[0], CorrectAnswers4[0])}
+                    {!isAnswerCorrect(user.answerObj[0], CorrectAnswers4[0])
+                      ? ` Resposta correta: ${CorrectAnswers4[0]}`
+                      : "\u00A0"}
+                  </p>
+                  <p>
+                    Resposta 2: {user.answerObj[1]}{" "}
+                    {checkAnswer(user.answerObj[1], CorrectAnswers4[1])}
+                    {!isAnswerCorrect(user.answerObj[1], CorrectAnswers4[1])
+                      ? ` Resposta correta: ${CorrectAnswers4[1]}`
+                      : "\u00A0"}
+                  </p>
+                  <p>
+                    Resposta 3: {user.answerObj[2]}{" "}
+                    {checkAnswer(user.answerObj[2], CorrectAnswers4[2])}
+                    {!isAnswerCorrect(user.answerObj[2], CorrectAnswers4[2])
+                      ? ` Resposta correta: ${CorrectAnswers4[2]}`
+                      : "\u00A0"}
+                  </p>
+                  <p>
+                    Resposta 4: {user.answerObj[3]}{" "}
+                    {checkAnswer(user.answerObj[3], CorrectAnswers4[3])}
+                    {!isAnswerCorrect(user.answerObj[3], CorrectAnswers4[3])
+                      ? ` Resposta correta: ${CorrectAnswers4[3]}`
+                      : "\u00A0"}
+                  </p>
+                  <p>
+                    Resposta 5: {user.answerObj[4]}{" "}
+                    {checkAnswer(user.answerObj[4], CorrectAnswers4[4])}
+                    {!isAnswerCorrect(user.answerObj[4], CorrectAnswers4[4])
+                      ? ` Resposta correta: ${CorrectAnswers4[4]}`
+                      : "\u00A0"}
+                  </p>
                 </div>
-              </p>
+              </Grid>
+              <Grid item xs={4}>
+                <h3>Porcentagem de Acertos: </h3> <br></br>
+                <p>
+                  <div style={{ width: 200, height: 200 }}>
+                    <CircularProgressbar
+                      value={calculatePercentage(acertos4, CorrectAnswers4)}
+                      text={`${Math.round(
+                        calculatePercentage(acertos4, CorrectAnswers4)
+                      ).toFixed(2)}%`}
+                    />
+                  </div>
+                </p>
+              </Grid>
+              <Grid item xs={4}>
+                <h3> Tempo por Questão: </h3>
+                <p>Resposta 1: {Times4[0]} segundos</p>
+                <br></br>
+                <p>Resposta 2: {Times4[1]} segundos</p>
+                <br></br>
+                <p>Resposta 3: {Times4[2]} segundos</p>
+                <br></br>
+                <p>Resposta 4: {Times4[3]} segundos</p>
+                <br></br>
+                <p>Resposta 5: {Times4[4]} segundos</p>
+              </Grid>
             </Grid>
-            <Grid item xs={4}>
-              <h3> Tempo por Questão: </h3>
-              <p>Resposta 1: {Times4[0]} segundos</p>
-              <br></br>
-              <p>Resposta 2: {Times4[1]} segundos</p>
-              <br></br>
-              <p>Resposta 3: {Times4[2]} segundos</p>
-              <br></br>
-              <p>Resposta 4: {Times4[3]} segundos</p>
-              <br></br>
-              <p>Resposta 5: {Times4[4]} segundos</p>
-            </Grid>
-          </Grid>
-        ))}
+          ))}
         </div>
       </TabPanel>
       <TabPanel value={value} index={4}>
-      <div id="tabpanel4">
-        {userDataCollection5.map((user: User, index: number) => (
-          <Grid container key={index} spacing={0}>
-            <Grid item xs={4}>
-              <div key={index}>
-                <p>
-                  Resposta 1: {user.answerObj[0]}{" "}
-                  {checkAnswer(user.answerObj[0], CorrectAnswers5[0])}
-                  {!isAnswerCorrect(user.answerObj[0], CorrectAnswers5[0])
-                    ? ` Resposta correta: ${CorrectAnswers5[0]}`
-                    : "\u00A0"}
-                </p>
-                <p>
-                  Resposta 2: {user.answerObj[1]}{" "}
-                  {checkAnswer(user.answerObj[1], CorrectAnswers5[1])}
-                  {!isAnswerCorrect(user.answerObj[1], CorrectAnswers5[1])
-                    ? ` Resposta correta: ${CorrectAnswers5[1]}`
-                    : "\u00A0"}
-                </p>
-                <p>
-                  Resposta 3: {user.answerObj[2]}{" "}
-                  {checkAnswer(user.answerObj[2], CorrectAnswers5[2])}
-                  {!isAnswerCorrect(user.answerObj[2], CorrectAnswers5[2])
-                    ? ` Resposta correta: ${CorrectAnswers5[2]}`
-                    : "\u00A0"}
-                </p>
-                <p>
-                  Resposta 4: {user.answerObj[3]}{" "}
-                  {checkAnswer(user.answerObj[3], CorrectAnswers5[3])}
-                  {!isAnswerCorrect(user.answerObj[3], CorrectAnswers5[3])
-                    ? ` Resposta correta: ${CorrectAnswers5[3]}`
-                    : "\u00A0"}
-                </p>
-                <p>
-                  Resposta 5: {user.answerObj[4]}{" "}
-                  {checkAnswer(user.answerObj[4], CorrectAnswers5[4])}
-                  {!isAnswerCorrect(user.answerObj[4], CorrectAnswers5[4])
-                    ? ` Resposta correta: ${CorrectAnswers5[4]}`
-                    : "\u00A0"}
-                </p>
-              </div>
-            </Grid>
-            <Grid item xs={4}>
-              <h3>Porcentagem de Acertos: </h3> <br></br>
-              <p>
-                <div style={{ width: 200, height: 200 }}>
-                  <CircularProgressbar
-                    value={calculatePercentage(acertos5, CorrectAnswers5)}
-                    text={`${Math.round(
-                      calculatePercentage(acertos5, CorrectAnswers5)
-                    ).toFixed(2)}%`}
-                  />
+        <div id="tabpanel4">
+          {userDataCollection5.map((user: User, index: number) => (
+            <Grid container key={index} spacing={0}>
+              <Grid item xs={4}>
+                <div key={index}>
+                  <p>
+                    Resposta 1: {user.answerObj[0]}{" "}
+                    {checkAnswer(user.answerObj[0], CorrectAnswers5[0])}
+                    {!isAnswerCorrect(user.answerObj[0], CorrectAnswers5[0])
+                      ? ` Resposta correta: ${CorrectAnswers5[0]}`
+                      : "\u00A0"}
+                  </p>
+                  <p>
+                    Resposta 2: {user.answerObj[1]}{" "}
+                    {checkAnswer(user.answerObj[1], CorrectAnswers5[1])}
+                    {!isAnswerCorrect(user.answerObj[1], CorrectAnswers5[1])
+                      ? ` Resposta correta: ${CorrectAnswers5[1]}`
+                      : "\u00A0"}
+                  </p>
+                  <p>
+                    Resposta 3: {user.answerObj[2]}{" "}
+                    {checkAnswer(user.answerObj[2], CorrectAnswers5[2])}
+                    {!isAnswerCorrect(user.answerObj[2], CorrectAnswers5[2])
+                      ? ` Resposta correta: ${CorrectAnswers5[2]}`
+                      : "\u00A0"}
+                  </p>
+                  <p>
+                    Resposta 4: {user.answerObj[3]}{" "}
+                    {checkAnswer(user.answerObj[3], CorrectAnswers5[3])}
+                    {!isAnswerCorrect(user.answerObj[3], CorrectAnswers5[3])
+                      ? ` Resposta correta: ${CorrectAnswers5[3]}`
+                      : "\u00A0"}
+                  </p>
+                  <p>
+                    Resposta 5: {user.answerObj[4]}{" "}
+                    {checkAnswer(user.answerObj[4], CorrectAnswers5[4])}
+                    {!isAnswerCorrect(user.answerObj[4], CorrectAnswers5[4])
+                      ? ` Resposta correta: ${CorrectAnswers5[4]}`
+                      : "\u00A0"}
+                  </p>
                 </div>
-              </p>
+              </Grid>
+              <Grid item xs={4}>
+                <h3>Porcentagem de Acertos: </h3> <br></br>
+                <p>
+                  <div style={{ width: 200, height: 200 }}>
+                    <CircularProgressbar
+                      value={calculatePercentage(acertos5, CorrectAnswers5)}
+                      text={`${Math.round(
+                        calculatePercentage(acertos5, CorrectAnswers5)
+                      ).toFixed(2)}%`}
+                    />
+                  </div>
+                </p>
+              </Grid>
+              <Grid item xs={4}>
+                <h3> Tempo por Questão: </h3>
+                <p>Resposta 1: {Times5[0]} segundos</p>
+                <br></br>
+                <p>Resposta 2: {Times5[1]} segundos</p>
+                <br></br>
+                <p>Resposta 3: {Times5[2]} segundos</p>
+                <br></br>
+                <p>Resposta 4: {Times5[3]} segundos</p>
+                <br></br>
+                <p>Resposta 5: {Times5[4]} segundos</p>
+              </Grid>
             </Grid>
-            <Grid item xs={4}>
-              <h3> Tempo por Questão: </h3>
-              <p>Resposta 1: {Times5[0]} segundos</p>
-              <br></br>
-              <p>Resposta 2: {Times5[1]} segundos</p>
-              <br></br>
-              <p>Resposta 3: {Times5[2]} segundos</p>
-              <br></br>
-              <p>Resposta 4: {Times5[3]} segundos</p>
-              <br></br>
-              <p>Resposta 5: {Times5[4]} segundos</p>
-            </Grid>
-          </Grid>
-        ))}
+          ))}
         </div>
       </TabPanel>
     </div>
