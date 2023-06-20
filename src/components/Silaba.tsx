@@ -17,7 +17,7 @@ function getSoundPaths(syllables: string[]): string[] {
   return syllables.map(syllable => {
     counts[syllable] = (counts[syllable] || 0) + 1;
     const suffix = counts[syllable] > 1 ? `-${counts[syllable]}` : '';
-    return `/snd/${syllable}${suffix}.mp3`;
+    return `/snd/${syllable.toLowerCase}${suffix}.mp3`;
   });
 }
 
