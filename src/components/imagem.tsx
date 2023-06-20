@@ -80,7 +80,7 @@ const Imagem = () => {
 
   // Now you can use userId in this component
 
-  const words = ["caminho", "borboleta", "passaro", "abelha", "onca"];
+  const words = ["caminho", "borboleta", "pássaro", "abelha", "onça"];
   const image = "/img/" + words[currentSyllableIndex] + ".png";
 
   const num_corretos = [

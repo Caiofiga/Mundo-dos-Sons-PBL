@@ -84,7 +84,7 @@ const Sons = () => {
     ["zebra", "sapo"],
     ["fazenda", "vela"],
     ["milho", "ninho"],
-    ["passaro", "banana"],
+    ["pássaro", "banana"],
   ];
 
   const num_correto = ["sereia", "cavalo-marinho", "sol", "camarao", "raia"];
@@ -172,7 +172,7 @@ const Sons = () => {
     console.log("playing sound:" + `/snd/${image}.mp3`);
   }
   function playSound2(image: string) {
-    const audio = new Audio(`/snd/${image}.mp3`);
+    const audio = new Audio(`/snd/${image}q.mp3`);
     audio.play();
     console.log("playing sound:" + `/snd/${image}q.mp3`);
   }

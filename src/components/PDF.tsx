@@ -26,7 +26,7 @@ const CorrectAnswers2: string[] = [
   "cavalo",
   "milho",
   "ponte",
-  "arvore",
+  "árvore",
   "tucano",
   "aranha",
 ];
@@ -44,7 +44,7 @@ const CorrectAnswers5: string[] = [
   "sapo",
   "Vela",
   "milho",
-  "passaro",
+  "pássaro",
 ];
 
 

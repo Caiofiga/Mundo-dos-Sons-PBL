@@ -22,7 +22,7 @@ const CorrectAnswers2: string[] = [
   "cavalo",
   "milho",
   "ponte",
-  "arvore",
+  "árvore",
   "tucano",
   "aranha",
 ];
@@ -35,7 +35,7 @@ const CorrectAnswers4: string[] = [
   "camarão",
   "raia",
 ];
-const CorrectAnswers5: string[] = ["chuva", "sapo", "Vela", "milho", "passaro"];
+const CorrectAnswers5: string[] = ["chuva", "sapo", "Vela", "milho", "pássaro"];
 
 interface TabPanelProps {
   children?: React.ReactNode;

@@ -87,7 +87,7 @@ const Rimas = () => {
     ["alga", "caranguejo", "camarão", "gaivota"],
     ["cavalo-marinho", "concha", "toalha", "raia"],
   ];
-  const num_correto = ["sereia", "cavalo-marinho", "sol", "camarao", "raia"];
+  const num_correto = ["sereia", "cavalo-marinho", "sol", "camarão", "raia"];
   const imageMain = imagesMain[currentSyllableIndex];
   const navigate = useNavigate();
 
@@ -172,9 +172,9 @@ const Rimas = () => {
     console.log("playing sound:" + `/snd/${image}.mp3`);
   }
   function playSound2(image: string) {
-    const audio = new Audio(`/snd/${image}.mp3`);
+    const audio = new Audio(`/snd/${image}q.mp3`);
     audio.play();
-    console.log("playing sound:" + `/snd/${image}q.mp3`);
+    console.log("playing sound:" + `/snd/${image}.mp3`);
   }
 
 

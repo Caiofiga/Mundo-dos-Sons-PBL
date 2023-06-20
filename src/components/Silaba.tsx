@@ -89,14 +89,14 @@ const Silaba = () => {
   const syllables = ["Ma", "Bu", "La", "Ca", "Lho", "Te", "Vo", "Ca", "Ra"];
 
   const palavras = [
-    ["macaco", "pato", "arvore", "buraco"],
-    ["grama", "borboleta", "arvore", "buraco"],
+    ["macaco", "pato", "árvore", "buraco"],
+    ["grama", "borboleta", "árvore", "buraco"],
     ["lago", "pato", "rato", "gato"],
     ["gato", "buraco", "cavalo", "vaca"],
     ["galinha", "cavalo", "ovelha", "milho"], //agora sao as que terminam com a silaba
     ["macaco", "martelo", "galinha", "ponte"],
-    ["tucano", "ponte", "arvore", "vulcao"], //agora é a do meio
-    ["vaca", "gato", "vulcao", "tucano"],
+    ["tucano", "ponte", "árvore", "vulcão"], //agora é a do meio
+    ["vaca", "gato", "vulcão", "tucano"],
     ["rato", "aranha", "gato", "tucano"],
   ];
 

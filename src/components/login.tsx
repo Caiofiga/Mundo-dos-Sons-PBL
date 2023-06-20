@@ -293,7 +293,7 @@ const SignUp: React.FC = () => {
 )}
 
 {PageState === PageStates.VIDEO &&(
-  <VideoPage OnAcceptClick={() => setPageState(PageStates.CHECK)} OnDenyClick={() => setPageState(PageStates.DENIED)} />
+  <VideoPage OnAcceptClick={() => setPageState(PageStates.LOGIN)} OnDenyClick={() => setPageState(PageStates.DENIED)} />
 )}
 
 

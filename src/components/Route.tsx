@@ -31,13 +31,13 @@ export default function Routers() {
         <Router>
           <Routes>
             <Route path="/" element={<Layout />}>
-              <Route index element={<SignUp />} />
+              <Route index element={<Home />} />
               <Route path="Drag" element={<Drag />} />
               <Route path="Silaba" element={<Silaba />} />
               <Route path="Imagem" element={<Imagem />} />
               <Route path="Rimas" element={<Rimas />} />
               <Route path="Sons" element={<Sons />} />
-              <Route path="Home" element={<Home />} />
+              <Route path="Home" element={<SignUp />} />
               <Route path="PDF" element={<PDF userId={userId} />} />
               <Route
                 path="Resultados"
