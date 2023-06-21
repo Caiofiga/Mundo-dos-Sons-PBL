@@ -6,6 +6,7 @@ import { UserContext } from "./UserContext";
 import { addAnswersToDB } from "./firebase";
 import { Stopwatch } from "ts-stopwatch";
 import { GetConfetti, GetFireworks, GetStars } from "./congrats";
+import ReactPlayer from "react-player";
 import "bootstrap/dist/css/bootstrap.css";
 
 const resposta4: string[] = [];
@@ -16,7 +17,8 @@ enum GameState {
   STARTING,
   RUNNING,
   BETWEEN_LEVELS,
-  COMPconstED,
+  VIDEO,
+  COMPLETED,
 }
 
 interface StartScreenProps {
@@ -31,14 +33,43 @@ interface GameOverProps {
   onNextgame: () => void;
 }
 
+interface VideoProps {
+  onVideoEnd: () => void;
+  }
+
+  const VideoScreen: React.FC<VideoProps> = ({ onVideoEnd }) => (
+    <div className="Videome" style={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        position: 'fixed', 
+        top: 0, 
+        left: 0, 
+        width: '100vw', 
+        height: '100vh', 
+        zIndex: 9999, 
+        backgroundColor: 'black' 
+      }}>
+      <ReactPlayer 
+        url="https://youtu.be/zgA8bojfeYo" 
+        playing={true}
+        onEnded={onVideoEnd}
+        width='100%'
+        height='100%'
+        style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}
+      />
+    </div>
+  );
+
 const GameOverScreen: React.FC<GameOverProps> = ({ onNextgame }) => (
   <div className="app-container">
     {GetConfetti()}
     {GetFireworks()}
     {GetStars()}
+    <img className="overandout" src="/img/color3.png" alt="rimas" />
     <div className="Complete">
-      <h1>Fase Completa!</h1>
-      <button className="Button btn btn-outline-primary" onClick={onNextgame}>
+      <h1><b>Fase Completa!</b></h1>
+      <button className="Button btn btn-primary" onClick={onNextgame}>
         Próximo Jogo
       </button>
     </div>
@@ -55,16 +86,16 @@ const BetweenLevelsScreen: React.FC<BetweenLevelsScreenProps> = ({
     <div className="Congrats ">
       <h1>Parabéns!</h1>
       <button className="Button btn btn-outline-primary" onClick={onNextLevel}>
-        Próxima Fase
+        Próxima Fase ⏩
       </button>
     </div>
   </div>
 );
 
 const StartScreen: React.FC<StartScreenProps> = ({ onStart }) => (
-  <div className="appContainer">
-    <h1>Desafio 4: Identifique as Rimas</h1>
-    <button className="btn btn-outline-success" onClick={onStart}>
+  <div className="appContainer" style={{ backgroundImage: `url(/img/color2.png)` }}>
+    <h1><b>Desafio 4: Encontre as Rimas</b></h1>
+    <button className="btn btn-success" onClick={onStart}>
       Jogar
     </button>
   </div>
@@ -154,7 +185,7 @@ const Rimas = () => {
     if (currentSyllableIndex < imagesMain.length - 1) {
       setGameState(GameState.BETWEEN_LEVELS);
     } else {
-      setGameState(GameState.COMPconstED);
+      setGameState(GameState.VIDEO);
       const answerObj = resposta4.slice(0);
       const tempoObj = Tempos.slice(0);
 
@@ -209,8 +240,13 @@ const Rimas = () => {
           }}
         />
       )}
-      {gameState === GameState.COMPconstED && (
-        <GameOverScreen onNextgame={() => navigate("/sons")} />
+      {gameState === GameState.VIDEO && (
+       <VideoScreen
+          onVideoEnd={() => setGameState(GameState.COMPLETED)}
+        /> 
+      )}
+      {gameState === GameState.COMPLETED && (
+        <GameOverScreen onNextgame={() => navigate("/Drag")} />
       )}
     </AnimatedPages>
   );

@@ -14,6 +14,7 @@ enum GameState {
   STARTING,
   RUNNING,
   BETWEEN_LEVELS,
+  VIDEO,
   COMPLETED,
 }
 
@@ -29,19 +30,22 @@ interface GameOverProps {
   onNextgame: () => void;
 }
 
+
 const GameOverScreen: React.FC<GameOverProps> = ({ onNextgame }) => (
   <div className="app-container">
+    <img className="overandout" src="/img/color0.png" alt="gameOver"></img>
     {GetConfetti()}
     {GetFireworks()}
     {GetStars()}
     <div className="Complete">
-      <h1>Fim de Jogo!</h1>
-      <button className="Button btn btn-outline-primary" onClick={onNextgame}>
-        Resultados
+      <h1 className="OverText"><b>Fase completa!</b></h1>
+      <button className="Button btn btn-primary" onClick={onNextgame}>
+        Próximo Jogo
       </button>
     </div>
   </div>
 );
+
 
 const BetweenLevelsScreen: React.FC<BetweenLevelsScreenProps> = ({
   onNextLevel,
@@ -51,22 +55,23 @@ const BetweenLevelsScreen: React.FC<BetweenLevelsScreenProps> = ({
     {GetFireworks()}
     {GetStars()}
     <div className="Congrats ">
-      <h1>Parabens!</h1>
+      <h1>Parabéns!</h1>
       <button className="Button btn btn-outline-primary" onClick={onNextLevel}>
-        Proxima Fase
+        Próxima Fase ⏩
       </button>
     </div>
   </div>
 );
 
 const StartScreen: React.FC<StartScreenProps> = ({ onStart }) => (
-  <div className="appContainer">
-    <h1>Desafio 5: Identifique os sons</h1>
-    <button className="btn btn-outline-success" onClick={onStart}>
+  <div className="appContainer" style={{ backgroundImage: `url(/img/BBW.jpg)` }}>
+    <h1><b>Desafio 1: Identifique os sons</b></h1>
+    <button className="btn btn-success" onClick={onStart}>
       Jogar
     </button>
   </div>
 );
+
 
 const Sons = () => {
   const [currentSyllableIndex, setCurrentSyllableIndex] = useState(0);
@@ -209,7 +214,7 @@ const Sons = () => {
         />
       )}
       {gameState === GameState.COMPLETED && (
-        <GameOverScreen onNextgame={() => navigate("/Resultados")} />
+        <GameOverScreen onNextgame={() => navigate("/Silaba")} />
       )}
     </AnimatedPages>
   );

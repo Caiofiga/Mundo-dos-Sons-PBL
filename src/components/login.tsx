@@ -243,7 +243,7 @@ const SignUp: React.FC = () => {
         idade,
       });
       setUserId(userId); // Set the userId in the context
-      navigate("/Drag"); // Redirect to /other
+      navigate("/Sons"); // Redirect to /other
 
     } catch (e) {
       console.error("Error adding document: ", e);
