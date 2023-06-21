@@ -18,7 +18,7 @@ function getSoundPaths(syllables: string[]): string[] {
   return syllables.map(syllable => {
     counts[syllable] = (counts[syllable] || 0) + 1;
     const suffix = counts[syllable] > 1 ? `-${counts[syllable]}` : '';
-    return `/snd/${syllable.toLowerCase}${suffix}q.mp3`;
+    return `/snd/${syllable.toLowerCase()}${suffix}q.mp3`;
   });
 }
 
@@ -96,7 +96,7 @@ const BetweenLevelsScreen: React.FC<BetweenLevelsScreenProps> = ({
     <div className="Congrats ">
       <h1>Parabéns!</h1>
       <button className="Button btn btn-outline-primary" onClick={onNextLevel}>
-        Próxima Fase
+        Próxima Fase ⏩
       </button>
     </div>
   </div>

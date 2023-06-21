@@ -88,7 +88,7 @@ const BetweenLevelsScreen: React.FC<BetweenLevelsScreenProps> = ({
     <div className="Congrats ">
       <h1>Parabéns!</h1>
       <button className="Button btn btn-outline-primary" onClick={onNextLevel}>
-        Próxima Fase
+        Próxima Fase ⏩
       </button>
     </div>
   </div>
