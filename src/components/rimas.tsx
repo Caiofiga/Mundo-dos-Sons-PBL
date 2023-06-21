@@ -51,7 +51,7 @@ interface VideoProps {
         backgroundColor: 'black' 
       }}>
       <ReactPlayer 
-        url="https://youtu.be/cuzRvtsSLig" 
+        url="https://youtu.be/zgA8bojfeYo" 
         playing={true}
         onEnded={onVideoEnd}
         width='100%'
