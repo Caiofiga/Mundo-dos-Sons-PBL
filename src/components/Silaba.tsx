@@ -60,7 +60,7 @@ interface VideoProps {
         backgroundColor: 'black' 
       }}>
       <ReactPlayer 
-        url="https://www.youtube.com/embed/iFuDg96IWKU" 
+        url="https://youtu.be/cuzRvtsSLig" 
         playing={true}
         onEnded={onVideoEnd}
         width='100%'
@@ -76,7 +76,7 @@ const GameOverScreen: React.FC<GameOverProps> = ({ onNextgame }) => (
     {GetConfetti()}
     {GetFireworks()}
     {GetStars()}
-    <img  className="overandout" src="/img/color2.png" alt="gameOver"></img>
+    <img  className="overandout" src="/img/color1.png" alt="gameOver"></img>
     <div className="Complete">
       <h1><b>Fase Completa!</b></h1>
       <button className="Button btn btn-primary" onClick={onNextgame}>
@@ -103,9 +103,9 @@ const BetweenLevelsScreen: React.FC<BetweenLevelsScreenProps> = ({
 );
 
 const StartScreen: React.FC<StartScreenProps> = ({ onStart }) => (
-  <div className="appContainer">
-    <h1>Desafio 2: Junte a Sílaba com a Palavra</h1>
-    <button className="btn btn-outline-success" onClick={onStart}>
+  <div className="appContainer" style={{ backgroundImage: `url(/img/color0.png)` }}>
+    <h1><b>Desafio 2: Junta a Sílaba com a Palavra</b></h1>
+    <button className="btn btn-success" onClick={onStart}>
       Jogar
     </button>
   </div>
@@ -234,7 +234,7 @@ const Silaba = () => {
             stopwatch.start();
           }}
         />
-      )}~
+      )}
       {gameState === GameState.VIDEO && (
         <VideoScreen onVideoEnd={() => setGameState(GameState.COMPLETED)} /> 
       )}

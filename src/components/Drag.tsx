@@ -10,8 +10,15 @@ import { GetConfetti } from "./congrats";
 import { GetFireworks } from "./congrats";
 import { GetStars } from "./congrats";
 import AnimatedPages from "./animated";
+import ReactPlayer from "react-player";
 
 const colors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange', 'pink']; // Add as many colors as you need
+
+function playWordSound(word: string) {
+  const audio = new Audio(`/snd/${word}q1.mp3`);
+  audio.play();
+}
+
 
 const audioMap: { [key: string]: string } = {
   tu: "/snd/tu.mp3",
@@ -49,6 +56,7 @@ enum GameState {
   STARTING,
   RUNNING,
   BETWEEN_LEVELS,
+  VIDEO,
   COMPLETED,
   LOADING,
 }
@@ -63,6 +71,36 @@ interface BetweenLevelsScreenProps {
 interface GameOverProps {
   onNextgame: () => void;
 }
+
+interface VideoProps {
+  onVideoEnd: () => void;
+  }
+
+  const VideoScreen: React.FC<VideoProps> = ({ onVideoEnd }) => (
+    <div className="Videome" style={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        position: 'fixed', 
+        top: 0, 
+        left: 0, 
+        width: '100vw', 
+        height: '100vh', 
+        zIndex: 9999, 
+        backgroundColor: 'black' 
+      }}>
+      <ReactPlayer 
+        url="https://youtu.be/i30txCTIin0" 
+        playing={true}
+        onEnded={onVideoEnd}
+        width='100%'
+        height='100%'
+        style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}
+      />
+    </div>
+  );
+  
+
 
 const BetweenLevelsScreen: React.FC<BetweenLevelsScreenProps> = ({
   onNextLevel,
@@ -81,23 +119,24 @@ const BetweenLevelsScreen: React.FC<BetweenLevelsScreenProps> = ({
 );
 
 const StartScreen: React.FC<StartScreenProps> = ({ onStart }) => (
-  <div>
-    <img src="/img/BGDrag.jpg" />
-    <h1>Desafio 5: Forme a palavra</h1>
-    <button className="Button btn btn-outline-primary" onClick={onStart}>
+  <div className="appContainer" style={{ backgroundImage: `url(/img/color3.png)` }}>
+    <h1><b>Desafio 5: Forme a Palavra</b></h1>
+    <button className="btn btn-success" onClick={onStart}>
       Jogar
     </button>
   </div>
 );
 
+
 const GameOverScreen: React.FC<GameOverProps> = ({ onNextgame }) => (
-  <div>
+  <div className="app-container">
     {GetConfetti()}
     {GetFireworks()}
     {GetStars()}
+    <img  className="overandout" src="/img/color3.png" alt="gameOver"></img>
     <div className="Complete">
-      <h1>Fim de Jogo!</h1>
-      <button className="Button btn btn-outline-primary" onClick={onNextgame}>
+      <h1><b>Fim de Jogo!</b></h1>
+      <button className="Button btn btn-primary" onClick={onNextgame}>
         Obrigado por Jogar!
       </button>
     </div>
@@ -162,6 +201,7 @@ const Drag = () => {
   const navigate = useNavigate();
   const { userId } = React.useContext(UserContext);
   const [gameState, setGameState] = useState<GameState>(GameState.STARTING);
+
 
   const getWordFromList = () => {
     return data.list2.map((item) => item.content).join("");
@@ -263,7 +303,7 @@ const Drag = () => {
       case GameState.RUNNING:
         return (
           <div>
-            <img src={imagem} alt={palavra} style={{ height: "300px" }} />
+<img src="img/mic.png" alt="microfone" style={{ height: "150px" }} onClick={() => playWordSound(palavra)} />            <img src={imagem} alt={palavra} style={{ height: "300px" }} />
             <DragDropContext onDragEnd={handleDragEnd}>
               <div
                 style={{
@@ -341,6 +381,8 @@ const Drag = () => {
         return <BetweenLevelsScreen onNextLevel={loadNextLine} />;
       case GameState.COMPLETED:
         return <GameOverScreen onNextgame={() => navigate("/Resultados")} />;
+        case GameState.VIDEO:
+          return <VideoScreen  onVideoEnd={() => setGameState(GameState.COMPLETED)}/>;
       default:
         return null;
     }
