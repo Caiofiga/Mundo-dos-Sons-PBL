@@ -23,3 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 
+
+#API key
+src\components\firebaseconfig.ts
