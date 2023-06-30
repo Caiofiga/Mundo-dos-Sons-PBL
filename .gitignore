@@ -25,4 +25,4 @@ dist-ssr
 
 
 #API key
-firebaseconfig.ts
+/components/firebaseconfig.ts
