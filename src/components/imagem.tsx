@@ -6,6 +6,7 @@ import { UserContext } from "./UserContext";
 import { addAnswersToDB } from "./firebase";
 import { Stopwatch } from "ts-stopwatch";
 import { GetConfetti, GetFireworks, GetStars } from "./congrats";
+import ReactPlayer from "react-player";
 import "bootstrap/dist/css/bootstrap.css";
 
 const resposta3: number[] = [];
@@ -17,6 +18,7 @@ enum GameState {
   STARTING,
   RUNNING,
   BETWEEN_LEVELS,
+  VIDEO,
   COMPLETED,
 }
 
@@ -32,15 +34,45 @@ interface GameOverProps {
   onNextgame: () => void;
 }
 
+interface VideoProps {
+  onVideoEnd: () => void;
+  }
+
+  const VideoScreen: React.FC<VideoProps> = ({ onVideoEnd }) => (
+    <div className="Videome" style={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        position: 'fixed', 
+        top: 0, 
+        left: 0, 
+        width: '100vw', 
+        height: '100vh', 
+        zIndex: 9999, 
+        backgroundColor: 'black' 
+      }}>
+      <ReactPlayer 
+        url="https://youtu.be/iFuDg96IWKU" 
+        playing={true}
+        onEnded={onVideoEnd}
+        width='100%'
+        height='100%'
+        style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}
+      />
+    </div>
+  );
+  
+
 const GameOverScreen: React.FC<GameOverProps> = ({ onNextgame }) => (
   <div className="app-container">
     {GetConfetti()}
     {GetFireworks()}
     {GetStars()}
+    <img className="overandout" src="/img/color2.png" alt="Game Over" />
     <div className="Complete">
-      <h1>Fase Completa!</h1>
-      <button className="Button btn btn-outline-primary" onClick={onNextgame}>
-        Proximo Jogo
+      <h1><b>Fase Completa!</b></h1>
+      <button className="Button btn btn-primary" onClick={onNextgame}>
+        Próximo Jogo
       </button>
     </div>
   </div>
@@ -54,18 +86,18 @@ const BetweenLevelsScreen: React.FC<BetweenLevelsScreenProps> = ({
     {GetFireworks()}
     {GetStars()}
     <div className="Congrats ">
-      <h1>Parabens!</h1>
+      <h1>Parabéns!</h1>
       <button className="Button btn btn-outline-primary" onClick={onNextLevel}>
-        Proxima Fase
+        Próxima Fase ⏩
       </button>
     </div>
   </div>
 );
 
 const StartScreen: React.FC<StartScreenProps> = ({ onStart }) => (
-  <div className="appContainer">
-    <h1>Desafio 3: Conte as Silabas</h1>
-    <button className="btn btn-outline-success" onClick={onStart}>
+  <div className="appContainer" style={{ backgroundImage: `url(/img/color1.png)` }}>
+    <h1><b>Desafio 3: Conte as Sílabas</b></h1>
+    <button className="btn btn-success" onClick={onStart}>
       Jogar
     </button>
   </div>
@@ -80,7 +112,7 @@ const Imagem = () => {
 
   // Now you can use userId in this component
 
-  const words = ["caminho", "borboleta", "passaro", "abelha", "onca"];
+  const words = ["caminho", "borboleta", "pássaro", "abelha", "onça"];
   const image = "/img/" + words[currentSyllableIndex] + ".png";
 
   const num_corretos = [
@@ -143,7 +175,7 @@ const Imagem = () => {
     if (currentSyllableIndex < words.length - 1) {
       setGameState(GameState.BETWEEN_LEVELS);
     } else {
-      setGameState(GameState.COMPLETED);
+      setGameState(GameState.VIDEO);
       const answerObj = resposta3.slice(0);
       const tempoObj = Tempos.slice(0);
 
@@ -189,6 +221,9 @@ const Imagem = () => {
             stopwatch.start();
           }}
         />
+      )}
+      {gameState === GameState.VIDEO && (
+       <VideoScreen onVideoEnd={() => setGameState(GameState.COMPLETED)} />
       )}
       {gameState === GameState.COMPLETED && (
         <div>

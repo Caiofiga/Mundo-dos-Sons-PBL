@@ -51,3 +51,19 @@
 .image {
   height: 150px;
 }
+.overandout {
+  display:flex;
+  height: 100%;
+  width: 100%;
+}
+.OverText {
+  color: black !important;
+}
+.appContainer {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  width: 100vw;
+  height: 100vh; 
+}

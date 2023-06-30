@@ -6,6 +6,7 @@ import { UserContext } from "./UserContext";
 import { addAnswersToDB } from "./firebase";
 import { Stopwatch } from "ts-stopwatch";
 import { GetConfetti, GetFireworks, GetStars } from "./congrats";
+import ReactPlayer from "react-player";
 import "bootstrap/dist/css/bootstrap.css";
 
 const resposta2: string[] = [];
@@ -17,7 +18,7 @@ function getSoundPaths(syllables: string[]): string[] {
   return syllables.map(syllable => {
     counts[syllable] = (counts[syllable] || 0) + 1;
     const suffix = counts[syllable] > 1 ? `-${counts[syllable]}` : '';
-    return `/snd/${syllable}${suffix}.mp3`;
+    return `/snd/${syllable.toLowerCase()}${suffix}q.mp3`;
   });
 }
 
@@ -26,6 +27,7 @@ enum GameState {
   STARTING,
   RUNNING,
   BETWEEN_LEVELS,
+  VIDEO,
   COMPLETED,
 }
 
@@ -40,15 +42,45 @@ interface GameOverProps {
   onNextgame: () => void;
 }
 
+interface VideoProps {
+  onVideoEnd: () => void;
+  }
+
+  const VideoScreen: React.FC<VideoProps> = ({ onVideoEnd }) => (
+    <div className="Videome" style={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        position: 'fixed', 
+        top: 0, 
+        left: 0, 
+        width: '100vw', 
+        height: '100vh', 
+        zIndex: 9999, 
+        backgroundColor: 'black' 
+      }}>
+      <ReactPlayer 
+        url="https://youtu.be/cuzRvtsSLig" 
+        playing={true}
+        onEnded={onVideoEnd}
+        width='100%'
+        height='100%'
+        style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}
+      />
+    </div>
+  );
+  
+
 const GameOverScreen: React.FC<GameOverProps> = ({ onNextgame }) => (
   <div className="app-container">
     {GetConfetti()}
     {GetFireworks()}
     {GetStars()}
+    <img  className="overandout" src="/img/color1.png" alt="gameOver"></img>
     <div className="Complete">
-      <h1>Fase Completa!</h1>
-      <button className="Button btn btn-outline-primary" onClick={onNextgame}>
-        Proximo Jogo
+      <h1><b>Fase Completa!</b></h1>
+      <button className="Button btn btn-primary" onClick={onNextgame}>
+        Próximo Jogo
       </button>
     </div>
   </div>
@@ -62,18 +94,18 @@ const BetweenLevelsScreen: React.FC<BetweenLevelsScreenProps> = ({
     {GetFireworks()}
     {GetStars()}
     <div className="Congrats ">
-      <h1>Parabens!</h1>
+      <h1>Parabéns!</h1>
       <button className="Button btn btn-outline-primary" onClick={onNextLevel}>
-        Proxima Fase
+        Próxima Fase ⏩
       </button>
     </div>
   </div>
 );
 
 const StartScreen: React.FC<StartScreenProps> = ({ onStart }) => (
-  <div className="appContainer">
-    <h1>Desafio 2: Junte a Silaba com a Palavra</h1>
-    <button className="btn btn-outline-success" onClick={onStart}>
+  <div className="appContainer" style={{ backgroundImage: `url(/img/color0.png)` }}>
+    <h1><b>Desafio 2: Junta a Sílaba com a Palavra</b></h1>
+    <button className="btn btn-success" onClick={onStart}>
       Jogar
     </button>
   </div>
@@ -89,14 +121,14 @@ const Silaba = () => {
   const syllables = ["Ma", "Bu", "La", "Ca", "Lho", "Te", "Vo", "Ca", "Ra"];
 
   const palavras = [
-    ["macaco", "pato", "arvore", "buraco"],
-    ["grama", "borboleta", "arvore", "buraco"],
+    ["macaco", "pato", "árvore", "buraco"],
+    ["grama", "borboleta", "árvore", "buraco"],
     ["lago", "pato", "rato", "gato"],
     ["gato", "buraco", "cavalo", "vaca"],
     ["galinha", "cavalo", "ovelha", "milho"], //agora sao as que terminam com a silaba
     ["macaco", "martelo", "galinha", "ponte"],
-    ["tucano", "ponte", "arvore", "vulcao"], //agora é a do meio
-    ["vaca", "gato", "vulcao", "tucano"],
+    ["tucano", "ponte", "árvore", "vulcão"], //agora é a do meio
+    ["vaca", "gato", "vulcão", "tucano"],
     ["rato", "aranha", "gato", "tucano"],
   ];
 
@@ -113,7 +145,7 @@ const Silaba = () => {
     if (currentSyllableIndex < palavras.length - 1) {
       setGameState(GameState.BETWEEN_LEVELS);
     } else {
-      setGameState(GameState.COMPLETED);
+      setGameState(GameState.VIDEO);
       const answerObj = resposta2.slice(0);
       const tempoObj = Tempos.slice(0);
 
@@ -202,6 +234,9 @@ const Silaba = () => {
             stopwatch.start();
           }}
         />
+      )}
+      {gameState === GameState.VIDEO && (
+        <VideoScreen onVideoEnd={() => setGameState(GameState.COMPLETED)} /> 
       )}
       {gameState === GameState.COMPLETED && (
         <GameOverScreen onNextgame={() => navigate("/Imagem")} />

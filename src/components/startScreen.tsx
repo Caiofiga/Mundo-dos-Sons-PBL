@@ -12,7 +12,7 @@ export const Home: React.FC = () => {
         <div className="container">
             <div className="row justify-content-center">
         <h1><img src={titulo} /></h1>
-        <button className="btn btn-outline-primary" onClick={() => navigate("/Drag")}>Jogar!</button>
+        <button className="btn btn-outline-primary" onClick={() => navigate("/Home")}>Jogar!</button>
         </div>
         </div>
         
