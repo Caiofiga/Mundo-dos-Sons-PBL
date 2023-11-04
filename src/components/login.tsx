@@ -6,7 +6,7 @@ import "../css/login.css";
 import { Md5 } from "ts-md5";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "./UserContext";
-import firebaseConfig from "./firebaseconfig";
+import  { firebaseConfig } from "./firebaseconfig";
 import { getUser, getAllUsers, GetUserId, DelDocByID, GetCustomUId } from "./firebase";
 import AlertComponent from "./AlertComponent";
 

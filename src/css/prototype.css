@@ -1,0 +1,75 @@
+.circle {
+    height: 100px;
+    width: 100px;
+   
+    border-radius: 50%;
+    border: 1px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    font-weight: bold;
+    color: black;
+  }
+  .game {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: fadeOut 3s, fadeIn 2s;
+  }
+  
+  .game.fade {
+    animation: fade 3s;
+  }
+  
+  .meio {
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+  .microfone {
+    height: 100px;
+    margin: -5px;
+  }
+  .button {
+    display: none;
+  }
+  .button-visible {
+    display: block;
+  }
+  
+  .answers {
+    display: flex;
+    margin: auto;
+    justify-content: center;
+    gap: 50px;
+    color:black;
+  }
+  
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .questionImage {
+    height: 450px;
+  }
+  .overandout {
+    display:flex;
+    height: 100%;
+    width: 100%;
+  }
+  .OverText {
+    color: black !important;
+  }
+  .appContainer {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    width: 100vw;
+    height: 100vh; 
+  }
+  

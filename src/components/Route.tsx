@@ -19,7 +19,7 @@ import { useState } from "react";
 import UserResults from "./resultados";
 import { Home } from "./startScreen";
 import PDF from "./PDF";
-
+import Prot from "./prototype";
 export default function Routers() {
   const [userId, setUserId] = useState("");
   return (
@@ -29,6 +29,7 @@ export default function Routers() {
             parent route elements. See the note about <Outlet> below. */}
       <UserContext.Provider value={{ userId, setUserId }}>
         <Router>
+          <Navbar />
           <Routes>
             <Route path="/" element={<Layout />}>
               <Route index element={<Home />} />
@@ -39,6 +40,7 @@ export default function Routers() {
               <Route path="Sons" element={<Sons />} />
               <Route path="Home" element={<SignUp />} />
               <Route path="PDF" element={<PDF userId={userId} />} />
+              <Route path="Prot" element={<Prot />} />
               <Route
                 path="Resultados"
                 element={<UserResults userId={userId} />}
@@ -57,6 +59,38 @@ export default function Routers() {
   );
 }
 
+export function Navbar() {
+  return (
+    <nav>
+      <ul>
+        <li>
+          <Link to="/">Home</Link>
+        </li>
+        <li>
+          <Link to="/Sons">Sons</Link>
+        </li>
+        <li>
+          <Link to="/Silaba">Silaba</Link>
+        </li>
+        <li>
+          <Link to="/Imagem">Imagem</Link>
+        </li>
+        <li>
+          <Link to="/Rimas">Rimas</Link>
+        </li>
+        <li>
+          <Link to="/Drag">Drag</Link>
+        </li>
+        <li>
+          <Link to="/Fim">Fim</Link>
+        </li>
+        <li>
+          <Link to="/Prot">Prototype</Link>
+        </li>
+      </ul>
+    </nav>
+  );
+}
 function Layout() {
   const location = useLocation();
 
