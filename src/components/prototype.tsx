@@ -9,6 +9,7 @@ import { GetConfetti, GetFireworks, GetStars } from "./congrats";
 import ReactPlayer from "react-player";
 import "bootstrap/dist/css/bootstrap.css";
 import Popup from "reactjs-popup";
+import "reactjs-popup/dist/index.css";
 
 const resposta3: number[] = [];
 
@@ -135,9 +136,8 @@ const Prot = () => {
 
   // Now you can use userId in this component
 
-  const questions = ["Dentes", "borboleta", "pássaro", "abelha", "onça"];
+  const questions = ["dentes", "borboleta", "pássaro", "abelha", "onça"];
   const image = "/img/" + questions[currentQuestionNum] + ".png";
-  const textos_resposta = ["Horrivel.", "Meio termo", "DEUS"];
 
   const alternativas = [
     [0, 1, 2, 3],
@@ -146,14 +146,31 @@ const Prot = () => {
     [4, 2, 5, 3],
     [2, 1, 3, 4],
   ];
-
+  const res_correta = [3, 4, 3, 4, 4];
   const question = questions[currentQuestionNum];
   const sound = questions.map((word) => `/snd/${word}q.mp3`);
   const navigate = useNavigate();
 
   const Incorrect: React.FC = () => (
-    <Popup trigger={<button> Trigger</button>} position="right center">
-      <div>Popup content here !!</div>{" "}
+    <Popup open={true} onClose={() => handleNextPhase()} modal>
+      <div>Que triste!</div>{" "}
+      <div> É importante escovar os dentes pelo menos 3 vezes ao dia.</div>{" "}
+    </Popup>
+  );
+  const Semicorrect: React.FC = () => (
+    <Popup open={true} onClose={() => handleNextPhase()} modal>
+      <div>Que bom!</div>{" "}
+      <div>
+        {" "}
+        Você esta no caminho certo, mas precisa escovar mais, pelo menos 3 vezes
+        ao dia.
+      </div>{" "}
+    </Popup>
+  );
+  const Correct: React.FC = () => (
+    <Popup open={true} onClose={() => handleNextPhase()} modal>
+      <div>Perfeito!</div>{" "}
+      <div> Você escova os dentes 3 vezes ao dia, parabéns!</div>{" "}
     </Popup>
   );
 
@@ -170,7 +187,6 @@ const Prot = () => {
             src="/img/mic.png"
             onClick={playSound}
           ></img>
-          { if (currentQuestionNum == 0) {}
           <img className="questionImage" src={image} alt={question}></img>
         </span>
       </div>
@@ -202,27 +218,35 @@ const Prot = () => {
     console.log(answer);
     resposta3.push(answer);
     //check answer
-    switch (answer) {
-      case 0:
-        setAnswerState(AnswerState.INCORRECT);
-        break;
-      case 1:
-        setAnswerState(AnswerState.SEMICORRECT);
-        break;
-      case 2:
-        setAnswerState(AnswerState.SEMICORRECT);
-        break;
-      case 3:
-        setAnswerState(AnswerState.CORRECT);
-        break;
+    if (answer === res_correta[currentQuestionNum]) {
+      setAnswerState(AnswerState.CORRECT);
+    } else if (
+      answer === res_correta[currentQuestionNum] - 2 ||
+      answer === res_correta[currentQuestionNum] + 2
+    ) {
+      setAnswerState(AnswerState.SEMICORRECT);
+    } else {
+      setAnswerState(AnswerState.INCORRECT);
     }
-    handleNextPhase();
   };
 
   const handleNextPhase = () => {
     console.log(Tempos);
     if (currentQuestionNum < questions.length - 1) {
-      setGameState(GameState.BETWEEN_LEVELS);
+      switch (answerState) {
+        case AnswerState.CORRECT:
+          setGameState(GameState.BETWEEN_LEVELS);
+          break;
+        case AnswerState.SEMICORRECT:
+          setCurrentQuestionNum(currentQuestionNum + 1);
+          setGameState(GameState.RUNNING);
+          break;
+        case AnswerState.INCORRECT:
+          setCurrentQuestionNum(currentQuestionNum + 1);
+          setGameState(GameState.RUNNING);
+          break;
+      }
+      setAnswerState(AnswerState.OFF);
     } else {
       setGameState(GameState.VIDEO);
       const answerObj = resposta3.slice(0);
@@ -261,18 +285,8 @@ const Prot = () => {
             onAnswerClick={handleAnswerClick}
           />
           {answerState === AnswerState.INCORRECT && <Incorrect />}
-          {answerState === AnswerState.SEMICORRECT && (
-            <div className="alert alert-warning" role="alert">
-              {" "}
-              textos_resposta[1]{" "}
-            </div>
-          )}
-          {answerState === AnswerState.CORRECT && (
-            <div className="alert alert-success" role="alert">
-              {" "}
-              textos_resposta[2]{" "}
-            </div>
-          )}
+          {answerState === AnswerState.SEMICORRECT && <Semicorrect />}
+          {answerState === AnswerState.CORRECT && <Correct />}
         </div>
       )}
       {gameState === GameState.BETWEEN_LEVELS && (
