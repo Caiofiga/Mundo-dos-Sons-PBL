@@ -13,8 +13,9 @@ const AnimatedPages = ({ children }: { children: ReactNode }) => {
     // Removed the ref property for now to troubleshoot other issues
     keys: (item: ReactChild) =>
       typeof item === "string" || typeof item === "number"
-        ? item
-        : item.key || null,
+        ? item.toString()
+        : item.key ?? `item-${Math.random()}`, // Ensure a unique key
+
     from: { opacity: 0, transform: "translate3d(100%,0,0)" },
     enter: { opacity: 1, transform: "translate3d(0%,0,0)" },
     leave: { opacity: 0, transform: "translate3d(-50%,0,0)" },
@@ -27,7 +28,7 @@ const AnimatedPages = ({ children }: { children: ReactNode }) => {
 
   return (
     <div className="flex fill">
-      {transitions((style, item) => (
+      {transitions((style: any, item: ReactChild) => (
         <animated.div style={style}>{item}</animated.div>
       ))}
     </div>
